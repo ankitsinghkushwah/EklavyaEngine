@@ -153,7 +153,7 @@ namespace Eklavya::Physics
         float     t1 = -FLT_MAX;
         float     t2 = FLT_MAX;
 
-        glm::vec3 normal = glm::normalize(worldMatrix[i]);
+        glm::vec3 normal = glm::normalize(glm::column(worldMatrix,i));
 
         Plane     nearPlane;
         nearPlane.o = center + normal * halfSize;

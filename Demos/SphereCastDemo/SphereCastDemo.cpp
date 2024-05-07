@@ -80,13 +80,14 @@ namespace Eklavya
                    glm::vec3(), FLT_MAX, info, STATIC);
 
     MaterialInfo info2;
-    info2.mBaseColor = glm::vec3(0.5,0.4,1.0f);
+    info2.mBaseColor = glm::vec3(1.0f);
     info2.mRoughness = 1.0f;
     info2.mTiling = 1.0f;
-    CreateCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(100.0f), glm::vec3(),
-               FLT_MAX, info2, STATIC);
+    CreateCube(glm::vec3(0.0, 13, -100.0f), glm::vec3(100.0f, 7.0f, 120),
+               glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, info,
+               0);
 
-    CreateSphere(glm::vec3(0.0f, 0.0f, -100.0f), 40.0f, FLT_MAX, info2, STATIC);
+    CreateSphere(glm::vec3(-200.0f, 50.0f, 0.0f), 40.0f, FLT_MAX, info2, STATIC);
   }
 
   SphereCastDemo::SphereCastDemo(Director *pDirector)
@@ -109,7 +110,7 @@ namespace Eklavya
         mRayRange = 300000.0f;
 
         mLastCastHitResult =
-            mPhysicsWorld->SphereCast(mRayStart, mRayDirection, 30.0f, mRayRange, -1);
+            mPhysicsWorld->RayCast(mRayStart, mRayDirection, mRayRange, -1);
       }
   }
 
