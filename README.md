@@ -7,8 +7,10 @@ Features :
 - Scene Graph with Frustum culling
 - Renderer : Renderpasses, shadows and post processing
 - Skeletal animation with smooth transition
-- Custom Physics : 
+- Custom Physics :
      - SAT for collision
+     - Euler Integration
+     - Uses impulse based method for resolution
      - Suports sphere & OBB
      - ray cast & sphere cast
 
