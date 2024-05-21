@@ -11,7 +11,7 @@ Features :
      - SAT for collision
      - Euler Integration
      - Uses impulse based method for resolution
-     - Suports sphere & OBB
+     - Support for sphere & OBB
      - ray cast & sphere cast
 
 - Asset Loader : Texture,Model & Animation loading using assimp, Shaders etc
