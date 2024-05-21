@@ -12,7 +12,7 @@ Features :
      - Suports sphere & OBB
      - ray cast & sphere cast
 
-- Asset Loader : Texture,Model loading using assimp, Shaders etc
+- Asset Loader : Texture,Model & Animation loading using assimp, Shaders etc
 
 ToDO : 
 
