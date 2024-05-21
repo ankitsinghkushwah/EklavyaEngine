@@ -20,4 +20,8 @@ ToDO :
 
 - Shader compilation at runtime
 - Improve box stack stability in physics engine
+- Write CMake file to generate visual studio project 
 
+#Compilation
+
+You will need a MacOS to run demos. I setup this project on XCode unfortunately. But I have plans to write CMake to generate projects for windows & MacOS both. 
