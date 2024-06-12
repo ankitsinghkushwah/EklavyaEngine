@@ -84,13 +84,13 @@ void SkeletalAnimationDemo::CreateStage() {
 }
 
 void SkeletalAnimationDemo::LoadMesh() {
-  std::string name = "swat/Swat";
+  std::string name = "characters/swat/swat";
 
   SHARED_ACTOR actor = SceneHelper::CreateActorFromModel(name, 0);
   SHARED_ANIMATOR animator = actor->EmplaceComponent<Animator>(0);
   animator->Init();
   SHARED_ANIMATION animation =
-      AssetManager::GetInstance().GetAsset<Asset::Animation>("swat/running");
+      AssetManager::GetInstance().GetAsset<Asset::Animation>("characters/swat/run");
 
   animator->PlayAnimation(animation);
   actor->Transform()->SetScale(10.0f);
@@ -103,8 +103,8 @@ SkeletalAnimationDemo::SkeletalAnimationDemo(Director *pDirector)
   // Load assets
 
   PreloadTextures();
-  AssetManager::GetInstance().LoadModel("swat/Swat", ".dae", 0);
-  AssetManager::GetInstance().LoadAnimation("swat/running", ".dae", 0);
+  AssetManager::GetInstance().LoadModel("characters/swat/swat", ".dae", 0);
+  AssetManager::GetInstance().LoadAnimation("characters/swat/run", ".dae", 0);
 
   //CreateStage();
 

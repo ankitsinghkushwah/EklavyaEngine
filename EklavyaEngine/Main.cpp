@@ -35,8 +35,8 @@ int main() {
   ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
 
   Eklavya::Director *engine = new Eklavya::Director(
-      "Eklavya Revived", resolution.width, resolution.height,false);
-  engine->SetScene(new SphereCastDemo(engine));
+      "Eklavya", resolution.width, resolution.height,false);
+  engine->SetScene(new SkeletalAnimationDemo(engine));
   engine->Start();
   return 0;
 }

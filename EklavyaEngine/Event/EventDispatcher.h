@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EVENT_DISPATCHER_H_
+#define EVENT_DISPATCHER_H_
 
 #include "Events.h"
 #include "EventType.h"
@@ -48,3 +49,6 @@ inline void UnRegisterToEvent(Type *owner, FuncPtr<Type> callback,
   EventDispatcher::GetInstance().RemoveListener(MakeDelegate(callback, owner),
                                                 eventType);
 }
+
+
+#endif
