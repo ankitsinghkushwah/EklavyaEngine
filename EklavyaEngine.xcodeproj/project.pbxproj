@@ -601,8 +601,6 @@
 				9FB53E512871E82F001B48E4 /* Helpers.h */,
 				9FB53E432871E82F001B48E4 /* InputHandler.cpp */,
 				9FB53E4E2871E82F001B48E4 /* InputHandler.h */,
-				9B01FF2D2BB0AAC20089BF7E /* Bone.cpp */,
-				9B01FF2C2BB0AAC20089BF7E /* Bone.h */,
 				9FB53E802871E82F001B48E4 /* ModelLoader.h */,
 				9FB53E2D2871E82F001B48E4 /* Random.cpp */,
 				9FB53E8F2871E82F001B48E4 /* Random.h */,
@@ -763,6 +761,8 @@
 		9FB53E2E2871E82F001B48E4 /* AssetManager */ = {
 			isa = PBXGroup;
 			children = (
+				9B01FF2D2BB0AAC20089BF7E /* Bone.cpp */,
+				9B01FF2C2BB0AAC20089BF7E /* Bone.h */,
 				9B01FF282BB0AAB70089BF7E /* Animation.cpp */,
 				9B01FF272BB0AAB70089BF7E /* Animation.h */,
 				9B01FF292BB0AAB70089BF7E /* AnimationData.cpp */,

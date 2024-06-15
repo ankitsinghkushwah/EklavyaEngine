@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 #include <assimp/scene.h>
-#include <Bone.h>
+#include <AssetManager/Bone.h>
 #include <functional>
 #include "AnimationData.h"
 #include "IAsset.h"

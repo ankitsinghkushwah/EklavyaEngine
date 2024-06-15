@@ -2,7 +2,7 @@
 #include <AssetManager/AssetManager.h>
 #include <AssetManager/GLModel.hpp>
 #include <AssetManager/Animation.h>
-#include <Bone.h>
+#include <AssetManager/Bone.h>
 #include <GLFW/glfw3.h>
 #include "AnimationData.h"
 #include "Bone.h"
