@@ -186,7 +186,7 @@ namespace Eklavya
         }
     };
 
-    debugRenderer.DrawSphere(rootPos, glm::vec3(0.0f), 2.0f,
+    debugRenderer.DrawSphere(rootPos, 2.0f,
                              glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     DrawChildren(&mCurrentAnimation->GetRootNode(), rootPos);

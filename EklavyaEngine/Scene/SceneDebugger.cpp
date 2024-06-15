@@ -71,7 +71,7 @@ namespace Eklavya
                                ->GetRadius();
 
             mScene.mRenderer->GetDebugRenderer().DrawSphere(
-                actor->Transform()->Position(), oiler, radius, mColliderColor);
+                actor->Transform()->Position(), radius, mColliderColor);
           }
       }
 

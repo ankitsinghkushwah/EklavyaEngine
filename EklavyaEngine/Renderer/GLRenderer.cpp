@@ -180,6 +180,7 @@ namespace Eklavya::Renderer
     glm::mat4 view = scene.CurrentCamera()->GetView();
     mDebugRenderer.SetData(projection, view);
     scene.DebugDraw(mDebugRenderer);
+    mDebugRenderer.DrawAddedShapes();
   }
 #endif
 

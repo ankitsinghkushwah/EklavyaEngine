@@ -145,7 +145,6 @@ namespace Eklavya::Physics
     glm::mat4 worldMatrix =
         boxCollider->GetBody()->mOwner->Transform()->GetWorldMatrix();
 
-    glm::vec3 halfSize = boxCollider->GetHalfSize();
     glm::vec3 center = worldMatrix[3];
 
     for (int i = 0; i < 3; i++)
@@ -153,18 +152,33 @@ namespace Eklavya::Physics
         float     t1 = -FLT_MAX;
         float     t2 = FLT_MAX;
 
-        glm::vec3 normal = glm::normalize(glm::column(worldMatrix,i));
+        glm::vec3 normal = glm::column(worldMatrix, i);
+        float l = glm::length(normal) * 0.5f;
+        normal = glm::normalize(normal);
 
         Plane     nearPlane;
-        nearPlane.o = center + normal * halfSize;
+        nearPlane.o = center + (normal * l);
         nearPlane.n = normal;
 
         Plane farPlane;
-        farPlane.o = center - (normal * halfSize);
+        farPlane.o = center - (normal * l);
         farPlane.n = normal;
 
         RayVSPlane(ray, nearPlane, t1);
         RayVSPlane(ray, farPlane, t2);
+
+//        if (mDebugRenderer)
+//          {
+//            float     rad = 2.0f;
+//            glm::vec4 col(normal, 1.0f);
+//            float     nLen = 10.0f;
+//            mDebugRenderer->AddSphere(nearPlane.o, rad, col);
+//            mDebugRenderer->AddLine(nearPlane.o, nearPlane.o + normal * nLen,
+//                                    col, .1f);
+//            mDebugRenderer->AddSphere(farPlane.o, rad, col);
+//            mDebugRenderer->AddLine(farPlane.o, farPlane.o + normal * nLen, col,
+//                                    .1f);
+//          }
 
         if (t1 > t2)
           {
@@ -326,6 +340,10 @@ namespace Eklavya::Physics
     return result;
   }
 
-  void World::OnDebugDraw(Renderer::DebugRenderer &debugRenderer) {}
+  void World::OnDebugDraw(Renderer::DebugRenderer &debugRenderer)
+  {
+    if (!mDebugRenderer)
+      mDebugRenderer = &debugRenderer;
+  }
 
 } // namespace Eklavya::Physics

@@ -225,7 +225,7 @@ void CarSuspension::DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer)
   float     radius = 1.3f;
   glm::vec3 dir = glm::normalize(hitResult.position - start);
   glm::vec3 wheelPos = hitResult.position - (dir * radius);
-  debugRenderer.DrawSphere(wheelPos, glm::vec3(), glm::vec3(radius),
+  debugRenderer.DrawSphere(wheelPos, glm::vec3(radius),
                            glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
   for (int i = 0; i < MAX_WHEEL_FORCES; ++i)

@@ -57,8 +57,8 @@ void VertexArrayObject::SetBoneIdsPtr(int startOffset, int strideOffset) {
 void VertexArrayObject::SetupVAOForSphere(VertexArrayObject &vao,
                                           glm::vec3 &min, glm::vec3 &max) {
   float radius = 1.0f;
-  float sectorCount = 20;
-  float stackCount = 20;
+  float sectorCount = 5;
+  float stackCount = 5;
   std::vector<float> vertices;
   std::vector<float> normals;
   std::vector<float> texCoords;

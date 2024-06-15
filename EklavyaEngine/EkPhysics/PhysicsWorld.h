@@ -112,6 +112,8 @@ namespace Eklavya::Physics
     
     std::vector<ContactConstraint> mConstraints;
     std::vector<EkBody *>          mBodies;
+    
+    Renderer::DebugRenderer* mDebugRenderer = nullptr;
   };
 } // namespace Eklavya::Physics
 
