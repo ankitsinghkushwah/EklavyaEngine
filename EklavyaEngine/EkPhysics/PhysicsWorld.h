@@ -17,8 +17,6 @@
 
 class IEventData;
 
-
-
 namespace Eklavya::Physics
 {
   class ICollider;
@@ -82,9 +80,9 @@ namespace Eklavya::Physics
     CastHitResult RayCast(glm::vec3 o, glm::vec3 direction, float range,
                           int ignoreGroupFlag) const;
 
-    CastHitResult SphereCast(glm::vec3 o, glm::vec3 direction, float radius, float range,
-                             int ignoreGroupFlag) const;
-                             
+    CastHitResult SphereCast(glm::vec3 o, glm::vec3 direction, float radius,
+                             float range, int ignoreGroupFlag) const;
+
     bool          RayVSOBB(Ray ray, std::shared_ptr<BoxCollider> boxCollider,
                            float &t) const;
 
@@ -92,6 +90,7 @@ namespace Eklavya::Physics
                               glm::vec2 &points) const;
 
 #ifdef EKDEBUG
+    Renderer::DebugRenderer *mDebugRenderer = nullptr;
     void OnDebugDraw(Renderer::DebugRenderer &debugRenderer);
 #endif
   private:
@@ -108,12 +107,12 @@ namespace Eklavya::Physics
       return false;
     }
 
-    void GenerateContacts(std::shared_ptr<ICollider> firstCollider, std::shared_ptr<ICollider> secondCollider, std::vector<ContactData>& contacts) const;
-    
+    void GenerateContacts(std::shared_ptr<ICollider> firstCollider,
+                          std::shared_ptr<ICollider> secondCollider,
+                          std::vector<ContactData>  &contacts) const;
+
     std::vector<ContactConstraint> mConstraints;
     std::vector<EkBody *>          mBodies;
-    
-    Renderer::DebugRenderer* mDebugRenderer = nullptr;
   };
 } // namespace Eklavya::Physics
 

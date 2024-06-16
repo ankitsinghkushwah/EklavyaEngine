@@ -75,23 +75,21 @@ namespace Eklavya
 
     float area_extent = 10000;
     float floorScaleY = 5.0f;
-    CreateCube(glm::vec3(0.0f),
-               glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(),
-               FLT_MAX, info, STATIC);
+   
 
     MaterialInfo info2;
     info2.mBaseColor = glm::vec3(.7f);
     info2.mRoughness = 0.0f;
     info2.mMetallic = 0.0f;
     info2.mTiling = 1.0f;
-    CreateCube(glm::vec3(0.0, 50, -100.0f), glm::vec3(30.0f, 10.0f, 50),
-               glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
+//    CreateCube(glm::vec3(0.0, 50, -100.0f), glm::vec3(30.0f, 10.0f, 50),
+//               glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
 
     CreateCube(glm::vec3(0.0, 50, -200.0f), glm::vec3(30.0f),
                glm::vec3(0.0f), FLT_MAX, info, 0);
 
-    CreateSphere(glm::vec3(-200.0f, 50.0f, 0.0f), 40.0f, FLT_MAX, info2,
-                 STATIC);
+//    CreateSphere(glm::vec3(-200.0f, 50.0f, 0.0f), 40.0f, FLT_MAX, info2,
+//                 STATIC);
   }
 
   SphereCastDemo::SphereCastDemo(Director *pDirector)

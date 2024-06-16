@@ -36,7 +36,7 @@ int main() {
 
   Eklavya::Director *engine = new Eklavya::Director(
       "Eklavya", resolution.width, resolution.height,false);
-  engine->SetScene(new VehiclePhysicsDemo(engine));
+  engine->SetScene(new SphereCastDemo(engine));
   engine->Start();
   return 0;
 }
