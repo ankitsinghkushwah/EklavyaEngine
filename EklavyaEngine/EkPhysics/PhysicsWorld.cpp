@@ -146,11 +146,11 @@ namespace Eklavya::Physics
         boxCollider->GetBody()->mOwner->Transform()->GetWorldMatrix();
 
     glm::vec3 center = worldMatrix[3];
-    
-    if(mDebugRenderer)
-    {
-    mDebugRenderer->AddSphere(center, 0.2f, glm::vec4(1.0f));
-    }
+
+    if (mDebugRenderer)
+      {
+        mDebugRenderer->AddSphere(center, 0.2f, glm::vec4(1.0f));
+      }
 
     for (int i = 0; i < 3; i++)
       {
@@ -158,10 +158,13 @@ namespace Eklavya::Physics
         float     t2 = FLT_MAX;
 
         glm::vec3 normal = glm::column(worldMatrix, i);
-        float l = glm::length(normal) * 0.5f; //half of the length of the world transformation axes because our bounding box vertices are bound to -0.5 -> 0.5
+        float     l =
+            glm::length(normal) *
+            0.5f; // half of the length of the world transformation axes because
+                  // our bounding box vertices are bound to -0.5 -> 0.5
         normal = glm::normalize(normal);
 
-        Plane     nearPlane;
+        Plane nearPlane;
         nearPlane.o = center + (normal * l);
         nearPlane.n = normal;
 
@@ -172,18 +175,21 @@ namespace Eklavya::Physics
         RayVSPlane(ray, nearPlane, t1);
         RayVSPlane(ray, farPlane, t2);
 
-        if (mDebugRenderer)
-          {
-            float     rad = .2f;
-            glm::vec4 col(normal, 1.0f);
-            float     nLen = 10.0f;
-            mDebugRenderer->AddSphere(nearPlane.o, rad, col);
-            mDebugRenderer->AddLine(nearPlane.o, nearPlane.o - normal * l,
-                                    col, .1f);
-//            mDebugRenderer->AddSphere(farPlane.o, rad, col);
-//            mDebugRenderer->AddLine(farPlane.o, farPlane.o + normal * l, col,
-//                                    .1f);
-          }
+
+        //        if (mDebugRenderer)
+        //          {
+        //            float     rad = .2f;
+        //            glm::vec4 col(normal, 1.0f);
+        //            float     nLen = 10.0f;
+        //            mDebugRenderer->AddSphere(nearPlane.o, rad, col);
+        //            mDebugRenderer->AddLine(nearPlane.o, nearPlane.o - normal
+        //            * l,
+        //                                    col, .1f);
+        //            mDebugRenderer->AddSphere(farPlane.o, rad, col);
+        //            mDebugRenderer->AddLine(farPlane.o, farPlane.o + normal *
+        //            l, col,
+        //                                    .1f);
+        //       }
 
         if (t1 > t2)
           {
@@ -285,7 +291,7 @@ namespace Eklavya::Physics
                                int ignoreGroupFlag) const
   {
     Ray           ray{o, d, maxRange};
-    CastHitResult result{maxRange, nullptr, glm::vec3(), glm::vec3(), false};
+    CastHitResult result;
 
     float         t = 0.0f;
     int           index = -1;

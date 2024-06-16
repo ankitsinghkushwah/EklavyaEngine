@@ -51,7 +51,9 @@ namespace Eklavya::Physics
     EkBody   *body = nullptr;
     glm::vec3 normal;
     glm::vec3 position;
-    bool      success;
+    bool      success = false;
+    
+    CastHitResult() : t(0.0f), normal(0.0f),position(0.0f){}
   };
 
   enum EFeatureEnabled
