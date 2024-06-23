@@ -69,12 +69,9 @@ namespace Eklavya
 
   void SphereCastDemo::CreateStage()
   {
-    MaterialInfo info = LoadMaterialInfo("pbr/grid");
+    MaterialInfo info;
     info.mRoughness = 1.0f;
     info.mTiling = 40;
-
-    float        area_extent = 10000;
-    float        floorScaleY = 5.0f;
 
     MaterialInfo info2;
     info2.mBaseColor = glm::vec3(.7f);
@@ -87,7 +84,7 @@ namespace Eklavya
     CreateCube(glm::vec3(0.0, 50, -200.0f), glm::vec3(30.0f), glm::vec3(0.0f),
                FLT_MAX, info, 0);
 
-    CreateSphere(glm::vec3(-200.0f, 50.0f, 0.0f), 40.0f, FLT_MAX, info2,
+    CreateSphere(glm::vec3(-200.0f, 50.0f, 0.0f), 40.0f, FLT_MAX, info,
                  STATIC);
   }
 

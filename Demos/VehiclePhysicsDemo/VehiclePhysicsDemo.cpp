@@ -88,9 +88,10 @@ namespace Eklavya
 
   void        VehiclePhysicsDemo::CreateStage()
   {
-    MaterialInfo info = LoadMaterialInfo("grid");
+    MaterialInfo info;
     info.mRoughness = 1.0f;
     info.mTiling = 40;
+    info.mBaseColor = glm::vec3(0.0f,0.6f,0.2f);
 
     float area_extent = 10000;
     float floorScaleY = 10.0f;

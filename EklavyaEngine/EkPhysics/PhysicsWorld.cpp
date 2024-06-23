@@ -147,10 +147,7 @@ namespace Eklavya::Physics
 
     glm::vec3 center = worldMatrix[3];
 
-    if (mDebugRenderer)
-      {
-        mDebugRenderer->AddSphere(center, 0.2f, glm::vec4(1.0f));
-      }
+   
 
     for (int i = 0; i < 3; i++)
       {

@@ -28,7 +28,7 @@ CarSuspension::CarSuspension(const EkScene *scene, int tireIdx)
 
   mWheelAngle = 0.0f;
   mWheelRadius = 2.2f;
-  mTireSpeed = 50.0f;
+  mTireSpeed = 10.0f;
 
   mForcesColours[EWheelForces::SUSPSENSION] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
   mForcesColours[EWheelForces::DESIRED_DIRECTION] =
@@ -213,25 +213,27 @@ void CarSuspension::FixedTick(float dt)
 
 #ifdef EKDEBUG
 
-glm::vec4 color(1.0f, 0.0f, 0.0f, 0.5f);
+
 
 void CarSuspension::DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer)
 {
 
+glm::vec4 hitColor(1.0f, 0.0f, 0.0f, 0.5f);
+glm::vec4 rayCol(0.0f,0.0f,0.0f,1.0f);
+
   glm::vec3 start = mOwner->Transform()->Position();
 
-  //    debugRenderer.DrawLine(start, start + glm::vec3(0.0f,-range,0.0f),
-  //    color, 3.0f);
-  float     radius = 1.3f;
+  debugRenderer.DrawLine(start, hitResult.position,rayCol, 0.2f);
+  float     radius = .3f;
   glm::vec3 dir = glm::normalize(hitResult.position - start);
   glm::vec3 wheelPos = hitResult.position - (dir * radius);
   debugRenderer.DrawSphere(wheelPos, glm::vec3(radius),
-                           glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+                           hitColor);
 
-  for (int i = 0; i < MAX_WHEEL_FORCES; ++i)
-    {
-      debugRenderer.DrawLine(start, start + mForces[i], mForcesColours[i], .1f);
-    }
+//  for (int i = 0; i < MAX_WHEEL_FORCES; ++i)
+//    {
+//      debugRenderer.DrawLine(start, start + mForces[i], mForcesColours[i], .1f);
+//    }
 
   for (auto &tracks : mTracks)
     {
