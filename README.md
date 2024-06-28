@@ -16,19 +16,15 @@ Features :
 
 - Asset Loader : Texture,Model & Animation loading using assimp, Shaders etc
 
-Demos : 
+Demos (click on images to go to videos) : 
 
-Vehicle Physics
 [![VEHICLE PHYSICS](https://img.youtube.com/vi/z52WxTNrIpg/sddefault.jpg)](https://www.youtube.com/watch?v=z52WxTNrIpg)
 [![VEHICLE PHYSICS](https://img.youtube.com/vi/abnopf9OntY/sddefault.jpg)](https://www.youtube.com/watch?v=abnopf9OntY)
 
-Skeletal animation with debugging
 [![SKELETAL ANIMATION](https://img.youtube.com/vi/NbSgJ3GrD_0/sddefault.jpg)](https://www.youtube.com/watch?v=NbSgJ3GrD_0)
 [![SKELETAL ANIMATION](https://img.youtube.com/vi/RszWEUHOxoE/sddefault.jpg)](https://www.youtube.com/watch?v=RszWEUHOxoE)
 
-Frustum Culling
 [![FRUSTUM CULLING](https://img.youtube.com/vi/H0ntyFogFvU/sddefault.jpg)](https://www.youtube.com/watch?v=H0ntyFogFvU)
-
 
 To-do : 
 
