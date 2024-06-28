@@ -18,7 +18,9 @@ Features :
 
 Demos : 
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/NbSgJ3GrD_0&list=PL1JdHV6uMaCk09dY2k1XG6ldCvB5qpKnR/0.jpg)](https://www.youtube.com/watch?v=NbSgJ3GrD_0&list=PL1JdHV6uMaCk09dY2k1XG6ldCvB5qpKnR)
+[![Vehicle Physics](https://img.youtube.com/vi/z52WxTNrIpg/0.jpg)](https://www.youtube.com/watch?v=z52WxTNrIpg)
+
+[![Skeletal Animation with Debugging](https://img.youtube.com/vi/NbSgJ3GrD_0/0.jpg)](https://www.youtube.com/watch?v=NbSgJ3GrD_0)
 
 ToDo : 
 
