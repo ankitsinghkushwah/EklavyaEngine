@@ -58,7 +58,7 @@ namespace Eklavya::Renderer
     void SetData(glm::mat4 &projection, glm::mat4 &view);
 
     void DrawLine(glm::vec3 start, glm::vec3 end, glm::vec4 color,
-                  float thickness);
+                  float thickness, bool disableDepthTest = false);
     void DrawSphere(glm::vec3 center, float radius, glm::vec4 color);
     void DrawSphere(glm::vec3 center, glm::vec3 extents, glm::vec4 color);
 
@@ -67,7 +67,7 @@ namespace Eklavya::Renderer
 
     void DrawBound(const glm::mat4 &model, const Bound &bound, glm::vec4 color);
 
-    void DrawPoints(std::vector<const glm::vec3> &points, glm::vec4 color);
+    void DrawPoints(std::vector<glm::vec3> &points, glm::vec4 color);
 
     void DrawTransform(TransformComponent &transform);
 

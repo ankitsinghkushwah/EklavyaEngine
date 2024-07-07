@@ -47,8 +47,13 @@ glm::mat4 DebugRenderer::GetModel(glm::vec3 t, const glm::quat &r, glm::vec3 s)
 }
 
 void DebugRenderer::DrawLine(glm::vec3 start, glm::vec3 end, glm::vec4 color,
-                             float thickness)
+                             float thickness, bool disableDepthTest)
 {
+  if (disableDepthTest)
+    {
+      glEnable(GL_DEPTH_TEST);
+      glDepthFunc(GL_ALWAYS);
+    }
   glm::vec3 direction = glm::normalize(end - start);
   float     len = glm::length(end - start);
   glm::quat q = glm::quatLookAt(direction, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -66,6 +71,11 @@ void DebugRenderer::DrawLine(glm::vec3 start, glm::vec3 end, glm::vec4 color,
   mBoxVAO.Bind();
   glDrawArrays(GL_TRIANGLES, 0, 36);
   mBoxVAO.Unbind();
+
+  if (disableDepthTest)
+    {
+      glDepthFunc(GL_LEQUAL);
+    }
 }
 
 void DebugRenderer::DrawSphere(glm::vec3 center, float radius, glm::vec4 color)
@@ -163,9 +173,9 @@ void DebugRenderer::DrawFrustum(const Frustum &frustum)
     }
 }
 
-void DebugRenderer::DrawPoints(std::vector<const glm::vec3> &points,
-                               glm::vec4                     color)
+void DebugRenderer::DrawPoints(std::vector<glm::vec3> &points, glm::vec4 color)
 {
+    
 }
 
 #define RGB(r, g, b) glm::vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f)
@@ -213,8 +223,8 @@ void DebugRenderer::AddSphere(glm::vec3 center, float radius, glm::vec4 color)
 
 void DebugRenderer::DrawAddedShapes()
 {
-  for(DebugLine& l : mLinesToDraw)
-    DrawLine(l.start,l.end,l.color,l.thickness);
-  for(DebugSphere& s : mSpheresToDraw)
-    DrawSphere(s.center,s.radius,s.color);
+  for (DebugLine &l : mLinesToDraw)
+    DrawLine(l.start, l.end, l.color, l.thickness);
+  for (DebugSphere &s : mSpheresToDraw)
+    DrawSphere(s.center, s.radius, s.color);
 }

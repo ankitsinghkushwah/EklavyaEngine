@@ -92,6 +92,7 @@ namespace Eklavya::Physics
                               glm::vec2 &points) const;
 
 #ifdef EKDEBUG
+    std::vector<ContactData> mCachedContactsForDebug;
     Renderer::DebugRenderer *mDebugRenderer = nullptr;
     void OnDebugDraw(Renderer::DebugRenderer &debugRenderer);
 #endif

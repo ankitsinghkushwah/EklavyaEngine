@@ -72,6 +72,7 @@ namespace Eklavya::Physics
 
         SphereAndSphere(sphere0, sphere1, contacts);
       }
+
   }
 
   void World::Step(float delta)
@@ -129,7 +130,11 @@ namespace Eklavya::Physics
 
     for (auto &constraint : mConstraints)
       constraint.PostSolve();
-
+    
+    #ifdef EKDEBUG
+    mCachedContactsForDebug = std::move(contacts);
+    #endif
+    
     mConstraints.clear();
   }
 
@@ -146,8 +151,6 @@ namespace Eklavya::Physics
         boxCollider->GetBody()->mOwner->Transform()->GetWorldMatrix();
 
     glm::vec3 center = worldMatrix[3];
-
-   
 
     for (int i = 0; i < 3; i++)
       {
@@ -171,7 +174,6 @@ namespace Eklavya::Physics
 
         RayVSPlane(ray, nearPlane, t1);
         RayVSPlane(ray, farPlane, t2);
-
 
         //        if (mDebugRenderer)
         //          {
@@ -287,12 +289,12 @@ namespace Eklavya::Physics
   CastHitResult World::RayCast(glm::vec3 o, glm::vec3 d, float maxRange,
                                int ignoreGroupFlag) const
   {
-    Ray           ray{o, d, maxRange};
-    CastHitResult result;
+    Ray                        ray{o, d, maxRange};
+    CastHitResult              result;
 
-    float         t = 0.0f;
-    int           index = -1;
-    float         shortestT = maxRange;
+    float                      t = 0.0f;
+    int                        index = -1;
+    float                      shortestT = maxRange;
     std::shared_ptr<ICollider> hitCollider = nullptr;
 
     for (int i = 0; i < mBodies.size(); i++)
@@ -352,6 +354,18 @@ namespace Eklavya::Physics
   {
     if (!mDebugRenderer)
       mDebugRenderer = &debugRenderer;
+      
+      
+      std::vector<glm::vec3> contactPoints;
+      for(auto& contact : mCachedContactsForDebug)
+      {
+        contactPoints.push_back(contact.point);
+        debugRenderer.DrawLine(contact.point, contact.point + contact.normal * 10.0f, glm::vec4(contact.normal,1.0f), .4f,true);
+      }
+      if(contactPoints.empty() == false)
+      {
+        debugRenderer.DrawPoints(contactPoints, glm::vec4(1.0f,0.0f,0.0f,1.0f));
+      }
   }
 
 } // namespace Eklavya::Physics
