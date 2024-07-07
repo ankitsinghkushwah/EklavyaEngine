@@ -77,8 +77,6 @@ namespace Eklavya::Physics
 
     J /= (invMassSum + d1 + d2);
 
-    J /= SZ;
-
     glm::vec3 Jn = J * n;
 
     glm::vec3 totalJ = Jn;

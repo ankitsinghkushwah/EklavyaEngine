@@ -76,6 +76,7 @@
 		9BF6E8062BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6E8052BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp */; };
 		9BF8CB312BBCAFC6003CB066 /* TPSDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8CB2E2BBCAFC6003CB066 /* TPSDemo.cpp */; };
 		9BF8CB342BBCB025003CB066 /* PlayerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8CB322BBCB025003CB066 /* PlayerController.cpp */; };
+		9BF949162C3A72B4001BA567 /* StackOfBoxesDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */; };
 		9F0273EF281C4BBD00CE30A9 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273EE281C4BBD00CE30A9 /* libglfw3.a */; };
 		9F0273F7281C4E3800CE30A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273F6281C4E3800CE30A9 /* Cocoa.framework */; };
 		9F0273F9281C4E3D00CE30A9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273F8281C4E3D00CE30A9 /* OpenGL.framework */; };
@@ -304,6 +305,8 @@
 		9BF8CB2F2BBCAFC6003CB066 /* TPSDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TPSDemo.hpp; sourceTree = "<group>"; };
 		9BF8CB322BBCB025003CB066 /* PlayerController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerController.cpp; sourceTree = "<group>"; };
 		9BF8CB332BBCB025003CB066 /* PlayerController.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PlayerController.hpp; sourceTree = "<group>"; };
+		9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StackOfBoxesDemo.cpp; path = Demos/StackOfBoxes/StackOfBoxesDemo.cpp; sourceTree = SOURCE_ROOT; };
+		9BF949152C3A72B4001BA567 /* StackOfBoxesDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StackOfBoxesDemo.hpp; path = Demos/StackOfBoxes/StackOfBoxesDemo.hpp; sourceTree = SOURCE_ROOT; };
 		9F0273E1281C430100CE30A9 /* EklavyaEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EklavyaEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F0273EE281C4BBD00CE30A9 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
 		9F0273F0281C4BC900CE30A9 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GLFW; sourceTree = "<group>"; };
@@ -557,6 +560,15 @@
 			path = TPSDemo;
 			sourceTree = "<group>";
 		};
+		9BF949132C3A729D001BA567 /* StackOfBoxesDemo */ = {
+			isa = PBXGroup;
+			children = (
+				9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */,
+				9BF949152C3A72B4001BA567 /* StackOfBoxesDemo.hpp */,
+			);
+			path = StackOfBoxesDemo;
+			sourceTree = "<group>";
+		};
 		9F0273D8281C430100CE30A9 = {
 			isa = PBXGroup;
 			children = (
@@ -693,6 +705,7 @@
 		9F0E787328D8BB6A00466B8A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				9BF949132C3A729D001BA567 /* StackOfBoxesDemo */,
 				9BE6B8CB2BCB2E39002079EC /* SphereCastDemo */,
 				9BF8CB302BBCAFC6003CB066 /* TPSDemo */,
 				9B8202682BBB51C9001416CE /* FPSDemo */,
@@ -909,6 +922,7 @@
 				9B5E65B92A18D79C00A2C5A3 /* EkUtils.cpp in Sources */,
 				9B4B7BC62A485DC7009C122B /* DebugRenderer.cpp in Sources */,
 				9B40CEE82A2201C10055FD47 /* GLMesh.cpp in Sources */,
+				9BF949162C3A72B4001BA567 /* StackOfBoxesDemo.cpp in Sources */,
 				9BE1891B2A2CD0E9005A4971 /* SOIL.c in Sources */,
 				9FB53E9A2871E82F001B48E4 /* EkScene.cpp in Sources */,
 				9B4BA1122A4A1DFF00380ED4 /* CarSuspension.cpp in Sources */,

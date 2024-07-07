@@ -10,7 +10,7 @@
 #include "VehiclePhysicsDemo.hpp"
 #include "FPSDemo.hpp"
 #include "TPSDemo.hpp"
-#include "SphereCastDemo.hpp"
+#include "StackOfBoxesDemo.hpp"
 
 using namespace Eklavya;
 
@@ -36,7 +36,7 @@ int main() {
 
   Eklavya::Director *engine = new Eklavya::Director(
       "Eklavya", resolution.width, resolution.height,false);
-  engine->SetScene(new VehiclePhysicsDemo(engine));
+  engine->SetScene(new StackOfBoxesDemo(engine));
   engine->Start();
   return 0;
 }
