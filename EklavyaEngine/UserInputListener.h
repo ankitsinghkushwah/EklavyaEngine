@@ -4,25 +4,39 @@
 #include "InputHandler.h"
 
 /* will only be inherited by pawn actors*/
-class UserInputListener {
-public:
-  virtual void PollKeyAction() {}
+class UserInputListener
+{
+  public:
+	virtual void PollKeyAction()
+	{
+	}
 
-  virtual void OnMouseAction(int key, int action) {}
+	virtual void OnMouseAction(int key, int action)
+	{
+	}
 
-  virtual void OnKeyAction(int key, int action) {}
+	virtual void OnKeyAction(int key, int action)
+	{
+	}
 
-  virtual void OnCursorMove(double x, double y) {}
+	virtual void OnCursorMove(double x, double y)
+	{
+	}
 
-  UserInputListener() { InputHandler::GetInstance()->AddListener(this); }
+	UserInputListener()
+	{
+		InputHandler::GetInstance()->AddListener(this);
+	}
 
-  virtual ~UserInputListener() {
-    InputHandler::GetInstance()->RemoveListener(this);
-  }
+	virtual ~UserInputListener()
+	{
+		InputHandler::GetInstance()->RemoveListener(this);
+	}
 
-  inline bool IsKeyPressed(int key) {
-    return InputHandler::GetInstance()->KeyHasPressed(key);
-  }
+	inline bool IsKeyPressed(int key)
+	{
+		return InputHandler::GetInstance()->KeyHasPressed(key);
+	}
 };
 
 #endif

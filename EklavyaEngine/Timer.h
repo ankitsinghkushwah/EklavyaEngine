@@ -11,32 +11,42 @@
 using Clock = std::chrono::steady_clock;
 using TimeStamp = std::chrono::steady_clock::time_point;
 
-class Timer : public Singleton<Timer> {
-public:
-  Timer();
-  ~Timer();
+class Timer : public Singleton<Timer>
+{
+  public:
+	Timer();
+	~Timer();
 
-  inline double GetDeltaTimeInMS() { return mFrameTime; }
+	inline double GetDeltaTimeInMS()
+	{
+		return mFrameTime;
+	}
 
-  inline float GetFrameTime() { return mFrameTime * .001f; }
+	inline float GetFrameTime()
+	{
+		return mFrameTime * .001f;
+	}
 
-  inline int GetFramesPerSecond() { return m_FPS; }
+	inline int GetFramesPerSecond()
+	{
+		return m_FPS;
+	}
 
-  void Update();
-  void Reset();
+	void Update();
+	void Reset();
 
-private:
-  void UpdateDelta();
-  void UpdateFPS();
+  private:
+	void UpdateDelta();
+	void UpdateFPS();
 
-  // for frame delta
-  TimeStamp mLastTime;
-  double mFrameTime;
+	// for frame delta
+	TimeStamp mLastTime;
+	double    mFrameTime;
 
-  // for fps
-  double m_ElapsedTime;
-  int m_FPSCounter;
-  int m_FPS;
+	// for fps
+	double m_ElapsedTime;
+	int    m_FPSCounter;
+	int    m_FPS;
 };
 
 #endif // BURNOUTENGINE_Timer_HPP

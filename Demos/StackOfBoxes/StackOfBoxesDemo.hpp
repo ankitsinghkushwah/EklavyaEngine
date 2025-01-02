@@ -13,39 +13,42 @@
 #include "MaterialInfo.h"
 #include <SFML/Audio.hpp>
 #include "SceneHelper.hpp"
+#include "EkAudio.hpp"
 
 namespace Eklavya
 {
-  class StackOfBoxesDemo final : public MainEntryScene
-  {
-  public:
-    StackOfBoxesDemo(class Director *pDirector);
+	class StackOfBoxesDemo final : public MainEntryScene
+	{
+	  public:
+		StackOfBoxesDemo(class Director* pDirector);
 
-    ~StackOfBoxesDemo() override;
+		~StackOfBoxesDemo() override;
 
-  private:
-    void                PreloadTextures();
+	  private:
+		void PreloadTextures();
 
-    Asset::MaterialInfo LoadMaterialInfo(const std::string &file,
-                                         std::string        ext = "png");
-    void                ImGuiProc() override;
+		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
 
-    void                CreateStage();
-    
-    void OnMouseAction(int key, int action) override;
-    void OnKeyAction(int key,int action) override;
+		void CreateStackOfBoxes();
+		void CreateStage();
 
+		void OnMouseAction(int key, int action) override;
+		void OnKeyAction(int key, int action) override;
 
 #ifdef EKDEBUG
-    void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
+		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
+		void ImGuiProc() override;
 #endif
 
-  private:
-    glm::vec3 mRayStart;
-    glm::vec3 mRayDirection;
-    float mRayRange = 0.0f;
-    Physics::CastHitResult mLastCastHitResult;
-  };
+	  private:
+		glm::vec3              mRayStart;
+		glm::vec3              mRayDirection;
+		float                  mRayRange = 0.0f;
+		Physics::CastHitResult mLastCastHitResult;
+		Eklavya::Audio         mAudio;
+		std::string            mEngineLoopSound;
+		class EkActor*         mCube = nullptr;
+	};
 
 } // namespace Eklavya
 

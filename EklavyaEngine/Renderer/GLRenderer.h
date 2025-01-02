@@ -13,68 +13,68 @@
 #include "DebugRenderer.hpp"
 #endif
 
-namespace Eklavya {
-class EkScene;
-}
+namespace Eklavya
+{
+	class EkScene;
+	class RenderComponent;
+} // namespace Eklavya
 
-namespace Eklavya::Renderer {
-using GROUP_MATERIALS = std::array<SHARED_MATERIAL, ERenderGroup::RG_MAX>;
+namespace Eklavya::Renderer
+{
+	using GROUP_MATERIALS = std::array<SHARED_MATERIAL, ERenderGroup::RG_MAX>;
 
-class GLRenderer {
-  friend MainPass;
-  friend ShadowMapPass;
+	class GLRenderer
+	{
+		friend MainPass;
+		friend ShadowMapPass;
 
-public:
-  GLRenderer(const GLWindowContext &context);
-  void LoadBuiltInMaterials();
-  void Init();
-  ~GLRenderer();
+	  public:
+		GLRenderer(const GLWindowContext& context);
+		void LoadBuiltInMaterials();
+		void Init();
+		~GLRenderer();
 
-  void AddMaterialToState(ERenderGroup group, SHARED_MATERIAL material);
+		void AddMaterialToState(ERenderGroup group, SHARED_MATERIAL material);
 
-  template <typename MATERIAL_TYPE>
-  std::shared_ptr<MATERIAL_TYPE> GetMaterialForGroup(ERenderGroup group) {
-    return std::static_pointer_cast<MATERIAL_TYPE>(mGroupMaterials[group]);
-  }
+		template<typename MATERIAL_TYPE>
+		std::shared_ptr<MATERIAL_TYPE> GetMaterialForGroup(ERenderGroup group)
+		{
+			return std::static_pointer_cast<MATERIAL_TYPE>(mGroupMaterials[group]);
+		}
 
-  void Render(EkScene &scene);
+		void Render(EkScene& scene);
 
-  void AddActor(SHARED_RENDERCOMPONENT renderComponent);
+		void AddActor(const RenderComponent& renderComponent);
 
-    void ImGuiProc();
-    
-private:
-  void RenderInternal(const std::vector<SHARED_RENDERCOMPONENT> &actors,
-                      SHARED_SHADER &shader,
-                      SHARED_MATERIAL material = nullptr);
-  void PostPassesResult();
+		void ImGuiProc();
 
-  void SetShaderDataForActor(const SHARED_RENDERCOMPONENT &renderComponent,
-                             SHARED_SHADER &shader);
+	  private:
+		void RenderInternal(const std::vector<const RenderComponent*>& actors, SHARED_SHADER& shader, SHARED_MATERIAL material = nullptr);
+		void PostPassesResult();
 
-  GROUP_MATERIALS mGroupMaterials;
+		void SetShaderDataForActor(const RenderComponent& renderComponent, SHARED_SHADER& shader);
 
-  Eklavya::Asset::SHARED_SHADER mMainOutputShader = nullptr;
-  std::array<std::unique_ptr<IRenderPass>, ERenderPass::RP_MAX> mRenderPasses;
-  GLuint mVAO;
-  const GLWindowContext &mContext;
-  glm::mat4 mOutputProjection;
-  glm::mat4 mOutputModel;
-    
+		GROUP_MATERIALS mGroupMaterials;
+
+		Eklavya::Asset::SHARED_SHADER                                 mMainOutputShader = nullptr;
+		std::array<std::unique_ptr<IRenderPass>, ERenderPass::RP_MAX> mRenderPasses;
+		GLuint                                                        mVAO;
+		const GLWindowContext&                                        mContext;
+		glm::mat4                                                     mOutputProjection;
+		glm::mat4                                                     mOutputModel;
 
 #ifdef EKDEBUG
-public:
-    DebugRenderer& GetDebugRenderer()
-    {
-        return mDebugRenderer;
-    }
-private:
-    void DebugDraw(EkScene& scene);
-    DebugRenderer mDebugRenderer;
+	  public:
+		DebugRenderer& GetDebugRenderer()
+		{
+			return mDebugRenderer;
+		}
+
+	  private:
+		void          DebugDraw(EkScene& scene);
+		DebugRenderer mDebugRenderer;
 #endif
-
-
-};
+	};
 
 } // namespace Eklavya::Renderer
 

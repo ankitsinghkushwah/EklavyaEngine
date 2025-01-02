@@ -15,24 +15,24 @@
 #include "EkActor.h"
 #include "MaterialInfo.h"
 
-namespace Eklavya::SceneHelper {
-
-using MATERIALS_FOR_ACTOR = std::vector<Asset::MaterialInfo>;
-
-struct ModelLoadOptions
+namespace Eklavya::SceneHelper
 {
-    bool forceSingleMaterial = false;
-    MATERIALS_FOR_ACTOR materials;
-};
 
-SHARED_ACTOR CreateActorFromModel(const std::string &name, int modelID, ModelLoadOptions loadOptions = {});
+	using MATERIALS_FOR_ACTOR = std::vector<Asset::MaterialInfo>;
 
-SHARED_ACTOR CreateActorForMesh(const Asset::GLMesh &glMesh,
-                                const Asset::ModelNode &node, int modelID);
+	struct ModelLoadOptions
+	{
+		bool                forceSingleMaterial = false;
+		MATERIALS_FOR_ACTOR materials;
+	};
 
-std::optional<Asset::MaterialInfo> GetMaterialForMesh(const std::string& name,const MATERIALS_FOR_ACTOR& materials);
+	UniqueActor CreateActorFromModel(const std::string& name, int modelID, ModelLoadOptions loadOptions = {});
 
-SHARED_ACTOR ModelToActor(std::shared_ptr<Asset::ModelNode> node, int modelID,const ModelLoadOptions& materials);
+	UniqueActor CreateActorForMesh(const Asset::GLMesh& glMesh, const Asset::ModelNode& node, int modelID);
+
+	std::optional<Asset::MaterialInfo> GetMaterialForMesh(const std::string& name, const MATERIALS_FOR_ACTOR& materials);
+
+	UniqueActor ModelToActor(std::shared_ptr<Asset::ModelNode> node, int modelID, const ModelLoadOptions& materials);
 } // namespace Eklavya::SceneHelper
 
 #endif /* EkSceneHelper_hpp */

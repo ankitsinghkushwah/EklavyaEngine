@@ -18,90 +18,98 @@
 
 namespace Eklavya
 {
-  // forward declarations
+	// forward declarations
 
-  class Animator;
-  class FreeLookCamera;
+	class AnimationComponent;
+	class FreeLookCamera;
 
-  namespace Renderer
-  {
-    class GLRenderer;
-    class DebugRenderer;
-  } // namespace Renderer
+	namespace Renderer
+	{
+		class GLRenderer;
+		class DebugRenderer;
+	} // namespace Renderer
 
-  namespace Physics
-  {
-    class World;
-  }
+	namespace Physics
+	{
+		class World;
+	}
 
-  class Director;
+	class Director;
 
-  // end
-
-  class EkScene : public UserInputListener
-  {
+	class EkScene : public UserInputListener
+	{
 #ifdef EKDEBUG
-      friend class SceneDebugger;
+		friend class SceneDebugger;
 #endif
-      
-  public:
-    EkScene(Director *director);
 
-    virtual void FixedTick(float fixedDeltaTime) final;
-    virtual void Tick(float deltaTime) final;
+	  public:
+		EkScene(Director* director);
 
-    
-    virtual ~EkScene();
-    void                  AddActor(SHARED_ACTOR actor);
+		virtual void FixedTick(float fixedDeltaTime) final;
+		virtual void Tick(float deltaTime) final;
 
-    const Physics::World &GetPhysics() const { return *mPhysicsWorld.get(); }
+		virtual ~EkScene();
+		void AddActor(UniqueActor& actor);
 
-    CameraParams          DefaulCameraParams() const { return mDefaultCameraParams; }
+		const Physics::World& GetPhysics() const
+		{
+			return *mPhysicsWorld.get();
+		}
 
-    void                  OverrideCamera(std::shared_ptr<ICamera> cameraImpl)
-    {
-      mCurrentCameraIdx = static_cast<int>(mCameraStack.size());
-      mCameraStack.push_back(cameraImpl);
-    }
+		CameraParams DefaulCameraParams() const
+		{
+			return mDefaultCameraParams;
+		}
 
-    const std::shared_ptr<ICamera> &CurrentCamera() const
-    {
-      return mCameraStack[mCurrentCameraIdx];
-    }
+		void OverrideCamera(std::shared_ptr<ICamera> cameraImpl)
+		{
+			mCurrentCameraIdx = static_cast<int>(mCameraStack.size());
+			mCameraStack.push_back(cameraImpl);
+		}
 
-    void Draw();
+		const std::shared_ptr<ICamera>& CurrentCamera() const
+		{
+			return mCameraStack[mCurrentCameraIdx];
+		}
 
-    // UserInputListener overrides
-    void OnMouseAction(int key, int action) override {}
+		void Draw();
 
-    void OnKeyAction(int key, int action) override;
+		// UserInputListener overrides
+		void OnMouseAction(int key, int action) override
+		{
+		}
 
-    void OnCursorMove(double x, double y) override {}
+		void OnKeyAction(int key, int action) override;
 
-  protected:
-    void TraverseToUpdate(SHARED_ACTOR actor, float deltaTime);
-    void TraverseToFixedUpdateComponents(SHARED_ACTOR actor, float fixedDeltaTime);
+		void OnCursorMove(double x, double y) override
+		{
+		}
 
-    std::shared_ptr<FreeLookCamera>              mFreeLookCamera;
-    std::vector<SHARED_ACTOR>                    mRootActors;
-    std::unique_ptr<Renderer::GLRenderer>        mRenderer;
-    std::unique_ptr<Physics::World>              mPhysicsWorld;
-    Director                                    *mDirector;
-    std::unordered_map<ModelID, SHARED_ANIMATOR> mAnimators;
+	  protected:
+		void TraverseToUpdate(const UniqueActor& actor, float deltaTime);
+		void TraverseToFixedUpdateComponents(const UniqueActor& actor, float fixedDeltaTime);
 
-    std::vector<std::shared_ptr<ICamera>>        mCameraStack;
-    int                                          mCurrentCameraIdx = 0;
+		std::shared_ptr<FreeLookCamera>                  mFreeLookCamera;
+		std::vector<UniqueActor>            mRootActors;
+		std::unique_ptr<Renderer::GLRenderer>            mRenderer;
+		std::unique_ptr<Physics::World>                  mPhysicsWorld;
+		Director*                                        mDirector;
+		std::unordered_map<ModelID, AnimationComponent*> mAnimators;
 
-    CameraParams                                  mDefaultCameraParams;
+		std::vector<std::shared_ptr<ICamera>> mCameraStack;
+		int                                   mCurrentCameraIdx = 0;
+
+		CameraParams mDefaultCameraParams;
 
 #ifdef EKDEBUG
-  public:
-    virtual void ImGuiProc();
-    virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer);
-  private:
-      SceneDebugger mSceneDebugger;
+	  public:
+		virtual void ImGuiProc();
+		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer);
+
+	  protected:
+		//  SceneDebugger mSceneDebugger;
 #endif
-  };
+	};
 } // namespace Eklavya
 
 #endif

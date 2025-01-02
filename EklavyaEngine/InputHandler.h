@@ -10,68 +10,80 @@ class UserInputListener;
 
 enum JOYSTICK_INPUT_ID
 {
-  HORIZONTAL_AXIS = 0,
-  VERTICAL_AXIS = 1,
-  RIGHT_TRIGGER = 4,
-  LEFT_TRIGGER = 5
+	HORIZONTAL_AXIS = 0,
+	VERTICAL_AXIS = 1,
+	RIGHT_TRIGGER = 4,
+	LEFT_TRIGGER = 5
 };
 
 class InputHandler
 {
-public:
-  static InputHandler *GetInstance()
-  {
-    static InputHandler *instance = new InputHandler();
-    return instance;
-  }
+  public:
+	static InputHandler* GetInstance()
+	{
+		static InputHandler* instance = new InputHandler();
+		return instance;
+	}
 
-  InputHandler();
+	InputHandler();
 
-  void             Update(float dt);
-  void             OnMouseAction(int key, int action);
-  void             OnKeyAction(int key, int action);
-  void             OnCursorMove(double x, double y);
-  void             OnControllerStateChanged(int, int);
+	void Update(float dt);
+	void OnMouseAction(int key, int action);
+	void OnKeyAction(int key, int action);
+	void OnCursorMove(double x, double y);
+	void OnControllerStateChanged(int, int);
 
-  void             AddListener(UserInputListener *pListener);
-  void             RemoveListener(UserInputListener *pListener);
+	void AddListener(UserInputListener* pListener);
+	void RemoveListener(UserInputListener* pListener);
 
-  inline bool      KeyHasPressed(int key) { return mKeyStates[key]; }
+	inline bool KeyHasPressed(int key)
+	{
+		return mKeyStates[key];
+	}
 
-  inline float     GetMouseX() { return mMousePos.x; }
+	inline float GetMouseX()
+	{
+		return mMousePos.x;
+	}
 
-  inline float     GetMouseY() { return mMousePos.y; }
+	inline float GetMouseY()
+	{
+		return mMousePos.y;
+	}
 
-  inline glm::vec2 GetMouseDragDelta() const
-  {
-    if (mDragging == false)
-      return glm::vec2(0.0f);
-    else
-      return mMousePos - mLastMousePos;
-  }
+	inline glm::vec2 GetMouseDragDelta() const
+	{
+		if (mDragging == false)
+			return glm::vec2(0.0f);
+		else
+			return mMousePos - mLastMousePos;
+	}
 
-  inline bool IsControllerConnected() { return mControllerReady; }
+	inline bool IsControllerConnected()
+	{
+		return mControllerReady;
+	}
 
-  // Controller
-  float GetAxis(int axisId);
+	// Controller
+	float GetAxis(int axisId);
 
-  void  ImGuiProc();
+	void ImGuiProc();
 
-  void  VibrateController();
+	void VibrateController();
 
-  ~InputHandler();
+	~InputHandler();
 
-private:
-  std::vector<UserInputListener *> mListners;
-  bool                             mKeyStates[1024];
-  glm::vec2                        mMousePos;
-  glm::vec2                        mLastMousePos;
+  private:
+	std::vector<UserInputListener*> mListners;
+	bool                            mKeyStates[1024];
+	glm::vec2                       mMousePos;
+	glm::vec2                       mLastMousePos;
 
-  bool                             mDragging = false;
-  float                            mTimePassedSinceLastDrag = 0.0f;
+	bool  mDragging = false;
+	float mTimePassedSinceLastDrag = 0.0f;
 
-  // controller inputs
-  bool mControllerReady = false;
+	// controller inputs
+	bool mControllerReady = false;
 };
 
 #endif

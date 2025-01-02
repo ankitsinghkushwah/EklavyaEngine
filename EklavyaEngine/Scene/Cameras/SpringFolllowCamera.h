@@ -9,32 +9,40 @@
 
 namespace Eklavya
 {
-  class SpringFollowCamera : public ICamera
-  {
-  public:
-    SpringFollowCamera(CameraParams options);
-    ~SpringFollowCamera();
-    void Update(float deltaTime) override;
+	class TransformComponent;
 
-    void SetTarget(SHARED_TRANSFORM actor) { mTarget = actor; }
+	class SpringFollowCamera : public ICamera
+	{
+	  public:
+		SpringFollowCamera(CameraParams options);
+		~SpringFollowCamera();
+		void Update(float deltaTime) override;
 
-    void SetArmsLength(glm::vec3 armsLength) { mArmsLength = armsLength; }
+		void SetTarget(TransformComponent* actor)
+		{
+			mTarget = actor;
+		}
 
-    void SetTargetOffset(glm::vec3 targetOffset)
-    {
-      mTargetOffset = targetOffset;
-    }
+		void SetArmsLength(glm::vec3 armsLength)
+		{
+			mArmsLength = armsLength;
+		}
 
-  private:
-    glm::vec3    mArmsLength;
-    glm::vec3    mTargetOffset;
-    SHARED_TRANSFORM mTarget = nullptr;
-    float        mSpeed = 0.0f;
+		void SetTargetOffset(glm::vec3 targetOffset)
+		{
+			mTargetOffset = targetOffset;
+		}
+
+	  private:
+		glm::vec3           mArmsLength;
+		glm::vec3           mTargetOffset;
+		TransformComponent* mTarget = nullptr;
+		float               mSpeed = 0.0f;
 
 #ifdef EKDEBUG
-    void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
+		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
 #endif
-  };
+	};
 } // namespace Eklavya
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef INC_COMPONENT_H
-#define INC_COMPONENT_H
+#ifndef INC_ACTOR_H
+#define INC_ACTOR_H
 
 #include <vector>
 #include <memory>
@@ -13,103 +13,159 @@
 
 enum ERenderGroup
 {
-  MIN = 0,
-  SKYBOX = MIN,
-  SOLID,
-  MODEL,
-  WATER,
-  BOUND_VOLUME,
-  OUTLINED,
-  CONTACTS,
-  MAX
+	MIN = 0,
+	SKYBOX = MIN,
+	SOLID,
+	MODEL,
+	WATER,
+	BOUND_VOLUME,
+	OUTLINED,
+	CONTACTS,
+	MAX
 };
 
 namespace Eklavya
 {
 
-  using SHARED_ACTOR = std::shared_ptr<class EkActor>;
+	using EkActorID = std::uint32_t;
+	using UniqueActor = std::unique_ptr<class EkActor>;
 
-  // forward decl end
-  using EkActorID = unsigned int;
+	class EkActor
+	{
+	  public:
+		EkActor();
+		~EkActor();
 
-  class EkActor
-  {
-  public:
-    EkActor();
-    ~EkActor();
+		const std::vector<std::unique_ptr<EkComponent>>& Components()
+		{
+			return mComponents;
+		}
 
-    std::vector<SHARED_COMPONENT> &Components() { return mComponents; }
+		template<typename ComponentType>
+		ComponentType* GetComponent(EkComponentID id)
+		{
+			auto iter = std::find_if(mComponents.begin(), mComponents.end(), [&](const std::unique_ptr<EkComponent>& comp) { return *comp == id; });
 
-    template <typename ComponentType>
-    std::shared_ptr<ComponentType> GetComponent(const EkComponentID id)
-    {
-      auto iter = std::find_if(
-          mComponents.begin(), mComponents.end(),
-          [&](const SHARED_COMPONENT comp) { return *comp == id; });
+			if (iter != mComponents.end())
+			{
+				return reinterpret_cast<ComponentType*>((*iter).get());
+			}
+			else
+			{
+				return nullptr;
+			}
+		}
 
-      if (iter != mComponents.end())
-        {
-          return std::static_pointer_cast<ComponentType>(*iter);
-        }
-      else
-        return nullptr;
-    }
+		template<typename ComponentType>
+		const ComponentType* GetComponent(EkComponentID id) const
+		{
+			auto iter = std::find_if(mComponents.begin(), mComponents.end(), [&](const std::unique_ptr<EkComponent>& comp) { return *comp == id; });
 
-    template <typename ComponentType, typename... Args>
-    std::shared_ptr<ComponentType> EmplaceComponent(Args &&...args)
-    {
-      std::shared_ptr<ComponentType> newComponent =
-          std::make_shared<ComponentType>(std::forward<Args>(args)...);
-      mComponents.emplace_back(newComponent);
-      newComponent->mOwner = std::shared_ptr<EkActor>(this);
-      newComponent->Init();
-      return newComponent;
-    }
+			if (iter != mComponents.end())
+			{
+				return reinterpret_cast<const ComponentType*>((*iter).get());
+			}
+			else
+			{
+				return nullptr;
+			}
+		}
 
-    SHARED_ACTOR GetChild(const std::string &name, bool remove = false);
+		template<typename ComponentType, typename... Args>
+		ComponentType* EmplaceComponent(Args&&... args)
+		{
+			std::unique_ptr<ComponentType> newComponent = std::make_unique<ComponentType>(*this, std::forward<Args>(args)...);
+			ComponentType*                 rawComponent = newComponent.get();
+			mComponents.emplace_back(std::move(newComponent));
+			return rawComponent;
+		}
 
-    SHARED_ACTOR Parent() const { return mParent; }
+		EkActor* GetChild(const std::string& name);
 
-    void         SetParent(const SHARED_ACTOR parent) { mParent = parent; }
+		const EkActor* Parent() const
+		{
+			return mParent;
+		}
 
-    void         AddKid(SHARED_ACTOR actor);
+		EkActor* Parent()
+		{
+			return mParent;
+		}
 
-    const std::vector<SHARED_ACTOR> &Kids() const { return mKids; }
+		void SetParent(EkActor* parent)
+		{
+			mParent = parent;
+		}
 
-    std::vector<SHARED_ACTOR>       &Kids() { return mKids; }
+		void AddKid(UniqueActor actor);
 
-    bool                    operator==(EkActorID rhs) { return mID == rhs; }
+		const std::vector<UniqueActor>& Kids() const
+		{
+			return mKids;
+		}
 
-    EkActorID               ID() const { return mID; }
+		std::vector<UniqueActor>& Kids()
+		{
+			return mKids;
+		}
 
-    void                    SetBound(const glm::vec3 &halfExtents);
+		bool operator==(EkActorID rhs)
+		{
+			return mID == rhs;
+		}
 
-    const std::string      &Name() const { return mName; }
+		EkActorID ID() const
+		{
+			return mID;
+		}
 
-    void                    SetName(const std::string &name) { mName = name; }
+		void SetBound(const glm::vec3& halfExtents);
 
-    const SHARED_TRANSFORM &Transform() const { return mTransform; }
+		const std::string& Name() const
+		{
+			return mName;
+		}
 
-    SHARED_TRANSFORM        Transform() { return mTransform; }
+		void SetName(const std::string& name)
+		{
+			mName = name;
+		}
 
-    bool                    IsEnabled() const { return mIsEnabled; }
+		const TransformComponent& Transform() const
+		{
+			return *mTransform;
+		}
 
-    void SetEnabled(bool isEnabled) { mIsEnabled = isEnabled; }
+		TransformComponent& Transform()
+		{
+			return *mTransform;
+		}
+
+		bool IsEnabled() const
+		{
+			return mIsEnabled;
+		}
+
+		void SetEnabled(bool isEnabled)
+		{
+			mIsEnabled = isEnabled;
+		}
 
 #ifdef EKDEBUG
-    bool mDebugDrawComponents = false;
+		bool mDebugDrawComponents = false;
 #endif
 
-  private:
-    std::string                   mName;
-    SHARED_TRANSFORM              mTransform = nullptr;
-    std::vector<SHARED_COMPONENT> mComponents;
-    std::vector<SHARED_ACTOR>     mKids;
-    SHARED_ACTOR                  mParent = nullptr;
-    EkActorID                     mID;
-    bool                          mIsEnabled = true;
-    static EkActorID              s_IdCounter;
-  };
+	  private:
+		std::string                               mName;
+		TransformComponent*                       mTransform = nullptr;
+		std::vector<std::unique_ptr<EkComponent>> mComponents;
+		std::vector<UniqueActor>     mKids;
+		EkActor*                                  mParent = nullptr;
+		EkActorID                                 mID;
+		bool                                      mIsEnabled = true;
+		static EkActorID                          s_IdCounter;
+	};
+
 } // namespace Eklavya
 
 #endif

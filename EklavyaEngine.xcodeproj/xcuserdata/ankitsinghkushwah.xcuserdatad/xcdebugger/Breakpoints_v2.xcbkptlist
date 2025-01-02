@@ -7,112 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1E036059-0868-412A-BA94-3BD8B77C76A1"
+            uuid = "F11214D3-B6BC-47B6-87C9-09E80C0AF851"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EklavyaEngine/Scene/SceneHelper.cpp"
+            filePath = "Demos/StackOfBoxes/StackOfBoxesDemo.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "CreateActorFromModel(name, modelId, materials)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "67131CD4-99A3-416A-A558-1C00395A9DE2"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Demos/SkeletalAnimation/SkeletalAnimationDemo.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "SkeletalAnimationDemo::SkeletalAnimationDemo(pDirector)"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "StackOfBoxesDemo::OnMouseAction(key, action)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "872D2920-90F1-4174-B14E-82A1C74151C9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Demos/SkeletalAnimation/SkeletalAnimationDemo.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "SkeletalAnimationDemo::SkeletalAnimationDemo(pDirector)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "463583F4-24D0-4F8F-A94D-7FCEFEC6EE89"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EklavyaEngine/AssetManager/GLModel.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "GLModel::Load(path)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1B28411C-8899-454D-B550-092844848E37"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EklavyaEngine/AssetManager/GLModel.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "GLModel::Load(path)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "885F308A-2051-4D16-9C12-6DF7FDA90C33"
+            uuid = "42F84908-E58D-44A5-9FB1-CD347F84E016"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EklavyaEngine/EkPhysics/PhysicsWorld.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
-            landmarkName = "World::RayVSOBB(ray, boxCollider, t)"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "World::RayCast(o, d, maxRange, ignoreGroupFlag)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "ED6CB187-0A7F-4300-9492-4BAF7BC792B4"
+            uuid = "A7B69486-A2FF-4E43-80A6-A2391F5F3F26"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EklavyaEngine/Components/TransformComponent.cpp"
+            filePath = "EklavyaEngine/EkPhysics/PhysicsWorld.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "TransformComponent::UpdateData()"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "World::RayCast(o, d, maxRange, ignoreGroupFlag)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

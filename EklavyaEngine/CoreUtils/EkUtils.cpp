@@ -8,6 +8,9 @@
 #include "EkUtils.hpp"
 #include <cstdint>
 
-namespace Eklavya {
-namespace EkUtils {}
+namespace Eklavya
+{
+	namespace EkUtils
+	{
+	}
 } // namespace Eklavya

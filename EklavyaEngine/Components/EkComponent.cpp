@@ -7,16 +7,21 @@
 
 #include "EkComponent.hpp"
 
-namespace Eklavya {
+namespace Eklavya
+{
 
-EkComponent::EkComponent(const Eklavya::EkComponentID id) : m_ComponentID(id) {}
+	EkComponent::EkComponent(EkActor& owner, const Eklavya::EkComponentID id) : mOwner(owner), mComponentID(id)
+	{
+	}
 
-bool EkComponent::operator==(const EkComponent &rhs) const {
-  return rhs.m_ComponentID == m_ComponentID;
-}
+	bool EkComponent::operator==(const EkComponent& rhs) const
+	{
+		return rhs.mComponentID == mComponentID;
+	}
 
-bool EkComponent::operator==(const EkComponentID &otherCompID) const {
-  return otherCompID == m_ComponentID;
-}
+	bool EkComponent::operator==(const EkComponentID& otherCompID) const
+	{
+		return otherCompID == mComponentID;
+	}
 
 } // namespace Eklavya

@@ -17,8 +17,10 @@
 /*to create unique ids, we just take location of type_id<T>, this idea is
 taken from Feral programming language implementation*/
 
-template <typename Type> const inline std::uintptr_t get_uid() {
-  return reinterpret_cast<std::uintptr_t>(&typeid(Type));
+template<typename Type>
+const inline std::uintptr_t get_uid()
+{
+	return reinterpret_cast<std::uintptr_t>(&typeid(Type));
 }
 
 #endif /* EkUtils_hpp */

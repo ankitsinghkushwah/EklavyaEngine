@@ -10,12 +10,14 @@
 
 #include <stdio.h>
 
-namespace Eklavya {
-struct EkMaterial {
-  float diffuse;
-  float specular;
-  float ambient;
-};
+namespace Eklavya
+{
+	struct EkMaterial
+	{
+		float diffuse;
+		float specular;
+		float ambient;
+	};
 } // namespace Eklavya
 
 #endif /* EkMaterial_hpp */

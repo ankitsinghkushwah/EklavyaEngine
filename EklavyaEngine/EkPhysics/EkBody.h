@@ -10,223 +10,200 @@
 
 namespace Eklavya
 {
-  class EkActor;
-  class TransformComponent;
+	class EkActor;
+	class TransformComponent;
 } // namespace Eklavya
 
 namespace Eklavya::Physics
 {
-  class ICollider;
+	class BaseColliderComponent;
 
-  enum EBodyType
-  {
-    STATIC_BODY,
-    DYNAMIC_BODY
-  };
+	class EkBody : public EkComponent
+	{
+	  public:
+		EkBody(EkActor& owner);
+		~EkBody();
 
-  class EkBody : public EkComponent
-  {
-  public:
-    EkBody(SHARED_TRANSFORM transform, std::shared_ptr<ICollider> pCollider);
-    EkBody(std::shared_ptr<ICollider> pCollider);
-    EkBody() = delete;
-    ~EkBody();
+		void Integrate(float deltaTime);
 
-    void Integrate(float deltaTime);
+		void ApplyForce(const glm::vec3& direction, float mag)
+		{
+			mF += mMass * direction * mag;
+		}
 
-    void ApplyLinearForce(const glm::vec3 &direction, float mag)
-    {
-      mF += mMass * direction * mag;
-    }
+		void SetMass(float mass);
 
-    void ApplyGravityForce()
-    {
-      if (mMass < FLT_MAX)
-        mF += mMass * glm::vec3(0.0f, -9.8 * mGravityScale, 0.0f);
-    }
+		float GetInverseMass()
+		{
+			return mInvMass;
+		}
 
-    inline void  SetBodyType(EBodyType type) { mType = type; }
+		float GetMass() const
+		{
+			if (mInvMass == 0)
+			{
+				return std::numeric_limits<float>::infinity();
+			}
+			else
+			{
+				return ((float)1.0f) / mInvMass;
+			}
+		}
 
-    void         SetMass(float mass);
+		bool HasFiniteMass() const
+		{
+			return mInvMass > 0.0f;
+		}
 
-    inline float GetInverseMass() { return mInvMass; }
+		float I()
+		{
+			return mInvI;
+		}
 
-    inline float GetMass() const
-    {
-      if (mInvMass == 0)
-        {
-          return std::numeric_limits<float>::infinity();
-        }
-      else
-        {
-          return ((float)1.0f) / mInvMass;
-        }
-    }
+		void SetPosition(const glm::vec3& pPosition)
+		{
+			mP = pPosition;
+		}
 
-    inline bool  HasFiniteMass() const { return mInvMass > 0.0f; }
+		void SetOrientation(const glm::quat& rotation)
+		{
+			mTheta = rotation;
+		}
 
-    inline float I() { return mInvI; }
+		void SetRotation(const glm::vec3& eulerAngles)
+		{
+			mTheta = glm::quat(eulerAngles);
+		}
 
-    void         SetPos(const glm::vec3 &pPosition);
+		void SetAngularVel(glm::vec3 pVel)
+		{
+			mThetaV = pVel;
+		};
 
-    inline void SetOrientation(const glm::quat &rotation) { mTheta = rotation; }
+		void SetRestitution(float value)
+		{
+			mE = glm::clamp(0.0f, 1.0f, value);
+		}
 
-    inline void SetRotation(const glm::vec3 &eulerAngles)
-    {
-      mTheta = glm::quat(eulerAngles);
-    }
+		float GetRestitution()
+		{
+			return mE;
+		}
 
-    inline void SetAngularVel(glm::vec3 pVel) { mThetaV = pVel; };
+		void SetAngularAcc(glm::vec3 pAccel)
+		{
+			mThetaA = pAccel;
+		}
 
-    inline void SetRestitution(float value)
-    {
-      mE = glm::clamp(0.0f, 1.0f, value);
-    }
+		glm::vec3 GetVelocity()
+		{
+			return this->mV;
+		}
 
-    inline void SetAccel(glm::vec3 pAccel) { mA = pAccel; }
+		glm::vec3 GetVelocityAtPoint(const glm::vec3& point)
+		{
+			glm::vec3 r = point - mP;
 
-    inline void SetAccel(float x, float y, float z) { mA = glm::vec3(x, y, z); }
+			glm::vec3 Vel = mV + glm::cross(mThetaV, r);
+			return Vel;
+		}
 
-    inline float     GetRestitution() { return mE; }
+		glm::vec3 GetAngularVel()
+		{
+			return mThetaV;
+		}
 
-    inline glm::vec3 GetAccel() { return mA; }
+		void ApplyAngularImpulse(const glm::vec3& force)
+		{
+			mThetaV += force * mInvI;
+		}
 
-    inline void      SetAngularAcc(glm::vec3 pAccel) { mThetaA = pAccel; }
+		void ClearForces();
+		void ClearTorques();
 
-    glm::vec3        GetVelocity() { return this->mV; }
+		void Clear()
+		{
+			mV = glm::vec3(0.0f);
+			mThetaV = glm::vec3(0.0f);
+			mThetaA = glm::vec3(0.0f);
+			ClearForces();
+			ClearTorques();
+		}
 
-    glm::vec3        GetVelocityAtPoint(const glm::vec3 &point)
-    {
-      glm::vec3 r = point - mP;
+		void ApplyImpulseAtPoint(const glm::vec3& J, const glm::vec3& point)
+		{
+			glm::vec3 r = point - mP;
+			mV += J * mInvMass;
+			mThetaV += glm::cross(r, J) * mInvI;
+		}
 
-      glm::vec3 Vel = mV + glm::cross(mThetaV, r);
-      return Vel;
-    }
+		void ApplyImpulse(const glm::vec3& J, const glm::vec3& r)
+		{
+			mV += J * mInvMass;
+			mThetaV += glm::cross(r, J) * mInvI;
+		}
 
-    inline glm::vec3 GetAngularVel() { return mThetaV; }
+		void AddAngularVelocity(glm::vec3 value)
+		{
+			mThetaV += value;
+		}
 
-    void             ApplyAngularImpulse(const glm::vec3 &force)
-    {
-      mThetaV += force * mInvI;
-    }
+		void SetVelocity(glm::vec3 vel)
+		{
+			mV = vel;
+		}
 
-    void ClearForces();
-    void ClearTorques();
+		glm::vec3 GetPosition()
+		{
+			return mP;
+		}
 
-    void Clear()
-    {
-      mV = glm::vec3(0.0f);
-      mThetaV = glm::vec3(0.0f);
-      mA = glm::vec3(0.0f);
-      mThetaA = glm::vec3(0.0f);
-      ClearForces();
-      ClearTorques();
-    }
+		void SetLinearDamping(float damping)
+		{
+			mLinearDamping = damping;
+		}
 
-    void ApplyImpulseAtPoint(const glm::vec3 &J, const glm::vec3 &point)
-    {
-      glm::vec3 r = point - mP;
-      mV += J * mInvMass;
-      mThetaV += glm::cross(r, J) * mInvI;
-    }
+		void SetAngularDamping(float damping)
+		{
+			mAngDamping = damping;
+		}
+  
+    const BaseColliderComponent* GetCollider() const;
 
-    void ApplyImpulse(const glm::vec3 &J, const glm::vec3 &r)
-    {
-      mV += J * mInvMass;
-      mThetaV += glm::cross(r, J) * mInvI;
-    }
+		void UpdateTransform();
 
-    void             AddAngularVelocity(glm::vec3 value) { mThetaV += value; }
+		void ApplyGravityForce()
+		{
+			if (mMass < FLT_MAX)
+				mF += mMass * glm::vec3(0.0f, -50.0 * mGravityScale, 0.0f);
+		}
 
-    void             SetVelocity(glm::vec3 vel) { mV = vel; }
+	  private:
+		// forces
+		glm::vec3 mTau;
+		glm::vec3 mF;
 
-    inline glm::vec3 GetPosition() { return mP; }
+		// object props
+		float mInvMass = 1.0f;
+		float mMass = 1.0f;
+		float mE = 0.0f;
+		float mI = 0.0f;
+		float mInvI = 0.0f;
+		float mGravityScale = 1.0f;
 
-    inline std::shared_ptr<ICollider> GetCollider() { return mCollider; }
+		// linear motion
+		glm::vec3 mV;
+		glm::vec3 mP;
+		float     mLinearDamping = 0.0f;
 
-    glm::vec3        GetPointInLocalSpace(const glm::vec3 &point);
-    glm::vec3        GetPointInWorldSpace(const glm::vec3 &point);
+		// Angular motion
 
-    glm::mat4        GetWorldMatrix() { return mColliderTR; }
+		glm::vec3 mThetaV;
+		glm::vec3 mThetaA;
+		glm::quat mTheta;
+		float     mAngDamping = 0.0f;
+	};
 
-    inline EBodyType GetBodyType() { return mType; }
-
-    void      SetLinearDamping(float damping) { mLinearDamping = damping; }
-
-    void      SetAngularDamping(float damping) { mAngDamping = damping; }
-
-    glm::vec3 GetAxis(int index);
-
-    void      SetFreezePositionFlags(glm::vec3 flags)
-    {
-      mFreezePositionFlags = flags;
-    }
-
-    void SetDisableRotation(bool disable) { mDisableRotation = disable; }
-
-    void UpdateTransform();
-
-    void SetAwake(bool awake)
-    {
-      mIsAwake = awake;
-    }
-
-    bool IsAwake() const { return mIsAwake; }
-
-    void PutOnSleepOnCollision(bool putOnSleep)
-    {
-      mPutOnSleepOnCollision = putOnSleep;
-    }
-
-    bool  ShouldPutOnSleepOnCollision() const { return mPutOnSleepOnCollision; }
-
-    float mI;
-    float mInvI;
-    float mGravityScale = 1.0f;
-
-#ifdef EKDEBUG
-    bool mShowCollider = false;
-#endif
-
-  private:
-    // forces
-    glm::vec3 mTau;
-    glm::vec3 mF;
-
-    // object props
-    float mInvMass;
-    float mMass;
-    float mE;
-
-    // linear motion
-    glm::vec3 mV;
-    glm::vec3 mA;
-    glm::vec3 mP;
-    float     mLinearDamping;
-
-    // Angular motion
-
-    glm::vec3                  mThetaV;
-    glm::vec3                  mThetaA;
-    glm::quat                  mTheta;
-    float                      mAngDamping;
-
-    std::shared_ptr<ICollider> mCollider;
-
-    glm::mat4                  mColliderTR;
-    SHARED_TRANSFORM           mTransform;
-
-    EBodyType                  mType;
-
-    glm::vec3                  mFreezePositionFlags;
-    bool                       mDisableRotation = false;
-
-    bool                       mIsAwake = true;
-
-    bool                       mPutOnSleepOnCollision = false;
-  };
-
-  DECLARE_COMPONENT_ESSENTIALS(EkBody, EKBODY);
 } // namespace Eklavya::Physics
 
 #endif

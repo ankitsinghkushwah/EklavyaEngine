@@ -15,29 +15,29 @@
 #include "EkActor.h"
 #include "EkAudio.hpp"
 
-namespace Eklavya::Physics {
-class EkBody;
+namespace Eklavya::Physics
+{
+	class EkBody;
 };
 
-namespace Eklavya {
-class EkScene;
-class TransformComponent;
+namespace Eklavya
+{
+	class EkActor;
+	class EkScene;
+	class TransformComponent;
 } // namespace Eklavya
 
-struct CarComponent : public Eklavya::EkComponent {
-  CarComponent();
+struct CarComponent : public Eklavya::EkComponent
+{
+	CarComponent(Eklavya::EkActor& owner);
 
-  void Init() override;
-  void Tick(float dt) override;
+	void Tick(float dt) override;
 
 #ifdef EKDEBUG
-  void DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer) override;
+	void DebugDraw(Eklavya::Renderer::DebugRenderer& debugRenderer) override;
 #endif
-  Eklavya::Physics::SHARED_EKBODY mBody;
-  Eklavya::Audio mAudio;
-  std::string mEngineLoopSound;
+	Eklavya::Audio mAudio;
+	std::string    mEngineLoopSound;
 };
-
-DECLARE_COMPONENT_ESSENTIALS(CarComponent, CAR_COMPONENT);
 
 #endif /* CarComponent_hpp */

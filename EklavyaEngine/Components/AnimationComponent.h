@@ -11,64 +11,67 @@
 
 namespace Eklavya::Asset
 {
-  class Animation;
-  class AssimpNodeData;
+	class Animation;
+	class AssimpNodeData;
 } // namespace Eklavya::Asset
 class Bone;
 
 namespace Eklavya
 {
-  class Animator : public EkComponent
-  {
-  public:
-    Animator(ModelID modelId);
-    ~Animator();
-    void Init() override;
-    void Tick(float dt) override;
+	class EkActor;
 
-    void PlayAnimation(std::shared_ptr<Asset::Animation> pAnimation);
+	class AnimationComponent : public EkComponent
+	{
+	  public:
+		AnimationComponent(EkActor& owner, ModelID modelId);
+		~AnimationComponent();
+		void Tick(float dt) override;
 
-    const std::vector<glm::mat4> &GetPoseTransforms() { return mPose; }
+		void PlayAnimation(std::shared_ptr<Asset::Animation> pAnimation);
 
-    ModelID                       GetModelID() { return mModelID; }
+		const std::vector<glm::mat4>& GetPoseTransforms()
+		{
+			return mPose;
+		}
 
-    // TEMP function
-    void PlayAnimation(int index)
-    {
-      mNextAnimation = mAnimations[index];
-      mIsSwitchingAnimation = true;
-      mElapsedAnimTransition = 0;
-    }
+		ModelID GetModelID()
+		{
+			return mModelID;
+		}
 
-  private:
-    float     GetScaleFactor(float lastTimeStamp, float nextTimeStamp);
-    glm::mat4 InterpolateToNextAnimation(Bone *jointFrom, Bone *jointTo);
-    glm::mat4 LerpPos(Bone *jointFrom, Bone *jointTo, float scaleFactor);
-    glm::mat4 SlerpRot(Bone *jointFrom, Bone *jointTo, float scaleFactor);
-    glm::mat4 LerpScale(Bone *jointFrom, Bone *jointTo, float scaleFactor);
-    void      AdvanceBones(const Asset::AssimpNodeData *node,
-                           glm::mat4                    parentTransform);
+		// TEMP function
+		void PlayAnimation(int index)
+		{
+			mNextAnimation = mAnimations[index];
+			mIsSwitchingAnimation = true;
+			mElapsedAnimTransition = 0;
+		}
 
-    ModelID   mModelID = -1;
-    std::vector<glm::mat4>                         mPose;
-    std::vector<glm::mat4>                         mLocalPose;
-    std::shared_ptr<Asset::Animation>              mCurrentAnimation;
-    std::shared_ptr<Asset::Animation>              mNextAnimation;
-    std::vector<std::shared_ptr<Asset::Animation>> mAnimations;
-    float                                          mCurrentTime = 0.0f;
-    float                                          mDeltaTime;
-    float                                          mElapsedAnimTransition;
-    float                                          mMaxAnimTransitionDuration;
-    bool                                           mIsSwitchingAnimation;
-    float                                          mTransitionSpeed;
+	  private:
+		float     GetScaleFactor(float lastTimeStamp, float nextTimeStamp);
+		glm::mat4 InterpolateToNextAnimation(Bone* jointFrom, Bone* jointTo);
+		glm::mat4 LerpPos(Bone* jointFrom, Bone* jointTo, float scaleFactor);
+		glm::mat4 SlerpRot(Bone* jointFrom, Bone* jointTo, float scaleFactor);
+		glm::mat4 LerpScale(Bone* jointFrom, Bone* jointTo, float scaleFactor);
+		void      AdvanceBones(const Asset::AssimpNodeData* node, glm::mat4 parentTransform);
+
+		ModelID                                        mModelID = -1;
+		std::vector<glm::mat4>                         mPose;
+		std::vector<glm::mat4>                         mLocalPose;
+		std::shared_ptr<Asset::Animation>              mCurrentAnimation;
+		std::shared_ptr<Asset::Animation>              mNextAnimation;
+		std::vector<std::shared_ptr<Asset::Animation>> mAnimations;
+		float                                          mCurrentTime = 0.0f;
+		float                                          mDeltaTime;
+		float                                          mElapsedAnimTransition;
+		float                                          mMaxAnimTransitionDuration;
+		bool                                           mIsSwitchingAnimation;
+		float                                          mTransitionSpeed;
 
 #ifdef EKDEBUG
-  private:
-   
-    virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer);
+	  private:
+		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer);
 #endif
-  };
-
-  DECLARE_COMPONENT_ESSENTIALS(Animator, ANIMATOR);
+	};
 } // namespace Eklavya
 #endif

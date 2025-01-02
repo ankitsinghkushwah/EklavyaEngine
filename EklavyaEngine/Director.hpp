@@ -17,47 +17,50 @@
 namespace Eklavya
 {
 
-  // forward declarations
-  class EkScene;
+	// forward declarations
+	class EkScene;
 
-  class Director : public GLFWGame
-  {
-  public:
-    Director(const std::string &title, uint32_t width, uint32_t height,
-             bool fullScreen);
-    ~Director();
+	class Director : public GLFWGame
+	{
+	  public:
+		Director(const std::string& title, uint32_t width, uint32_t height, bool fullScreen);
+		~Director();
 
-    void LoadAssets();
-    void SetScene(MainEntryScene *sceneImpl);
+		void LoadAssets();
+		void SetScene(MainEntryScene* sceneImpl);
 
-    void SetPhysicsTickRate(float physicsTickRate)
-    {
-      mPhysicsTickRate = physicsTickRate;
-    }
+		void SetPhysicsTickRate(float physicsTickRate)
+		{
+			mPhysicsTickRate = physicsTickRate;
+		}
 
-    float PhysicsTickRate() { return mPhysicsTickRate; }
+		float PhysicsTickRate()
+		{
+			return mPhysicsTickRate;
+		}
 
-    template <typename SceneType> SceneType *CreateNewScene()
-    {
-      return new SceneType(this);
-    }
+		template<typename SceneType>
+		SceneType* CreateNewScene()
+		{
+			return new SceneType(this);
+		}
 
-    void Tick() override;
+		void Tick() override;
 
-    void ImGuiProc() override;
+		void ImGuiProc() override;
 
-    void OnKeyAction(int pKey, int pAction) override;
-    void OnError(int pError, const char *pDesc) override;
-    void OnResize(int newWidth, int newHeight) override;
-    void OnMouseAction(int pKey, int pAction) override;
-    void OnCursorMoved(double pX, double pY) override;
-    void OnJoystickStateChange(int, int) override;
+		void OnKeyAction(int pKey, int pAction) override;
+		void OnError(int pError, const char* pDesc) override;
+		void OnResize(int newWidth, int newHeight) override;
+		void OnMouseAction(int pKey, int pAction) override;
+		void OnCursorMoved(double pX, double pY) override;
+		void OnJoystickStateChange(int, int) override;
 
-  private:
-    MainEntryScene *mCurrentScene;
-    float           mPhysicsTickRate = 1.0f / 30.0f;
-    float           mTimeSinceStart = 0.0f;
-  };
+	  private:
+		MainEntryScene* mCurrentScene;
+		float           mPhysicsTickRate = 1.0f / 60.0f;
+		float           mTimeSinceStart = 0.0f;
+	};
 } // namespace Eklavya
 
 #endif /* Engine_hpp */

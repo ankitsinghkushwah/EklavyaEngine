@@ -16,51 +16,66 @@
 #include "BoundingVolume.h"
 #include "AnimationData.h"
 
-namespace Eklavya {
-namespace Renderer {
-class GLRenderer;
-}
+namespace Eklavya
+{
+	namespace Renderer
+	{
+		class GLRenderer;
+	}
 
-enum class EMeshType { SPHERE, CUBE, ASSET };
+	enum class EMeshType
+	{
+		SPHERE,
+		CUBE,
+		ASSET
+	};
 
-struct RenderComponent : public EkComponent {
-public:
-  RenderComponent(const EMeshType builtInMesh);
-  RenderComponent(ModelID modelId);
+	struct RenderComponent : public EkComponent
+	{
+	  public:
+		RenderComponent(EkActor& owner, const EMeshType builtInMesh);
+		RenderComponent(EkActor& owner, ModelID modelId);
 
-  void RegisterRenderer(Renderer::GLRenderer *renderer) {
-    mRenderer = renderer;
-  }
+		void RegisterRenderer(Renderer::GLRenderer* renderer)
+		{
+			mRenderer = renderer;
+		}
 
-  void Tick(float deltaTime) override;
-  void SetMesh(const Asset::GLMesh &mesh);
-  void UpdateBounds(glm::vec3 min, glm::vec3 max);
+		void Tick(float deltaTime) override;
+		void SetMesh(const Asset::GLMesh& mesh);
+		void UpdateBounds(glm::vec3 min, glm::vec3 max);
 
-  Asset::GLMesh &GetMesh() { return mMesh; }
+		const Asset::GLMesh& GetMesh() const
+		{
+			return mMesh;
+		}
 
-  Renderer::ERenderGroup mRenderGroup = Renderer::ERenderGroup::ACTOR;
+		Asset::GLMesh& GetMesh()
+		{
+			return mMesh;
+		}
 
-  glm::mat4 mWorldMatrix;
+		Renderer::ERenderGroup mRenderGroup = Renderer::ERenderGroup::ACTOR;
 
-  bool mProjectsShadow = true;
+		glm::mat4 mWorldMatrix;
 
-  Bound mBound;
-  bool mInsideFrustum = true;
-  std::vector<glm::mat4> boneTransforms;
-  bool mHasBones = false;
-  ModelID mModelID = -1;
-  
+		bool mProjectsShadow = true;
+
+		Bound                  mBound;
+		bool                   mInsideFrustum = true;
+		std::vector<glm::mat4> boneTransforms;
+		bool                   mHasBones = false;
+		ModelID                mModelID = -1;
+
 #ifdef EKDEBUG
-bool mShowBound = false;
+		bool mShowBound = false;
 #endif
 
-private:
-  Renderer::GLRenderer *mRenderer = nullptr;
-  Asset::GLMesh mMesh;
-  EMeshType mMeshType;
-};
-
-DECLARE_COMPONENT_ESSENTIALS(RenderComponent, RENDERCOMPONENT);
+	  private:
+		Renderer::GLRenderer* mRenderer = nullptr;
+		Asset::GLMesh         mMesh;
+		EMeshType             mMeshType;
+	};
 
 } // namespace Eklavya
 #endif /* MeshComponent_hpp */

@@ -4,77 +4,127 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <memory>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
+#include "EkComponent.hpp"
 
 namespace Eklavya::Physics
 {
-  class EkBody;
 
-  enum class EColliderType
-  {
-    BOX = 0,
-    SPHERE,
-    MAX
-  };
+	enum class EColliderType
+	{
+		BOX = 0,
+		SPHERE,
+		MAX
+	};
 
-  class ICollider
-  {
-  public:
-    ICollider(EColliderType type);
-    virtual ~ICollider();
+	class BaseColliderComponent : public EkComponent
+	{
+	  public:
+		BaseColliderComponent(EkActor& owner, EColliderType type);
+		virtual ~BaseColliderComponent();
 
-    EColliderType           GetType() { return m_Type; }
+		EColliderType GetType() const
+		{
+			return mType;
+		}
 
-    inline void             SetBody(EkBody *pBody) { mBody = pBody; }
+		const glm::vec3& GetOffset() const
+		{
+			return mOffset;
+		}
 
-    inline EkBody          *GetBody() { return mBody; }
+		void SetOffset(const glm::vec3& offset)
+		{
+			mOffset = offset;
+		}
 
-    inline const glm::vec3 &GetOffset() { return m_Offset; }
+		void SetGroupIndex(int groupIndex)
+		{
+			mGroupFlag = groupIndex;
+		}
 
-    inline void SetOffset(const glm::vec3 &offset) { m_Offset = offset; }
+		int GroupFlag() const
+		{
+			return mGroupFlag;
+		}
 
-    void        SetGroupIndex(int groupIndex) { mGroupFlag = groupIndex; }
+		void UpdateTransform(glm::vec3 pos, glm::quat rotation);
 
-    inline int GroupFlag() { return mGroupFlag; }
+		glm::vec3 GetPosition() const
+		{
+			return GetAxis(3);
+		}
 
-  protected:
-    int      mGroupFlag;
-    glm::vec3     m_Offset;
-    EColliderType m_Type;
-    EkBody       *mBody = nullptr;
-  };
+		glm::mat4 GetWorldMatrix() const
+		{
+			return mColliderTR;
+		}
 
-  class SphereCollider : public ICollider
-  {
-  public:
-    SphereCollider();
-    ~SphereCollider();
+		glm::vec3 GetPointInLocalSpace(const glm::vec3& point) const
+		{
+			return glm::inverse(mColliderTR) * glm::vec4(point, 1.0f);
+		}
 
-    float GetRadius() { return mRadius; }
+		glm::vec3 GetPointInWorldSpace(const glm::vec3& point) const
+		{
+			return glm::vec3(mColliderTR * glm::vec4(point, 1.0f));
+		}
 
-    void  SetRadius(float radius);
+		glm::mat3 GetRotationMatrix() const
+		{
+			glm::mat3 rotation;
+			rotation[0] = glm::vec3(mColliderTR[0]); // First column of the 3x3 rotation
+			rotation[1] = glm::vec3(mColliderTR[1]); // Second column of the 3x3 rotation
+			rotation[2] = glm::vec3(mColliderTR[2]); // Third column of the 3x3 rotation}
+			return rotation;
+		}
 
-  private:
-    float mRadius;
-  };
+		glm::vec3 GetAxis(int index) const
+		{
+			return glm::vec3(mColliderTR[index]);
+		}
 
-  class BoxCollider : public ICollider
-  {
-  public:
-    BoxCollider();
-    ~BoxCollider();
+	  protected:
+		int           mGroupFlag;
+		glm::vec3     mOffset;
+		EColliderType mType;
+		glm::mat4     mColliderTR;
+	};
 
-    glm::vec3 GetHalfSize() { return m_HalfSize; }
+	class SphereColliderComponent : public BaseColliderComponent
+	{
+	  public:
+		SphereColliderComponent(EkActor& owner);
+		~SphereColliderComponent();
 
-    void      SetHalfSize(glm::vec3 halfSize);
+		float GetRadius() const
+		{
+			return mRadius;
+		}
 
-  private:
-    glm::vec3 m_HalfSize;
-  };
+		void SetRadius(float radius);
 
-  struct PlaneCollider
-  {
-    glm::vec3 m_Normal;
-    float     d;
-  };
+	  private:
+		float mRadius;
+	};
+
+	class BoxColliderComponent : public BaseColliderComponent
+	{
+	  public:
+		BoxColliderComponent(EkActor& owner);
+		~BoxColliderComponent();
+
+		glm::vec3 GetHalfSize() const
+		{
+			return mHalfSize;
+		}
+
+		void SetHalfSize(glm::vec3 halfSize);
+
+	  private:
+		glm::vec3 mHalfSize;
+	};
+
 } // namespace Eklavya::Physics
 #endif

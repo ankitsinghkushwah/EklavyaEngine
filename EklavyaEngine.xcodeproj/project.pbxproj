@@ -55,9 +55,7 @@
 		9B4B7BC62A485DC7009C122B /* DebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B4B7BC42A485DC7009C122B /* DebugRenderer.cpp */; };
 		9B4BA1122A4A1DFF00380ED4 /* CarSuspension.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B4BA1102A4A1DFF00380ED4 /* CarSuspension.cpp */; };
 		9B4F71D02BBA063C00ADAF54 /* SpringFolllowCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B4F71CE2BBA063C00ADAF54 /* SpringFolllowCamera.cpp */; };
-		9B5023EF2A3E5E78003A9C8E /* Constraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B5023E62A3E5E78003A9C8E /* Constraint.cpp */; };
 		9B5023F02A3E5E78003A9C8E /* EkBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B5023E82A3E5E78003A9C8E /* EkBody.cpp */; };
-		9B5023F12A3E5E78003A9C8E /* CollisionDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B5023EB2A3E5E78003A9C8E /* CollisionDetector.cpp */; };
 		9B5023F22A3E5E78003A9C8E /* PhysicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B5023EC2A3E5E78003A9C8E /* PhysicsWorld.cpp */; };
 		9B5023F32A3E5E78003A9C8E /* Collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B5023EE2A3E5E78003A9C8E /* Collider.cpp */; };
 		9B5E65B62A18D41D00A2C5A3 /* EkComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B5E65B42A18D41D00A2C5A3 /* EkComponent.cpp */; };
@@ -65,17 +63,17 @@
 		9B5F46952A1A6C0B00CCB41F /* RenderComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F46932A1A6C0B00CCB41F /* RenderComponent.cpp */; };
 		9B655AE12B587CFF00A259D4 /* CarComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B655ADF2B587CFF00A259D4 /* CarComponent.cpp */; };
 		9B8202692BBB51C9001416CE /* FPSDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B8202662BBB51C9001416CE /* FPSDemo.cpp */; };
+		9B99C98A2D26F51300091763 /* ContactGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B99C9892D26F51300091763 /* ContactGenerator.cpp */; };
+		9B99C98E2D26F71400091763 /* ContactConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B99C98C2D26F71400091763 /* ContactConstraint.cpp */; };
+		9B99C9912D27165900091763 /* CollisionSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B99C98F2D27165900091763 /* CollisionSystem.cpp */; };
 		9BD626762A1A0BBA009AEA3F /* FreeLookCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BD626742A1A0BBA009AEA3F /* FreeLookCamera.cpp */; };
 		9BD626792A1A1621009AEA3F /* EkActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BD626782A1A1621009AEA3F /* EkActor.cpp */; };
 		9BE189192A2CD0E9005A4971 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 9BE189112A2CD0E9005A4971 /* stb_image_aug.c */; };
 		9BE1891A2A2CD0E9005A4971 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 9BE189162A2CD0E9005A4971 /* image_DXT.c */; };
 		9BE1891B2A2CD0E9005A4971 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 9BE189172A2CD0E9005A4971 /* SOIL.c */; };
 		9BE1891C2A2CD0E9005A4971 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 9BE189182A2CD0E9005A4971 /* image_helper.c */; };
-		9BE6B8CC2BCB2E39002079EC /* SphereCastDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BE6B8C92BCB2E39002079EC /* SphereCastDemo.cpp */; };
 		9BE838792BA74BBD00634188 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273F8281C4E3D00CE30A9 /* OpenGL.framework */; };
 		9BF6E8062BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6E8052BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp */; };
-		9BF8CB312BBCAFC6003CB066 /* TPSDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8CB2E2BBCAFC6003CB066 /* TPSDemo.cpp */; };
-		9BF8CB342BBCB025003CB066 /* PlayerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8CB322BBCB025003CB066 /* PlayerController.cpp */; };
 		9BF949162C3A72B4001BA567 /* StackOfBoxesDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */; };
 		9F0273EF281C4BBD00CE30A9 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273EE281C4BBD00CE30A9 /* libglfw3.a */; };
 		9F0273F7281C4E3800CE30A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273F6281C4E3800CE30A9 /* Cocoa.framework */; };
@@ -214,15 +212,13 @@
 		9B4F71CF2BBA063C00ADAF54 /* SpringFolllowCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpringFolllowCamera.h; sourceTree = "<group>"; };
 		9B5023CB2A3E1351003A9C8E /* MaterialInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaterialInfo.h; sourceTree = "<group>"; };
 		9B5023E52A3E5E78003A9C8E /* Collider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collider.h; sourceTree = "<group>"; };
-		9B5023E62A3E5E78003A9C8E /* Constraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Constraint.cpp; sourceTree = "<group>"; };
-		9B5023E72A3E5E78003A9C8E /* CollisionDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionDetector.h; sourceTree = "<group>"; };
 		9B5023E82A3E5E78003A9C8E /* EkBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EkBody.cpp; sourceTree = "<group>"; };
 		9B5023E92A3E5E78003A9C8E /* EkBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EkBody.h; sourceTree = "<group>"; };
-		9B5023EA2A3E5E78003A9C8E /* Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constraint.h; sourceTree = "<group>"; };
-		9B5023EB2A3E5E78003A9C8E /* CollisionDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionDetector.cpp; sourceTree = "<group>"; };
 		9B5023EC2A3E5E78003A9C8E /* PhysicsWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsWorld.cpp; sourceTree = "<group>"; };
 		9B5023ED2A3E5E78003A9C8E /* PhysicsWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsWorld.h; sourceTree = "<group>"; };
 		9B5023EE2A3E5E78003A9C8E /* Collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Collider.cpp; sourceTree = "<group>"; };
+		9B52036F2D25CFCA007657F2 /* ComponentIds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComponentIds.h; sourceTree = "<group>"; };
+		9B5203722D2630BB007657F2 /* Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constraint.h; sourceTree = "<group>"; };
 		9B5E65B42A18D41D00A2C5A3 /* EkComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EkComponent.cpp; sourceTree = "<group>"; };
 		9B5E65B52A18D41D00A2C5A3 /* EkComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EkComponent.hpp; sourceTree = "<group>"; };
 		9B5E65B72A18D79C00A2C5A3 /* EkUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EkUtils.cpp; sourceTree = "<group>"; };
@@ -277,6 +273,12 @@
 		9B88A0C42BA7466400E9BA5C /* Audio.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
 		9B88A0C52BA7478800E9BA5C /* Config.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Config.hpp; sourceTree = "<group>"; };
 		9B88A0C72BA7478800E9BA5C /* System.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = System.hpp; sourceTree = "<group>"; };
+		9B99C9882D26F4FD00091763 /* ContactGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactGenerator.h; sourceTree = "<group>"; };
+		9B99C9892D26F51300091763 /* ContactGenerator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContactGenerator.cpp; sourceTree = "<group>"; };
+		9B99C98C2D26F71400091763 /* ContactConstraint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContactConstraint.cpp; sourceTree = "<group>"; };
+		9B99C98D2D26F71400091763 /* ContactConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactConstraint.h; sourceTree = "<group>"; };
+		9B99C98F2D27165900091763 /* CollisionSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionSystem.cpp; sourceTree = "<group>"; };
+		9B99C9902D27165900091763 /* CollisionSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollisionSystem.h; sourceTree = "<group>"; };
 		9BD626742A1A0BBA009AEA3F /* FreeLookCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FreeLookCamera.cpp; sourceTree = "<group>"; };
 		9BD626752A1A0BBA009AEA3F /* FreeLookCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeLookCamera.h; sourceTree = "<group>"; };
 		9BD626772A1A1621009AEA3F /* EkActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EkActor.h; sourceTree = "<group>"; };
@@ -297,14 +299,8 @@
 		9BE189162A2CD0E9005A4971 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
 		9BE189172A2CD0E9005A4971 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SOIL.c; sourceTree = "<group>"; };
 		9BE189182A2CD0E9005A4971 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_helper.c; sourceTree = "<group>"; };
-		9BE6B8C92BCB2E39002079EC /* SphereCastDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SphereCastDemo.cpp; sourceTree = "<group>"; };
-		9BE6B8CA2BCB2E39002079EC /* SphereCastDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SphereCastDemo.hpp; sourceTree = "<group>"; };
 		9BF6E8042BA8F6FA00179E95 /* SkeletalAnimationDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkeletalAnimationDemo.hpp; sourceTree = "<group>"; };
 		9BF6E8052BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletalAnimationDemo.cpp; sourceTree = "<group>"; };
-		9BF8CB2E2BBCAFC6003CB066 /* TPSDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPSDemo.cpp; sourceTree = "<group>"; };
-		9BF8CB2F2BBCAFC6003CB066 /* TPSDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TPSDemo.hpp; sourceTree = "<group>"; };
-		9BF8CB322BBCB025003CB066 /* PlayerController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerController.cpp; sourceTree = "<group>"; };
-		9BF8CB332BBCB025003CB066 /* PlayerController.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PlayerController.hpp; sourceTree = "<group>"; };
 		9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StackOfBoxesDemo.cpp; path = Demos/StackOfBoxes/StackOfBoxesDemo.cpp; sourceTree = SOURCE_ROOT; };
 		9BF949152C3A72B4001BA567 /* StackOfBoxesDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StackOfBoxesDemo.hpp; path = Demos/StackOfBoxes/StackOfBoxesDemo.hpp; sourceTree = SOURCE_ROOT; };
 		9F0273E1281C430100CE30A9 /* EklavyaEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EklavyaEngine; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,7 +364,6 @@
 		9FB53E5B2871E82F001B48E4 /* EventType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventType.h; sourceTree = "<group>"; };
 		9FB53E5C2871E82F001B48E4 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
 		9FB53E5D2871E82F001B48E4 /* EventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDispatcher.h; sourceTree = "<group>"; };
-		9FB53E802871E82F001B48E4 /* ModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelLoader.h; sourceTree = "<group>"; };
 		9FB53E822871E82F001B48E4 /* GLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLRenderer.h; sourceTree = "<group>"; };
 		9FB53E852871E82F001B48E4 /* VertexArrayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexArrayObject.h; sourceTree = "<group>"; };
 		9FB53E872871E82F001B48E4 /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
@@ -441,16 +436,17 @@
 		9B5023E42A3E5E78003A9C8E /* EkPhysics */ = {
 			isa = PBXGroup;
 			children = (
+				9B99C98B2D26F6E700091763 /* Constraints */,
 				9B5023E52A3E5E78003A9C8E /* Collider.h */,
 				9B5023EE2A3E5E78003A9C8E /* Collider.cpp */,
-				9B5023E62A3E5E78003A9C8E /* Constraint.cpp */,
 				9B5023E82A3E5E78003A9C8E /* EkBody.cpp */,
 				9B5023E92A3E5E78003A9C8E /* EkBody.h */,
-				9B5023EA2A3E5E78003A9C8E /* Constraint.h */,
-				9B5023E72A3E5E78003A9C8E /* CollisionDetector.h */,
-				9B5023EB2A3E5E78003A9C8E /* CollisionDetector.cpp */,
 				9B5023EC2A3E5E78003A9C8E /* PhysicsWorld.cpp */,
 				9B5023ED2A3E5E78003A9C8E /* PhysicsWorld.h */,
+				9B99C9882D26F4FD00091763 /* ContactGenerator.h */,
+				9B99C9892D26F51300091763 /* ContactGenerator.cpp */,
+				9B99C98F2D27165900091763 /* CollisionSystem.cpp */,
+				9B99C9902D27165900091763 /* CollisionSystem.h */,
 			);
 			path = EkPhysics;
 			sourceTree = "<group>";
@@ -531,13 +527,14 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
-		9BE6B8CB2BCB2E39002079EC /* SphereCastDemo */ = {
+		9B99C98B2D26F6E700091763 /* Constraints */ = {
 			isa = PBXGroup;
 			children = (
-				9BE6B8C92BCB2E39002079EC /* SphereCastDemo.cpp */,
-				9BE6B8CA2BCB2E39002079EC /* SphereCastDemo.hpp */,
+				9B5203722D2630BB007657F2 /* Constraint.h */,
+				9B99C98C2D26F71400091763 /* ContactConstraint.cpp */,
+				9B99C98D2D26F71400091763 /* ContactConstraint.h */,
 			);
-			path = SphereCastDemo;
+			path = Constraints;
 			sourceTree = "<group>";
 		};
 		9BF6E8032BA8F6A100179E95 /* SkeletalAnimation */ = {
@@ -547,17 +544,6 @@
 				9BF6E8042BA8F6FA00179E95 /* SkeletalAnimationDemo.hpp */,
 			);
 			path = SkeletalAnimation;
-			sourceTree = "<group>";
-		};
-		9BF8CB302BBCAFC6003CB066 /* TPSDemo */ = {
-			isa = PBXGroup;
-			children = (
-				9BF8CB2E2BBCAFC6003CB066 /* TPSDemo.cpp */,
-				9BF8CB2F2BBCAFC6003CB066 /* TPSDemo.hpp */,
-				9BF8CB322BBCB025003CB066 /* PlayerController.cpp */,
-				9BF8CB332BBCB025003CB066 /* PlayerController.hpp */,
-			);
-			path = TPSDemo;
 			sourceTree = "<group>";
 		};
 		9BF949132C3A729D001BA567 /* StackOfBoxesDemo */ = {
@@ -613,7 +599,6 @@
 				9FB53E512871E82F001B48E4 /* Helpers.h */,
 				9FB53E432871E82F001B48E4 /* InputHandler.cpp */,
 				9FB53E4E2871E82F001B48E4 /* InputHandler.h */,
-				9FB53E802871E82F001B48E4 /* ModelLoader.h */,
 				9FB53E2D2871E82F001B48E4 /* Random.cpp */,
 				9FB53E8F2871E82F001B48E4 /* Random.h */,
 				9FB53E812871E82F001B48E4 /* Renderer */,
@@ -706,8 +691,6 @@
 			isa = PBXGroup;
 			children = (
 				9BF949132C3A729D001BA567 /* StackOfBoxesDemo */,
-				9BE6B8CB2BCB2E39002079EC /* SphereCastDemo */,
-				9BF8CB302BBCAFC6003CB066 /* TPSDemo */,
 				9B8202682BBB51C9001416CE /* FPSDemo */,
 				9BF6E8032BA8F6A100179E95 /* SkeletalAnimation */,
 				9B1E9DDB2B4D3D52004E1E5E /* VehiclePhysicsDemo */,
@@ -749,6 +732,7 @@
 				9FB53DFD2871E82F001B48E4 /* TransformComponent.h */,
 				9B5F46932A1A6C0B00CCB41F /* RenderComponent.cpp */,
 				9B5F46942A1A6C0B00CCB41F /* RenderComponent.hpp */,
+				9B52036F2D25CFCA007657F2 /* ComponentIds.h */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -906,12 +890,10 @@
 			files = (
 				9B655AE12B587CFF00A259D4 /* CarComponent.cpp in Sources */,
 				9FB53EC62871E82F001B48E4 /* Material.cpp in Sources */,
-				9BE6B8CC2BCB2E39002079EC /* SphereCastDemo.cpp in Sources */,
 				9FB53EC72871E82F001B48E4 /* GLRenderer.cpp in Sources */,
 				9FB53EAD2871E82F001B48E4 /* Cubemap.cpp in Sources */,
 				9F4F162828D4B8F5007E7518 /* imgui_widgets.cpp in Sources */,
 				9B01FF312BB0B8C90089BF7E /* AnimationComponent.cpp in Sources */,
-				9B5023EF2A3E5E78003A9C8E /* Constraint.cpp in Sources */,
 				9FB53ED02872093E001B48E4 /* glad.c in Sources */,
 				9FB53EB52871E82F001B48E4 /* InputHandler.cpp in Sources */,
 				9BE1891C2A2CD0E9005A4971 /* image_helper.c in Sources */,
@@ -930,6 +912,7 @@
 				9F4F162728D4B8F5007E7518 /* imgui.cpp in Sources */,
 				9FB53EB02871E82F001B48E4 /* AssetManager.cpp in Sources */,
 				9B1E9DDA2B4D36E6004E1E5E /* VehiclePhysicsDemo.cpp in Sources */,
+				9B99C9912D27165900091763 /* CollisionSystem.cpp in Sources */,
 				9BE189192A2CD0E9005A4971 /* stb_image_aug.c in Sources */,
 				9B094A322A51FC3200F26182 /* SceneHelper.cpp in Sources */,
 				9B0623DA2BA75AE700F61D56 /* EkAudio.cpp in Sources */,
@@ -944,7 +927,6 @@
 				9F4F162A28D4B8F5007E7518 /* imgui_draw.cpp in Sources */,
 				9B40CEEA2A2220B00055FD47 /* Main.cpp in Sources */,
 				9B2B475A2B9EED6600CCEE31 /* Frustum.cpp in Sources */,
-				9BF8CB312BBCAFC6003CB066 /* TPSDemo.cpp in Sources */,
 				9B4F71D02BBA063C00ADAF54 /* SpringFolllowCamera.cpp in Sources */,
 				9FB53EC52871E82F001B48E4 /* VertexArrayObject.cpp in Sources */,
 				9B5023F32A3E5E78003A9C8E /* Collider.cpp in Sources */,
@@ -957,7 +939,7 @@
 				9B09865E2BB9BD300015CE77 /* ICamera.cpp in Sources */,
 				9B5023F22A3E5E78003A9C8E /* PhysicsWorld.cpp in Sources */,
 				9B01FF2B2BB0AAB70089BF7E /* AnimationData.cpp in Sources */,
-				9BF8CB342BBCB025003CB066 /* PlayerController.cpp in Sources */,
+				9B99C98A2D26F51300091763 /* ContactGenerator.cpp in Sources */,
 				9B01FF2E2BB0AAC20089BF7E /* Bone.cpp in Sources */,
 				9BE1891A2A2CD0E9005A4971 /* image_DXT.c in Sources */,
 				9B5E65B62A18D41D00A2C5A3 /* EkComponent.cpp in Sources */,
@@ -968,11 +950,11 @@
 				9B18B1FC2B5D976200A3226B /* RenderPass.cpp in Sources */,
 				9FB53EB32871E82F001B48E4 /* Texture2D.cpp in Sources */,
 				9B5023F02A3E5E78003A9C8E /* EkBody.cpp in Sources */,
-				9B5023F12A3E5E78003A9C8E /* CollisionDetector.cpp in Sources */,
 				9FB53EBA2871E82F001B48E4 /* Globals.cpp in Sources */,
 				9FB53EAB2871E82F001B48E4 /* AssetFactory.cpp in Sources */,
 				9B00D1A92B4B5A45004CBD97 /* SpringFollowCamera.cpp in Sources */,
 				9FB53EB92871E82F001B48E4 /* GLFWGame.cpp in Sources */,
+				9B99C98E2D26F71400091763 /* ContactConstraint.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

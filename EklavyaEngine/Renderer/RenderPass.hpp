@@ -20,90 +20,104 @@
 
 extern glm::vec3 lightPosition;
 
-namespace Eklavya {
-class RenderComponent;
-class EkScene;
+namespace Eklavya
+{
+	class RenderComponent;
+	class EkScene;
 } // namespace Eklavya
 
-namespace Eklavya::Renderer {
-class GLRenderer;
-class DebugRenderer;
+namespace Eklavya::Renderer
+{
+	class GLRenderer;
+	class DebugRenderer;
 
-using ACTORS_MAP =
-    std::array<std::vector<SHARED_RENDERCOMPONENT>, ERenderGroup::RG_MAX>;
+	using ACTORS_MAP = std::array<std::vector<const RenderComponent*>, ERenderGroup::RG_MAX>;
 
-enum ERenderPass { RP_MIN = 0, SHADOW_PASS = RP_MIN, MAIN_PASS, RP_MAX };
+	enum ERenderPass
+	{
+		RP_MIN = 0,
+		SHADOW_PASS = RP_MIN,
+		MAIN_PASS,
+		RP_MAX
+	};
 
-class IRenderPass {
-public:
-  IRenderPass(ERenderPass type);
-  virtual ~IRenderPass();
-  virtual bool Init() = 0;
-  virtual void
-  TryAddingActor(const SHARED_RENDERCOMPONENT &renderComponent) = 0;
-  virtual void PreRun() = 0;
-  virtual void Run(GLRenderer &renderer, const EkScene &scene) = 0;
-  virtual void PostRun() = 0;
+	class IRenderPass
+	{
+	  public:
+		IRenderPass(ERenderPass type);
+		virtual ~IRenderPass();
+		virtual bool Init() = 0;
+		virtual void TryAddingActor(const RenderComponent& renderComponent) = 0;
+		virtual void PreRun() = 0;
+		virtual void Run(GLRenderer& renderer, const EkScene& scene) = 0;
+		virtual void PostRun() = 0;
 
-  ERenderPass GetType() { return mType; }
+		ERenderPass GetType()
+		{
+			return mType;
+		}
 
-  std::unique_ptr<IFramebuffer> mFramebuffer;
-
-#ifdef EKDEBUG
-  virtual void DebugDraw(DebugRenderer &) {}
-#endif
-protected:
-  ERenderPass mType;
-};
-
-class ShadowMapPass : public IRenderPass {
-public:
-  ShadowMapPass(int depthPrecision, int width, int height);
-  ~ShadowMapPass();
-
-  bool Init() override;
-  void TryAddingActor(const SHARED_RENDERCOMPONENT &renderComponent) override;
-  void PreRun() override;
-  void Run(GLRenderer &renderer, const EkScene &scene) override;
-  void PostRun() override;
+		std::unique_ptr<IFramebuffer> mFramebuffer;
 
 #ifdef EKDEBUG
-  void DebugDraw(DebugRenderer &) override;
+		virtual void DebugDraw(DebugRenderer&)
+		{
+		}
 #endif
+	  protected:
+		ERenderPass mType;
+	};
 
-  glm::mat4 mLightPVMatrix;
+	class ShadowMapPass : public IRenderPass
+	{
+	  public:
+		ShadowMapPass(int depthPrecision, int width, int height);
+		~ShadowMapPass();
 
-private:
-  int mDepthPrecision;
-  int mWidth;
-  int mHeight;
-
-  SHARED_SHADER mShader;
-
-  std::vector<SHARED_RENDERCOMPONENT> mActors;
-};
-
-class MainPass : public IRenderPass {
-public:
-  MainPass(int depth, int colorChannels, int width, int height);
-  ~MainPass();
-
-  bool Init() override;
-  void TryAddingActor(const SHARED_RENDERCOMPONENT &renderComponent) override;
-  void PreRun() override;
-  void Run(GLRenderer &renderer, const EkScene &scene) override;
-  void PostRun() override;
+		bool Init() override;
+		void TryAddingActor(const RenderComponent& renderComponent) override;
+		void PreRun() override;
+		void Run(GLRenderer& renderer, const EkScene& scene) override;
+		void PostRun() override;
 
 #ifdef EKDEBUG
-  void DebugDraw(DebugRenderer &) override;
+		void DebugDraw(DebugRenderer&) override;
 #endif
-private:
-  int mDepthPrecision;
-  int mWidth;
-  int mHeight;
 
-  ACTORS_MAP mActorsMap;
-};
+		glm::mat4 mLightPVMatrix;
+
+	  private:
+		int mDepthPrecision;
+		int mWidth;
+		int mHeight;
+
+		SHARED_SHADER mShader;
+
+		std::vector<const RenderComponent*> mActors;
+	};
+
+	class MainPass : public IRenderPass
+	{
+	  public:
+		MainPass(int depth, int colorChannels, int width, int height);
+		~MainPass();
+
+		bool Init() override;
+		void TryAddingActor(const RenderComponent& renderComponent) override;
+		void PreRun() override;
+		void Run(GLRenderer& renderer, const EkScene& scene) override;
+		void PostRun() override;
+
+#ifdef EKDEBUG
+		void DebugDraw(DebugRenderer&) override;
+#endif
+	  private:
+		int mDepthPrecision;
+		int mWidth;
+		int mHeight;
+
+		ACTORS_MAP mActorsMap;
+	};
 
 } // namespace Eklavya::Renderer
 

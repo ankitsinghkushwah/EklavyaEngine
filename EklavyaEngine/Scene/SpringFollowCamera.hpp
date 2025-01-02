@@ -15,39 +15,51 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-namespace Eklavya {
-struct SpringFollowCamera {
-  void UpdateCamera(float dt);
+namespace Eklavya
+{
+	struct SpringFollowCamera
+	{
+		void UpdateCamera(float dt);
 
-  void Init(float fov, float ratio, float nearDist, float farDist);
+		void Init(float fov, float ratio, float nearDist, float farDist);
 
-  glm::mat4 GetView() const { return mView; }
+		glm::mat4 GetView() const
+		{
+			return mView;
+		}
 
-  glm::mat4 GetProjection() const { return mProjection; }
+		glm::mat4 GetProjection() const
+		{
+			return mProjection;
+		}
 
-  float fov = 45.0f;
-  glm::vec3 mArmLengths;
-  glm::vec3 length;
-  glm::vec3 mFront;
-  glm::vec3 mPosition;
-  glm::vec3 mLocalPosition;
-  glm::vec3 mLastTargetPosition;
-  glm::mat4 mView;
-  glm::mat4 mProjection;
-  SHARED_TRANSFORM mTarget = nullptr;
+		float               fov = 45.0f;
+		glm::vec3           mArmLengths;
+		glm::vec3           length;
+		glm::vec3           mFront;
+		glm::vec3           mPosition;
+		glm::vec3           mLocalPosition;
+		glm::vec3           mLastTargetPosition;
+		glm::mat4           mView;
+		glm::mat4           mProjection;
+		TransformComponent* mTarget = nullptr;
 
-  void ResumeCamera() {}
+		void ResumeCamera()
+		{
+		}
 
-  void PauseCamera() {}
+		void PauseCamera()
+		{
+		}
 
-  float mSpringStrength = 100;
-  float mSpringDamping = 50.0f;
+		float mSpringStrength = 100;
+		float mSpringDamping = 50.0f;
 
-private:
-  glm::vec3 mVelocity;
-  glm::vec3 mAcceleration;
-  glm::vec3 mForces;
-};
+	  private:
+		glm::vec3 mVelocity;
+		glm::vec3 mAcceleration;
+		glm::vec3 mForces;
+	};
 } // namespace Eklavya
 
 #endif /* SpringFollowCamera_hpp */

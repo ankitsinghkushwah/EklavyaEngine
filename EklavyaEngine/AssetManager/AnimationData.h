@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ANIM_DATA_H_
+#define ANIM_DATA_H_
 
 /*
 
@@ -15,28 +16,33 @@
 #include <glm/glm.hpp>
 #include <map>
 
-constexpr int MAX_BONES_SUPPORTED = 100;
+constexpr std::uint32_t MAX_BONES_SUPPORTED = 100;
 
 using ModelID = int;
 
-struct BoneInfo {
-  /*
+struct BoneInfo
+{
+	/*
           For uniquely indentifying the bone and
           for indexing bone transformation in shaders
   */
-  int id;
-  /*
+	int id;
+	/*
           map from bone name to offset matrix.
           offset matrix transforms bone from bone space to local space
   */
-  glm::mat4 offset;
+	glm::mat4 offset;
 };
 
-struct BonesData {
-  std::map<std::string, BoneInfo> m_BoneInfoMap;
-  int m_BoneCount;
+struct BonesData
+{
+	std::map<std::string, BoneInfo> m_BoneInfoMap;
+	int                             m_BoneCount;
 };
 
-struct ModelsBoneData {
-  static std::map<ModelID, BonesData> s_BonesDataMap;
+struct ModelsBoneData
+{
+	static std::map<ModelID, BonesData> s_BonesDataMap;
 };
+
+#endif

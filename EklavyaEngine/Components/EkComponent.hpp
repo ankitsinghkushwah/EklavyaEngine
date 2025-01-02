@@ -12,46 +12,57 @@
 #include <memory>
 #include <array>
 #include <string>
-
-#define DECLARE_COMPONENT_ESSENTIALS(TYPE, NAME)                               \
-  using SHARED_##NAME = std::shared_ptr<TYPE>
+#include "ComponentIds.h"
 
 #ifdef EKDEBUG
-namespace Eklavya::Renderer {
-class DebugRenderer;
+namespace Eklavya::Renderer
+{
+	class DebugRenderer;
 }
 #endif
 
-namespace Eklavya {
-using EkComponentID = std::string;
+namespace Eklavya
+{
+	class EkActor;
 
-class EkComponent {
-public:
-  EkComponent(const EkComponentID id);
+	using EkComponentID = std::uint32_t;
 
-  virtual void Init() {}
+	class EkComponent
+	{
+	  public:
+		EkComponent(EkActor& owner, const EkComponentID id);
 
-  virtual void FixedTick(float fixedDeltaTime) {}
+		virtual void FixedTick(float fixedDeltaTime)
+		{
+		}
 
-  virtual void Tick(float deltaTime) {}
+		virtual void Tick(float deltaTime)
+		{
+		}
 
-  inline const EkComponentID &GetID() { return m_ComponentID; }
+		const EkActor& GetOwner() const
+		{
+			return mOwner;
+		}
+		EkActor& GetOwner()
+		{
+			return mOwner;
+		}
 
 #ifdef EKDEBUG
-  virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer) {}
+		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer)
+		{
+		}
 #endif
 
-  bool operator==(const EkComponent &rhs) const;
-  bool operator==(const EkComponentID &uid) const;
+		bool operator==(const EkComponent& rhs) const;
+		bool operator==(const EkComponentID& uid) const;
 
-  std::shared_ptr<class EkActor> mOwner;
-
-private:
-  EkComponentID m_ComponentID;
-};
+	  private:
+		EkActor&      mOwner;
+		EkComponentID mComponentID;
+	};
 
 } // namespace Eklavya
-
-using SHARED_COMPONENT = std::shared_ptr<Eklavya::EkComponent>;
 
 #endif /* EkComponent_hpp */
