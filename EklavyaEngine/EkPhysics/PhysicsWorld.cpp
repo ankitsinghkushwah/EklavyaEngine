@@ -25,11 +25,11 @@ namespace Eklavya::Physics
 
 	void World::RemoveBody(EkBody* body)
 	{
-    auto iter = std::find(mBodies.begin(), mBodies.end(),body);
-    if(iter != mBodies.end())
-    {
-      mBodies.erase(iter);
-    }
+		auto iter = std::find(mBodies.begin(), mBodies.end(), body);
+		if (iter != mBodies.end())
+		{
+			mBodies.erase(iter);
+		}
 	}
 
 	void World::Step(float delta)
@@ -44,7 +44,7 @@ namespace Eklavya::Physics
 
 		// Generate Contacts
 		std::vector<ContactConstraint> constraints = ContactGenerator::CreateConstraints(mBodies);
-    
+
 		for (int i = 0; i < mIterations; i++)
 		{
 			for (auto& constraint : constraints)
@@ -85,7 +85,7 @@ namespace Eklavya::Physics
 			else if (collider->GetType() == EColliderType::SPHERE)
 			{
 				const SphereColliderComponent* sphereCollider = static_cast<const SphereColliderComponent*>(mBodies[i]->GetCollider());
-				glm::vec2                points;
+				glm::vec2                      points;
 				success = CollisionSystem::RayVsSphere(ray, sphereCollider->GetPosition(), sphereCollider->GetRadius(), points);
 				if (success)
 				{
@@ -119,6 +119,8 @@ namespace Eklavya::Physics
 #ifdef EKDEBUG
 	void World::OnDebugDraw(Renderer::DebugRenderer& debugRenderer)
 	{
+		if (mDebugRenderer == nullptr)
+			mDebugRenderer = &debugRenderer;
 		for (auto& constraint : mCachedContactsForDebug)
 		{
 			for (auto& contact : constraint.GetCollisionPoints())

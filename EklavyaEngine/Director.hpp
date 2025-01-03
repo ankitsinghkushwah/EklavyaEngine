@@ -60,6 +60,7 @@ namespace Eklavya
 		MainEntryScene* mCurrentScene;
 		float           mPhysicsTickRate = 1.0f / 60.0f;
 		float           mTimeSinceStart = 0.0f;
+    float           mTimeScale = 1.0f;
 	};
 } // namespace Eklavya
 

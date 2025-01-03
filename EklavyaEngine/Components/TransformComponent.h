@@ -73,7 +73,7 @@ namespace Eklavya
 		glm::vec3 TransformToLocal(const glm::vec3& vertex);
 		glm::vec3 TransformToWorld(const glm::vec3& vertex);
 
-		const glm::mat4& GetWorldMatrix()
+		const glm::mat4& GetWorldMatrix() const
 		{
 			return mWorld;
 		}

@@ -20,8 +20,7 @@ namespace Eklavya::Physics::CollisionSystem
 		float tMin = -FLT_MAX;
 		float tMax = FLT_MAX;
 
-		glm::mat4 worldMatrix = boxCollider.GetWorldMatrix();
-		glm::vec3 halfSize = boxCollider.GetHalfSize();
+		const glm::mat4& worldMatrix = boxCollider.GetOwner().Transform().GetWorldMatrix();
 
 		glm::vec3 center = worldMatrix[3];
 
@@ -31,7 +30,7 @@ namespace Eklavya::Physics::CollisionSystem
 			float t2 = FLT_MAX;
 
 			glm::vec3 normal = glm::column(worldMatrix, i);
-			float     l = halfSize[i]; 
+			float     l = glm::length(normal) * 0.5f;
 			normal = glm::normalize(normal);
 
 			Plane nearPlane;

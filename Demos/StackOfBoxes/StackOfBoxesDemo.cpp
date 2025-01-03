@@ -112,18 +112,6 @@ namespace Eklavya
 
 		//CreateSphere(glm::vec3(0.0f,-50.0f,0.0f), 100.0f, FLT_MAX, info);
 		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
-
-		CreateCube(glm::vec3(-2.0f, 30.0f, 0.0f), glm::vec3(30.0f, 5.0f, 10.0f), glm::vec3(0.0f), 10.0f, info, 0);
-
-		MaterialInfo info2 = LoadMaterialInfo("grid");
-		info2.mRoughness = 1.0f;
-		info2.mMetallic = 0.0f;
-		info2.mTiling = 1;
-		info2.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-
-		CreateSphere(glm::vec3(-2.0f, 20.0f, 0.0f), 6.0f, 30.0f, info2);
-
-		info.mBaseColor = glm::vec3(0.0f, 0.4, 0.2f);
 	}
 
 	void StackOfBoxesDemo::OnKeyAction(int key, int action)
@@ -134,10 +122,10 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStackOfBoxes()
 	{
-		int   rows = 1;
-		int   cols = 1;
-		float startY = 500.0f;
-		float boxDim = 5.0f;
+		int   rows = 4;
+		int   cols = 4;
+		float startY = 50.0f;
+		float boxDim = 20.0f;
 
 		for (int r = 0; r < rows; ++r)
 		{

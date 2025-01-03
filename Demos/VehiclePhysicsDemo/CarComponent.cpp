@@ -15,7 +15,7 @@
 using namespace Eklavya;
 using namespace Eklavya::Physics;
 
-CarComponent::CarComponent(Eklavya::EkActor& owner) : EkComponent(owner, 0), mEngineLoopSound("VehiclePhysicsDemo/car_engine_loop.mp3")
+CarComponent::CarComponent(Eklavya::EkActor& owner) : EkComponent(owner, VehiclePhysicsComponentIds::CAR_COMPONENT_ID), mEngineLoopSound("VehiclePhysicsDemo/car_engine_loop.mp3")
 {
 	mAudio.Load({mEngineLoopSound});
 	mAudio.GetSound().setRelativeToListener(false);

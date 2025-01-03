@@ -23,13 +23,13 @@ namespace Eklavya::SceneHelper
 		{
 			return nullptr;
 		}
-		ModelNode                dummy;
+		ModelNode   dummy;
 		UniqueActor actor = ModelToActor(model->mRootNode, modelId, materials);
 
 		for (auto& mesh : model->mSceneMeshes)
 		{
 			if (UniqueActor kid = CreateActorForMesh(*mesh, *model->mRootNode.get(), modelId))
-				actor->AddKid(std::move(kid));
+				actor->AddKid(kid);
 		}
 
 		return actor;
@@ -96,11 +96,15 @@ namespace Eklavya::SceneHelper
 				}
 			}
 
-			actor->AddKid(CreateActorForMesh(*mesh, *node.get(), modelId));
+			UniqueActor kid = CreateActorForMesh(*mesh, *node.get(), modelId);
+			actor->AddKid(kid);
 		}
 
 		for (auto& kid : node->mChildren)
-			actor->AddKid(ModelToActor(kid, modelId, loadOptions));
+		{
+			UniqueActor kidActor = ModelToActor(kid, modelId, loadOptions);
+			actor->AddKid(kidActor);
+		}
 
 		return actor;
 	}

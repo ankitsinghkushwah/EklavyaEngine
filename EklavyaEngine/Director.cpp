@@ -57,8 +57,8 @@ namespace Eklavya
 
 		if (mCurrentScene != nullptr)
 		{
-			mCurrentScene->FixedTick(mPhysicsTickRate);
-			mCurrentScene->Tick(frameTime);
+			mCurrentScene->FixedTick(mPhysicsTickRate * mTimeScale);
+			mCurrentScene->Tick(frameTime * mTimeScale);
 			mCurrentScene->Draw();
       mCurrentScene->Cleanup();
 		}

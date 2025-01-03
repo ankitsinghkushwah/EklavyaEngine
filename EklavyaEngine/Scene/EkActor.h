@@ -97,7 +97,7 @@ namespace Eklavya
 			mParent = parent;
 		}
 
-		void AddKid(UniqueActor actor);
+		void AddKid(UniqueActor& actor);
 
 		const std::vector<UniqueActor>& Kids() const
 		{

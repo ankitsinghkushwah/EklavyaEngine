@@ -167,20 +167,22 @@ namespace Eklavya::Physics
 		{
 			mAngDamping = damping;
 		}
-  
-    const BaseColliderComponent* GetCollider() const;
+
+		const BaseColliderComponent* GetCollider() const;
 
 		void UpdateTransform();
 
 		void ApplyGravityForce()
 		{
 			if (mMass < FLT_MAX)
-				mF += mMass * glm::vec3(0.0f, -50.0 * mGravityScale, 0.0f);
+			{
+				mF += mMass * glm::vec3(0.0f, -98.0f * mGravityScale, 0.0f);
+			}
 		}
-  
-  #ifdef EKDEBUG
-  bool mShowCollider = false;
-  #endif
+
+#ifdef EKDEBUG
+		bool mShowCollider = false;
+#endif
 
 	  private:
 		// forces
