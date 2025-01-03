@@ -1,5 +1,5 @@
 #include "Collider.h"
-#include "../Helpers.h"
+
 
 using namespace Eklavya::Physics;
 
@@ -30,6 +30,8 @@ void BoxColliderComponent::SetHalfSize(glm::vec3 halfSize)
 {
 	mHalfSize = glm::vec3(halfSize.x / 2.0f, halfSize.y / 2.0f, halfSize.z / 2.0f);
 }
+
+
 
 SphereColliderComponent::SphereColliderComponent(EkActor& owner) : BaseColliderComponent(owner, EColliderType::SPHERE)
 {

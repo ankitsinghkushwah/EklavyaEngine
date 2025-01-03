@@ -107,7 +107,7 @@ namespace Eklavya
 		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer);
 
 	  protected:
-		//  SceneDebugger mSceneDebugger;
+		 SceneDebugger mSceneDebugger;
 #endif
 	};
 } // namespace Eklavya

@@ -15,10 +15,10 @@ using namespace Eklavya::Renderer;
 
 namespace Eklavya
 {
-	EkScene::EkScene(Director* director) : UserInputListener()
+	EkScene::EkScene(Director* director)
+	    : UserInputListener()
 #ifdef EKDEBUG
-//        ,
-//        mSceneDebugger(*this)
+	    , mSceneDebugger(*this)
 #endif
 	{
 		mDirector = director;
@@ -46,7 +46,10 @@ namespace Eklavya
 			TraverseToFixedUpdateComponents(actor, fixedDeltaTime);
 		}
 
-		mPhysicsWorld->Step(fixedDeltaTime);
+		if (mSceneDebugger.mDebugPhysics == false)
+		{
+			mPhysicsWorld->Step(fixedDeltaTime);
+		}
 	}
 
 	void EkScene::Tick(float dt)
@@ -56,9 +59,12 @@ namespace Eklavya
 			TraverseToUpdate(actor, dt);
 		}
 
-		CurrentCamera()->Update(dt);
-		glm::vec3 camPos = CurrentCamera()->Position();
-		sf::Listener::setPosition(camPos.x, camPos.y, camPos.z);
+		if (mSceneDebugger.mDebugScene == false)
+		{
+			CurrentCamera()->Update(dt);
+			glm::vec3 camPos = CurrentCamera()->Position();
+			sf::Listener::setPosition(camPos.x, camPos.y, camPos.z);
+		}
 	}
 
 	void EkScene::TraverseToFixedUpdateComponents(const UniqueActor& parent, float fixedDeltaTime)
@@ -142,15 +148,15 @@ namespace Eklavya
 #ifdef EKDEBUG
 	void EkScene::ImGuiProc()
 	{
-		// mSceneDebugger.ImGuiProc();
-			mPhysicsWorld->ImGuiProc();
+		mSceneDebugger.ImGuiProc();
+		mPhysicsWorld->ImGuiProc();
 	}
 
 	void EkScene::DebugDraw(Renderer::DebugRenderer& debugRenderer)
 	{
-			mPhysicsWorld->OnDebugDraw(debugRenderer);
-		// mSceneDebugger.DebugDraw(debugRenderer);
-		//	CurrentCamera()->DebugDraw(debugRenderer);
+		mPhysicsWorld->OnDebugDraw(debugRenderer);
+		mSceneDebugger.DebugDraw(debugRenderer);
+		CurrentCamera()->DebugDraw(debugRenderer);
 	}
 #endif
 

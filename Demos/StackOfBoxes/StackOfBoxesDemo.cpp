@@ -111,7 +111,7 @@ namespace Eklavya
 		float floorScaleY = 10.0f;
 
 		//CreateSphere(glm::vec3(0.0f,-50.0f,0.0f), 100.0f, FLT_MAX, info);
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
+		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(0.2f,0.0f,0.0f), FLT_MAX, info, 0);
 
 		//    CreateCube(glm::vec3(0.0f,50.0f,0.0f),
 		//               glm::vec3(30.0f), glm::vec3(0.0,0.0f,0.0f),
@@ -128,8 +128,8 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStackOfBoxes()
 	{
-		int   rows = 5;
-		int   cols = 5;
+		int   rows = 1;
+		int   cols = 1;
 		float startY = 100.0f;
 		float boxDim = 20.0f;
 
