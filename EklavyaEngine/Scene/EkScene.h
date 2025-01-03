@@ -41,6 +41,7 @@ namespace Eklavya
 #ifdef EKDEBUG
 		friend class SceneDebugger;
 #endif
+		friend class Director;
 
 	  public:
 		EkScene(Director* director);
@@ -49,12 +50,22 @@ namespace Eklavya
 		virtual void Tick(float deltaTime) final;
 
 		virtual ~EkScene();
+
 		void AddActor(UniqueActor& actor);
+		void RemoveActor(EkActorID id)
+		{
+			mActorsToBeRemoved.push_back(id);
+		}
 
 		const Physics::World& GetPhysics() const
 		{
 			return *mPhysicsWorld.get();
 		}
+  
+    const Renderer::GLRenderer& GetRenderer() const
+    {
+      return *mRenderer.get();
+    }
 
 		CameraParams DefaulCameraParams() const
 		{
@@ -89,16 +100,6 @@ namespace Eklavya
 		void TraverseToUpdate(const UniqueActor& actor, float deltaTime);
 		void TraverseToFixedUpdateComponents(const UniqueActor& actor, float fixedDeltaTime);
 
-		std::shared_ptr<FreeLookCamera>                  mFreeLookCamera;
-		std::vector<UniqueActor>            mRootActors;
-		std::unique_ptr<Renderer::GLRenderer>            mRenderer;
-		std::unique_ptr<Physics::World>                  mPhysicsWorld;
-		Director*                                        mDirector;
-		std::unordered_map<ModelID, AnimationComponent*> mAnimators;
-
-		std::vector<std::shared_ptr<ICamera>> mCameraStack;
-		int                                   mCurrentCameraIdx = 0;
-
 		CameraParams mDefaultCameraParams;
 
 #ifdef EKDEBUG
@@ -107,8 +108,22 @@ namespace Eklavya
 		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer);
 
 	  protected:
-		 SceneDebugger mSceneDebugger;
+		SceneDebugger mSceneDebugger;
 #endif
+
+	  private:
+		std::shared_ptr<FreeLookCamera>                  mFreeLookCamera;
+		std::vector<UniqueActor>                         mRootActors;
+		std::vector<EkActorID>                           mActorsToBeRemoved;
+		std::unique_ptr<Renderer::GLRenderer>            mRenderer;
+		std::unique_ptr<Physics::World>                  mPhysicsWorld;
+		Director*                                        mDirector;
+		std::unordered_map<ModelID, AnimationComponent*> mAnimators;
+
+		std::vector<std::shared_ptr<ICamera>> mCameraStack;
+		int                                   mCurrentCameraIdx = 0;
+  
+    void Cleanup();
 	};
 } // namespace Eklavya
 

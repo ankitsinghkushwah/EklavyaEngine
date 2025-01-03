@@ -58,7 +58,7 @@ namespace Eklavya
 			}
 			mRayRange = 30000.0f;
 
-			mLastCastHitResult = mPhysicsWorld->RayCast(mRayStart, mRayDirection, mRayRange, -1);
+			mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
 
 			if (mLastCastHitResult.success)
 			{
@@ -111,7 +111,7 @@ namespace Eklavya
 		float floorScaleY = 10.0f;
 
 		//CreateSphere(glm::vec3(0.0f,-50.0f,0.0f), 100.0f, FLT_MAX, info);
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(0.2f,0.0f,0.0f), FLT_MAX, info, 0);
+		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
 
 		//    CreateCube(glm::vec3(0.0f,50.0f,0.0f),
 		//               glm::vec3(30.0f), glm::vec3(0.0,0.0f,0.0f),
@@ -128,8 +128,8 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStackOfBoxes()
 	{
-		int   rows = 1;
-		int   cols = 1;
+		int   rows = 3;
+		int   cols = 3;
 		float startY = 100.0f;
 		float boxDim = 20.0f;
 
@@ -146,7 +146,7 @@ namespace Eklavya
 				info.mMetallic = 0.0f;
 				info.mTiling = 1;
 				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 100.0f, info, 0);
+				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 50.0f, info, 0);
 
 				//CreateSphere(glm::vec3(x, y, z), boxDim, 20.0f, info);
 			}

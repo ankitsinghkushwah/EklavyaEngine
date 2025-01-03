@@ -60,6 +60,7 @@ namespace Eklavya
 			mCurrentScene->FixedTick(mPhysicsTickRate);
 			mCurrentScene->Tick(frameTime);
 			mCurrentScene->Draw();
+      mCurrentScene->Cleanup();
 		}
 	}
 

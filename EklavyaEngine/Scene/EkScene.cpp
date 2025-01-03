@@ -45,11 +45,14 @@ namespace Eklavya
 		{
 			TraverseToFixedUpdateComponents(actor, fixedDeltaTime);
 		}
-
+#ifdef EKDEBUG
 		if (mSceneDebugger.mDebugPhysics == false)
 		{
 			mPhysicsWorld->Step(fixedDeltaTime);
 		}
+#else
+		mPhysicsWorld->Step(fixedDeltaTime);
+#endif
 	}
 
 	void EkScene::Tick(float dt)
@@ -58,13 +61,16 @@ namespace Eklavya
 		{
 			TraverseToUpdate(actor, dt);
 		}
-
+#ifdef EKDEBUG
 		if (mSceneDebugger.mDebugScene == false)
 		{
 			CurrentCamera()->Update(dt);
-			glm::vec3 camPos = CurrentCamera()->Position();
-			sf::Listener::setPosition(camPos.x, camPos.y, camPos.z);
 		}
+#else
+		CurrentCamera()->Update(dt);
+#endif
+		glm::vec3 camPos = CurrentCamera()->Position();
+		sf::Listener::setPosition(camPos.x, camPos.y, camPos.z);
 	}
 
 	void EkScene::TraverseToFixedUpdateComponents(const UniqueActor& parent, float fixedDeltaTime)
@@ -133,6 +139,30 @@ namespace Eklavya
 	void EkScene::Draw()
 	{
 		mRenderer->Render(*this);
+	}
+
+	void EkScene::Cleanup()
+	{
+		for (EkActorID deadActorId : mActorsToBeRemoved)
+		{
+			auto iter = std::find_if(mRootActors.begin(), mRootActors.end(), [deadActorId](const UniqueActor& actor) { return actor->ID() == deadActorId; });
+
+			if (iter != mRootActors.end())
+			{
+				UniqueActor& actor = *iter;
+				if (EkBody* body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID))
+				{
+					mPhysicsWorld->RemoveBody(body);
+				}
+
+				if (AnimationComponent* animator = actor->GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID))
+				{
+					mAnimators.erase(animator->GetModelID());
+				}
+				iter->reset();
+        mRootActors.erase(iter);
+			}
+		}
 	}
 
 	// Inputs

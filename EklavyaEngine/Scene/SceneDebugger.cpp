@@ -4,7 +4,7 @@
 //
 //  Created by Ankit Singh Kushwah on 31/03/2024.
 //
-
+#ifdef EKDEBUG
 #include "SceneDebugger.hpp"
 #include "DebugRenderer.hpp"
 #include "EkScene.h"
@@ -68,7 +68,7 @@ namespace Eklavya
 		RenderComponent* renderComponent = actor->GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID);
 		if (renderComponent && renderComponent->mShowBound)
 		{
-      mScene.mRenderer->GetDebugRenderer().DrawBound(actor->Transform().GetWorldMatrix(), renderComponent->mBound, mBoundColor);
+			mScene.mRenderer->GetDebugRenderer().DrawBound(actor->Transform().GetWorldMatrix(), renderComponent->mBound, mBoundColor);
 		}
 
 		for (const UniqueActor& kid : actor->Kids())
@@ -255,6 +255,11 @@ namespace Eklavya
 				actor->mDebugDrawComponents = canDebugDrawComponents;
 			}
 
+			if (ImGui::Button("Kill Actor"))
+			{
+				mScene.RemoveActor(actor->ID());
+			}
+
 			ImGui::TreePop();
 		}
 	}
@@ -308,3 +313,5 @@ namespace Eklavya
 	}
 
 } // namespace Eklavya
+
+#endif

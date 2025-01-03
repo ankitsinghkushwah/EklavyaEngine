@@ -23,8 +23,13 @@ namespace Eklavya::Physics
 		mBodies.push_back(body);
 	}
 
-	void World::RemoveBody(EkBody* collider)
+	void World::RemoveBody(EkBody* body)
 	{
+    auto iter = std::find(mBodies.begin(), mBodies.end(),body);
+    if(iter != mBodies.end())
+    {
+      mBodies.erase(iter);
+    }
 	}
 
 	void World::Step(float delta)

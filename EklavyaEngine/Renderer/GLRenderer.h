@@ -37,7 +37,7 @@ namespace Eklavya::Renderer
 		void AddMaterialToState(ERenderGroup group, SHARED_MATERIAL material);
 
 		template<typename MATERIAL_TYPE>
-		std::shared_ptr<MATERIAL_TYPE> GetMaterialForGroup(ERenderGroup group)
+		std::shared_ptr<MATERIAL_TYPE> GetMaterialForGroup(ERenderGroup group) const
 		{
 			return std::static_pointer_cast<MATERIAL_TYPE>(mGroupMaterials[group]);
 		}

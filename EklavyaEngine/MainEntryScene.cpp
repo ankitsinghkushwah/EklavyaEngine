@@ -93,7 +93,7 @@ namespace Eklavya
 
 	MainEntryScene::MainEntryScene(Director* pDirector) : EkScene(pDirector)
 	{
-		mRenderer->GetMaterialForGroup<SkyboxMaterial>(Renderer::ERenderGroup::SKYBOX)->mCubemap = AssetManager::GetInstance().LoadCubemap("Day", "png");
+		GetRenderer().GetMaterialForGroup<SkyboxMaterial>(Renderer::ERenderGroup::SKYBOX)->mCubemap = AssetManager::GetInstance().LoadCubemap("Day", "png");
 
 		UniqueActor      sky = std::make_unique<EkActor>();
 		RenderComponent* render = sky->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
