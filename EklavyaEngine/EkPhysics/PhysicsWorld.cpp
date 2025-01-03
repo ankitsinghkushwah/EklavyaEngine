@@ -44,7 +44,7 @@ namespace Eklavya::Physics
 
 		// Generate Contacts
 		std::vector<ContactConstraint> constraints = ContactGenerator::CreateConstraints(mBodies);
-
+    
 		for (int i = 0; i < mIterations; i++)
 		{
 			for (auto& constraint : constraints)

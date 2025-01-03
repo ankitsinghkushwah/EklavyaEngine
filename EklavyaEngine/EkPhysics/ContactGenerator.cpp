@@ -106,7 +106,7 @@ namespace Eklavya::Physics::ContactGenerator
 
 		if (faceSet < 0)
 		{
-			int errorHasOccured = 1;
+			return; //oh shit!
 		}
 		else
 		{
@@ -270,7 +270,7 @@ namespace Eklavya::Physics::ContactGenerator
 		glm::vec3 v0 = verts1[1] - verts1[0];
 		glm::vec3 v1 = verts1[2] - verts1[0];
 		glm::vec3 n = glm::cross(v1, v0);
-    n = glm::normalize(n);
+		n = glm::normalize(n);
 		n = glm::normalize(n);
 
 		glm::vec3 temp[4];
@@ -507,10 +507,10 @@ namespace Eklavya::Physics::ContactGenerator
 	}
 
 	void CalculateIsCollidingPoint(const BoxColliderComponent& box0,
-	                       const BoxColliderComponent& box1,
-	                       const float                 penetration,
-	                       glm::vec3&                  collisionNormal,
-	                       std::vector<glm::vec3>&     collisionPoints)
+	                               const BoxColliderComponent& box1,
+	                               const float                 penetration,
+	                               glm::vec3&                  collisionNormal,
+	                               std::vector<glm::vec3>&     collisionPoints)
 	{
 		glm::vec3 verts0[8];
 		int       vertIndex0[8];
