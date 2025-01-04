@@ -122,16 +122,17 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStackOfBoxes()
 	{
-		int   rows = 4;
-		int   cols = 4;
+		int   rows = 5;
+		int   cols = 6;
 		float startY = 50.0f;
 		float boxDim = 20.0f;
+    float offsetX = ((cols - 1)/2.0f) * boxDim;
 
 		for (int r = 0; r < rows; ++r)
 		{
 			for (int c = 0; c < cols; ++c)
 			{
-				float x = c * boxDim;
+				float x = (c * boxDim) - offsetX;
 				float y = startY + r * boxDim;
 				float z = 0.0f;
 

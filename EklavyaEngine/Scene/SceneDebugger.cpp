@@ -55,7 +55,7 @@ namespace Eklavya
 				const BoxColliderComponent* collider = static_cast<const BoxColliderComponent*>(body->GetCollider());
 				glm::vec3                   extents = collider->GetHalfSize() * 2.0f;
 
-				mScene.mRenderer->GetDebugRenderer().DrawBox(actor->Transform().Position() + body->GetCollider()->GetOffset(), oiler, extents, mColliderColor);
+				mScene.mRenderer->GetDebugRenderer().DrawBox(collider->GetPosition(), oiler, extents, mColliderColor);
 			}
 
 			if (body->GetCollider()->GetType() == Physics::EColliderType::SPHERE)

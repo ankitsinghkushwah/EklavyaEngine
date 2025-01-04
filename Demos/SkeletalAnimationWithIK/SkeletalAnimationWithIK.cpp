@@ -203,7 +203,7 @@ namespace Eklavya
 		float floorScaleY = 30.0f;
 		CreateCube(glm::vec3(0.0f), glm::vec3(areaAxtent, floorScaleY, areaAxtent), glm::vec3(), FLT_MAX, info, 0);
 
-		CreateCube(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 800.0f), glm::vec3(glm::radians(20.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
+		CreateCube(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f), glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
 	}
 
 	void SkeletalAnimationWithIK::SetupPlayer()

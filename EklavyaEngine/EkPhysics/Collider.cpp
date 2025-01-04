@@ -27,7 +27,7 @@ BoxColliderComponent::~BoxColliderComponent()
 
 void BoxColliderComponent::SetHalfSize(glm::vec3 halfSize)
 {
-	mHalfSize = halfSize/4.0f;
+	mHalfSize = halfSize/2.0f;
 }
 
 SphereColliderComponent::SphereColliderComponent(EkActor& owner) : BaseColliderComponent(owner, EColliderType::SPHERE)

@@ -48,6 +48,7 @@
 		9B2B0A372A14242600A9FF3F /* MainEntryScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B0A332A14242600A9FF3F /* MainEntryScene.cpp */; };
 		9B2B475A2B9EED6600CCEE31 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B47592B9EED6600CCEE31 /* Frustum.cpp */; };
 		9B2B475D2B9EED7100CCEE31 /* BoundingVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B475C2B9EED7100CCEE31 /* BoundingVolume.cpp */; };
+		9B309A482D295F69002D24D6 /* StackOfBoxesDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B309A452D295F69002D24D6 /* StackOfBoxesDemo.cpp */; };
 		9B312DC02A20B45400A9AAFB /* Director.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B312DBE2A20B45400A9AAFB /* Director.cpp */; };
 		9B33237F2B4DEEEB00552DE0 /* ForceFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B33237E2B4DEEEB00552DE0 /* ForceFeedback.framework */; };
 		9B40CEE82A2201C10055FD47 /* GLMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B40CEE62A2201C10055FD47 /* GLMesh.cpp */; };
@@ -75,7 +76,6 @@
 		9BE1891C2A2CD0E9005A4971 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 9BE189182A2CD0E9005A4971 /* image_helper.c */; };
 		9BE838792BA74BBD00634188 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273F8281C4E3D00CE30A9 /* OpenGL.framework */; };
 		9BF6E8062BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6E8052BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp */; };
-		9BF949162C3A72B4001BA567 /* StackOfBoxesDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */; };
 		9F0273EF281C4BBD00CE30A9 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273EE281C4BBD00CE30A9 /* libglfw3.a */; };
 		9F0273F7281C4E3800CE30A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273F6281C4E3800CE30A9 /* Cocoa.framework */; };
 		9F0273F9281C4E3D00CE30A9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0273F8281C4E3D00CE30A9 /* OpenGL.framework */; };
@@ -197,6 +197,8 @@
 		9B2B47592B9EED6600CCEE31 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frustum.cpp; sourceTree = "<group>"; };
 		9B2B475B2B9EED7100CCEE31 /* BoundingVolume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingVolume.h; sourceTree = "<group>"; };
 		9B2B475C2B9EED7100CCEE31 /* BoundingVolume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingVolume.cpp; sourceTree = "<group>"; };
+		9B309A452D295F69002D24D6 /* StackOfBoxesDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StackOfBoxesDemo.cpp; sourceTree = "<group>"; };
+		9B309A462D295F69002D24D6 /* StackOfBoxesDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StackOfBoxesDemo.hpp; sourceTree = "<group>"; };
 		9B312DBE2A20B45400A9AAFB /* Director.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Director.cpp; sourceTree = "<group>"; };
 		9B312DBF2A20B45400A9AAFB /* Director.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Director.hpp; sourceTree = "<group>"; };
 		9B33237E2B4DEEEB00552DE0 /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = System/Library/Frameworks/ForceFeedback.framework; sourceTree = SDKROOT; };
@@ -304,8 +306,6 @@
 		9BE189182A2CD0E9005A4971 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_helper.c; sourceTree = "<group>"; };
 		9BF6E8042BA8F6FA00179E95 /* SkeletalAnimationDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkeletalAnimationDemo.hpp; sourceTree = "<group>"; };
 		9BF6E8052BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletalAnimationDemo.cpp; sourceTree = "<group>"; };
-		9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StackOfBoxesDemo.cpp; path = Demos/StackOfBoxes/StackOfBoxesDemo.cpp; sourceTree = SOURCE_ROOT; };
-		9BF949152C3A72B4001BA567 /* StackOfBoxesDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StackOfBoxesDemo.hpp; path = Demos/StackOfBoxes/StackOfBoxesDemo.hpp; sourceTree = SOURCE_ROOT; };
 		9F0273E1281C430100CE30A9 /* EklavyaEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EklavyaEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F0273EE281C4BBD00CE30A9 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
 		9F0273F0281C4BC900CE30A9 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GLFW; sourceTree = "<group>"; };
@@ -436,6 +436,15 @@
 			path = VehiclePhysicsDemo;
 			sourceTree = "<group>";
 		};
+		9B309A472D295F69002D24D6 /* StackOfBoxes */ = {
+			isa = PBXGroup;
+			children = (
+				9B309A452D295F69002D24D6 /* StackOfBoxesDemo.cpp */,
+				9B309A462D295F69002D24D6 /* StackOfBoxesDemo.hpp */,
+			);
+			path = StackOfBoxes;
+			sourceTree = "<group>";
+		};
 		9B5023E42A3E5E78003A9C8E /* EkPhysics */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,15 +558,6 @@
 				9BF6E8042BA8F6FA00179E95 /* SkeletalAnimationDemo.hpp */,
 			);
 			path = SkeletalAnimation;
-			sourceTree = "<group>";
-		};
-		9BF949132C3A729D001BA567 /* StackOfBoxesDemo */ = {
-			isa = PBXGroup;
-			children = (
-				9BF949142C3A72B4001BA567 /* StackOfBoxesDemo.cpp */,
-				9BF949152C3A72B4001BA567 /* StackOfBoxesDemo.hpp */,
-			);
-			path = StackOfBoxesDemo;
 			sourceTree = "<group>";
 		};
 		9F0273D8281C430100CE30A9 = {
@@ -695,8 +695,8 @@
 		9F0E787328D8BB6A00466B8A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				9B309A472D295F69002D24D6 /* StackOfBoxes */,
 				9B99C9962D284FB500091763 /* SkeletalAnimationWithIK */,
-				9BF949132C3A729D001BA567 /* StackOfBoxesDemo */,
 				9BF6E8032BA8F6A100179E95 /* SkeletalAnimation */,
 				9B1E9DDB2B4D3D52004E1E5E /* VehiclePhysicsDemo */,
 			);
@@ -910,7 +910,6 @@
 				9B5E65B92A18D79C00A2C5A3 /* EkUtils.cpp in Sources */,
 				9B4B7BC62A485DC7009C122B /* DebugRenderer.cpp in Sources */,
 				9B40CEE82A2201C10055FD47 /* GLMesh.cpp in Sources */,
-				9BF949162C3A72B4001BA567 /* StackOfBoxesDemo.cpp in Sources */,
 				9BE1891B2A2CD0E9005A4971 /* SOIL.c in Sources */,
 				9FB53E9A2871E82F001B48E4 /* EkScene.cpp in Sources */,
 				9B4BA1122A4A1DFF00380ED4 /* CarSuspension.cpp in Sources */,
@@ -936,6 +935,7 @@
 				9B2B475A2B9EED6600CCEE31 /* Frustum.cpp in Sources */,
 				9B4F71D02BBA063C00ADAF54 /* SpringFolllowCamera.cpp in Sources */,
 				9FB53EC52871E82F001B48E4 /* VertexArrayObject.cpp in Sources */,
+				9B309A482D295F69002D24D6 /* StackOfBoxesDemo.cpp in Sources */,
 				9B5023F32A3E5E78003A9C8E /* Collider.cpp in Sources */,
 				9BF6E8062BA8F6FA00179E95 /* SkeletalAnimationDemo.cpp in Sources */,
 				9FB53EBD2871E82F001B48E4 /* EventDispatcher.cpp in Sources */,
