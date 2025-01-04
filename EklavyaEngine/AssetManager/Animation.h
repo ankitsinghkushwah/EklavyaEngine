@@ -11,7 +11,7 @@
 
 namespace Eklavya::Asset
 {
-	struct AssimpNodeData
+  struct AssimpNodeData
 	{
 		glm::mat4                   transform;
 		std::string                 name;

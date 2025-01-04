@@ -150,7 +150,10 @@ void PlayerController::Tick(float dt)
 		GetOwner().Transform().SetPosition(mPosition);
 	}
 	else
+	{
 		mPosition += mCurrGravityDir * mGravity * dt;
+		GetOwner().Transform().SetPosition(mPosition);
+	}
 
 	if (mTurning == false)
 	{
@@ -211,7 +214,7 @@ void PlayerController::DebugDraw(Eklavya::Renderer::DebugRenderer& debugRenderer
 {
 	if (mCastResult.success)
 	{
-		debugRenderer.DrawLine(GetOwner().Transform().Position(), mCastResult.position, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), 5.0f);
+		debugRenderer.DrawLine(GetOwner().Transform().Position(), mCastResult.position, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), 2.0f);
 		debugRenderer.DrawSphere(mCastResult.position, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 	else
@@ -221,6 +224,9 @@ void PlayerController::DebugDraw(Eklavya::Renderer::DebugRenderer& debugRenderer
 		                       glm::vec4(1.0f, 1.0f, 0.0f, 1.0f),
 		                       5.0f);
 	}
+
+  glm::vec3 c = GetOwner().Transform().Position() + glm::vec3(0.0f,30.0f,0.0f);
+	debugRenderer.DrawLine(c, c + mCurrGravityDir * 20.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 3.0f);
 	mCastResult.success = false;
 }
 #endif

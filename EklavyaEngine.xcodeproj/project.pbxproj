@@ -49,6 +49,7 @@
 		9B2B475A2B9EED6600CCEE31 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B47592B9EED6600CCEE31 /* Frustum.cpp */; };
 		9B2B475D2B9EED7100CCEE31 /* BoundingVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B475C2B9EED7100CCEE31 /* BoundingVolume.cpp */; };
 		9B309A482D295F69002D24D6 /* StackOfBoxesDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B309A452D295F69002D24D6 /* StackOfBoxesDemo.cpp */; };
+		9B309A4B2D296E7E002D24D6 /* AnimationIKSolverComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B309A492D296E7E002D24D6 /* AnimationIKSolverComponent.cpp */; };
 		9B312DC02A20B45400A9AAFB /* Director.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B312DBE2A20B45400A9AAFB /* Director.cpp */; };
 		9B33237F2B4DEEEB00552DE0 /* ForceFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B33237E2B4DEEEB00552DE0 /* ForceFeedback.framework */; };
 		9B40CEE82A2201C10055FD47 /* GLMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B40CEE62A2201C10055FD47 /* GLMesh.cpp */; };
@@ -199,6 +200,8 @@
 		9B2B475C2B9EED7100CCEE31 /* BoundingVolume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingVolume.cpp; sourceTree = "<group>"; };
 		9B309A452D295F69002D24D6 /* StackOfBoxesDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StackOfBoxesDemo.cpp; sourceTree = "<group>"; };
 		9B309A462D295F69002D24D6 /* StackOfBoxesDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StackOfBoxesDemo.hpp; sourceTree = "<group>"; };
+		9B309A492D296E7E002D24D6 /* AnimationIKSolverComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationIKSolverComponent.cpp; sourceTree = "<group>"; };
+		9B309A4A2D296E7E002D24D6 /* AnimationIKSolverComponent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AnimationIKSolverComponent.hpp; sourceTree = "<group>"; };
 		9B312DBE2A20B45400A9AAFB /* Director.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Director.cpp; sourceTree = "<group>"; };
 		9B312DBF2A20B45400A9AAFB /* Director.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Director.hpp; sourceTree = "<group>"; };
 		9B33237E2B4DEEEB00552DE0 /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = System/Library/Frameworks/ForceFeedback.framework; sourceTree = SDKROOT; };
@@ -738,6 +741,8 @@
 				9B5F46932A1A6C0B00CCB41F /* RenderComponent.cpp */,
 				9B5F46942A1A6C0B00CCB41F /* RenderComponent.hpp */,
 				9B52036F2D25CFCA007657F2 /* ComponentIds.h */,
+				9B309A492D296E7E002D24D6 /* AnimationIKSolverComponent.cpp */,
+				9B309A4A2D296E7E002D24D6 /* AnimationIKSolverComponent.hpp */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -903,6 +908,7 @@
 				9FB53ED02872093E001B48E4 /* glad.c in Sources */,
 				9FB53EB52871E82F001B48E4 /* InputHandler.cpp in Sources */,
 				9BE1891C2A2CD0E9005A4971 /* image_helper.c in Sources */,
+				9B309A4B2D296E7E002D24D6 /* AnimationIKSolverComponent.cpp in Sources */,
 				9FB53E942871E82F001B48E4 /* TransformComponent.cpp in Sources */,
 				9FB53EC82871E82F001B48E4 /* Timer.cpp in Sources */,
 				9FB53EAA2871E82F001B48E4 /* Random.cpp in Sources */,

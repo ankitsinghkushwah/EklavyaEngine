@@ -22,6 +22,7 @@
 #include "CarComponent.hpp"
 #include "Animation.h"
 #include "PlayerController.hpp"
+#include "Components/AnimationIKSolverComponent.hpp"
 
 #include "Scene/Cameras/SpringFolllowCamera.h"
 
@@ -223,6 +224,7 @@ namespace Eklavya
 
 		UniqueActor         playerActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
 		AnimationComponent* animator = playerActor->EmplaceComponent<AnimationComponent>(modelID);
+		playerActor->EmplaceComponent<AnimationIKSolver>(*this);
 
 		for (const std::string& animation : animationsToLoad)
 		{

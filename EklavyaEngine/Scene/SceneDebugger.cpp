@@ -19,9 +19,11 @@
 #include "DebugRenderer.hpp"
 #include "Cameras/FreeLookCamera.h"
 #include "imgui/imgui.h"
+#include "AssetManager/Animation.h"
 
 using namespace Eklavya::Physics;
 using namespace Eklavya::Renderer;
+using namespace Eklavya::Asset;
 
 namespace Eklavya
 {
@@ -61,7 +63,7 @@ namespace Eklavya
 			if (body->GetCollider()->GetType() == Physics::EColliderType::SPHERE)
 			{
 				const SphereColliderComponent* collider = static_cast<const SphereColliderComponent*>(body->GetCollider());
-				float                       radius = collider->GetRadius();
+				float                          radius = collider->GetRadius();
 
 				mScene.mRenderer->GetDebugRenderer().DrawSphere(collider->GetPosition(), radius, mColliderColor);
 			}
@@ -310,8 +312,49 @@ namespace Eklavya
 		}
 	}
 
+	/* // Scene Tree
+		if (ImGui::TreeNode("SceneRoot"))
+		{
+			for (auto& rootActor : mScene.mRootActors)
+			{
+				ImGui::PushID(std::to_string(rootActor->ID()).c_str());
+				Traverse(rootActor);
+				ImGui::PopID();
+			}
+			ImGui::TreePop();
+		}*/
+
 	void SceneDebugger::DebugAnimationComponent(const UniqueActor& actor)
 	{
+		char                                       c = '-';
+		std::string                                tabs = "";
+		const AnimationComponent*                  animationComponent = actor->GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID);
+		SHARED_ANIMATION                           currentAnimation = animationComponent->GetCurrentAnimation();
+		std::function<void(const AssimpNodeData*)> DrawChildren = [c, &currentAnimation, &tabs, this, &DrawChildren](const AssimpNodeData* node) -> void
+		{
+			auto boneInfoMap = currentAnimation->GetBoneIDMap();
+
+			for (int i = 0; i < node->childrenCount; i++)
+			{
+				const AssimpNodeData* kid = &node->children[i];
+				ImGui::Text("%s%s", tabs.c_str(), kid->name.c_str());
+
+				for (const AssimpNodeData& node : kid->children)
+				{
+					tabs += c;
+          tabs += c;
+          tabs += c;
+					DrawChildren(&node);
+          tabs.resize(tabs.size() - 3);
+				}
+			}
+		};
+
+		ImGui::Begin("Skeletal Rig");
+
+		ImGui::Text("\n %s%s", tabs.c_str(), currentAnimation->GetRootNode().name.c_str());
+		DrawChildren(&currentAnimation->GetRootNode());
+		ImGui::End();
 	}
 
 } // namespace Eklavya

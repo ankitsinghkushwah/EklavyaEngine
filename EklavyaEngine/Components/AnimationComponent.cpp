@@ -11,6 +11,7 @@
 #include "Renderer/DebugRenderer.hpp"
 #include <functional>
 #include "ComponentIds.h"
+#include "EkPhysics/PhysicsWorld.h"
 
 using namespace Eklavya::Asset;
 
@@ -22,6 +23,7 @@ namespace Eklavya
 	    , mModelID(modelId)
 	    , mPose(MAX_BONES_SUPPORTED, glm::mat4(1.0f))
 	    , mLocalPose(MAX_BONES_SUPPORTED, glm::mat4(1.0f))
+
 	{
 		mPose.reserve(MAX_BONES_SUPPORTED);
 		mCurrentAnimation = nullptr;
@@ -146,12 +148,25 @@ namespace Eklavya
 			glm::mat4 offset = boneInfoMap[nodeName].offset;
 			mPose[index] = mCurrentAnimation->InvRootTransform() * globalTransformation * offset;
 
-#ifdef EKDEBUG
 			mLocalPose[index] = GetOwner().Transform().GetWorldMatrix() * mCurrentAnimation->InvRootTransform() * globalTransformation;
-#endif
 		}
 		for (int i = 0; i < node->childrenCount; i++)
 			AdvanceBones(&node->children[i], globalTransformation);
+	}
+
+	glm::mat4 AnimationComponent::GetBoneTransform(const std::string& boneName) const
+	{
+		if (mCurrentAnimation == nullptr)
+			return glm::mat4(1.0f);
+
+		const auto& boneInfoMap = mCurrentAnimation->GetBoneIDMap();
+
+		if (boneInfoMap.find(boneName) != boneInfoMap.end())
+		{
+			int index = boneInfoMap.at(boneName).id;
+			return mLocalPose[index];
+		}
+		return glm::mat4(1.0f);
 	}
 
 #ifdef EKDEBUG
@@ -171,7 +186,7 @@ namespace Eklavya
 				{
 					int       index = boneInfoMap[kid->name].id;
 					glm::vec3 pos = mLocalPose[index][3];
-					debugRenderer.DrawLine(parentBonePos, pos, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 3.0f);
+					debugRenderer.DrawLine(parentBonePos, pos, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 0.5f);
 					DrawChildren(&node->children[i], pos);
 				}
 			}

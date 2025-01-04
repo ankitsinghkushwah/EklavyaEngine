@@ -27,6 +27,10 @@ namespace Eklavya
 		~AnimationComponent();
 		void Tick(float dt) override;
 
+		std::shared_ptr<Asset::Animation> GetCurrentAnimation() const
+		{
+			return mCurrentAnimation;
+		}
 		void PlayAnimation(std::shared_ptr<Asset::Animation> pAnimation, bool smoothTransition = false);
 
 		const std::vector<glm::mat4>& GetPoseTransforms()
@@ -46,6 +50,8 @@ namespace Eklavya
 			mIsSwitchingAnimation = true;
 			mElapsedAnimTransition = 0;
 		}
+
+		glm::mat4 GetBoneTransform(const std::string& boneName) const;
 
 	  private:
 		float     GetScaleFactor(float lastTimeStamp, float nextTimeStamp);

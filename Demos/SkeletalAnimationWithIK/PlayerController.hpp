@@ -113,6 +113,8 @@ class PlayerController
 
 	Eklavya::Physics::CastHitResult mCastResult;
 	float                           mCastRange = 20.0f;
+ 
+  //Left
 };
 
 #endif /* State_hpp */
