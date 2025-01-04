@@ -37,6 +37,8 @@ namespace Eklavya::Physics
 	    mI(FLT_MAX)
 	    , mInvI(0.0f)
 	    , mE(0.0f)
+
+	    , mFreezePositionFlags(1.0f)
 	{
 	}
 
@@ -90,11 +92,14 @@ namespace Eklavya::Physics
 		mThetaV *= pow(mAngDamping, delta);
 		mP += (mV * delta);
 
-		// update rotation
-		glm::quat w(mThetaV * delta);
-		w.w = 0.0f;
-		w *= mTheta;
-		mTheta += (w * 0.5f);
+		if (mDisableRotation == false)
+		{
+			// update rotation
+			glm::quat w(mThetaV * delta);
+			w.w = 0.0f;
+			w *= mTheta;
+			mTheta += (w * 0.5f);
+		}
 
 		UpdateTransform();
 

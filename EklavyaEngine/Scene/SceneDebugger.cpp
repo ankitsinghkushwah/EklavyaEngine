@@ -52,16 +52,18 @@ namespace Eklavya
 
 			if (body->GetCollider()->GetType() == Physics::EColliderType::BOX)
 			{
-				glm::vec3 extents = static_cast<const BoxColliderComponent*>(body->GetCollider())->GetHalfSize() * 2.0f;
+				const BoxColliderComponent* collider = static_cast<const BoxColliderComponent*>(body->GetCollider());
+				glm::vec3                   extents = collider->GetHalfSize() * 2.0f;
 
 				mScene.mRenderer->GetDebugRenderer().DrawBox(actor->Transform().Position() + body->GetCollider()->GetOffset(), oiler, extents, mColliderColor);
 			}
 
 			if (body->GetCollider()->GetType() == Physics::EColliderType::SPHERE)
 			{
-				float radius = static_cast<const Physics::SphereColliderComponent*>(body->GetCollider())->GetRadius();
+				const SphereColliderComponent* collider = static_cast<const SphereColliderComponent*>(body->GetCollider());
+				float                       radius = collider->GetRadius();
 
-				mScene.mRenderer->GetDebugRenderer().DrawSphere(actor->Transform().Position(), radius, mColliderColor);
+				mScene.mRenderer->GetDebugRenderer().DrawSphere(collider->GetPosition(), radius, mColliderColor);
 			}
 		}
 

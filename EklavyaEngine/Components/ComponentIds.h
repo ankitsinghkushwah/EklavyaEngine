@@ -17,18 +17,18 @@ namespace CoreComponentIds
 	constexpr std::uint32_t ANIMATION_COMPONENT_ID = 2;
 	constexpr std::uint32_t RIGIDBODY_COMPONENT_ID = 3;
 	constexpr std::uint32_t COLLIDER_COMPONENT_ID = 4;
-  
+
 } // namespace CoreComponentIds
 
 namespace VehiclePhysicsComponentIds
 {
-  constexpr std::uint32_t SUSPENSION_COMPONENT_ID = 5;
-  constexpr std::uint32_t CAR_COMPONENT_ID = 6;
-}
+	constexpr std::uint32_t SUSPENSION_COMPONENT_ID = 5;
+	constexpr std::uint32_t CAR_COMPONENT_ID = 6;
+} // namespace VehiclePhysicsComponentIds
 
 namespace ThirdPersonDemoComponentIds
 {
-
+	constexpr std::uint32_t PLAYER_CONTROLLER_ID = 7;
 }
 
 #endif /* ComponentIds_h */

@@ -8,7 +8,7 @@
 #include "Director.hpp"
 #include "SkeletalAnimationDemo.hpp"
 #include "VehiclePhysicsDemo.hpp"
-#include "FPSDemo.hpp"
+#include "SkeletalAnimationWithIK.hpp"
 #include "StackOfBoxesDemo.hpp"
 
 using namespace Eklavya;
@@ -37,7 +37,7 @@ int main()
 	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
 
 	Eklavya::Director* engine = new Eklavya::Director("Eklavya", resolution.width, resolution.height, false);
-	engine->SetScene(new StackOfBoxesDemo(engine));
+	engine->SetScene(new SkeletalAnimationWithIK(engine));
 	engine->Start();
 	return 0;
 }

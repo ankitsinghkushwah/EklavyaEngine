@@ -27,7 +27,7 @@ namespace Eklavya
 		~AnimationComponent();
 		void Tick(float dt) override;
 
-		void PlayAnimation(std::shared_ptr<Asset::Animation> pAnimation);
+		void PlayAnimation(std::shared_ptr<Asset::Animation> pAnimation, bool smoothTransition = false);
 
 		const std::vector<glm::mat4>& GetPoseTransforms()
 		{
@@ -62,11 +62,11 @@ namespace Eklavya
 		std::shared_ptr<Asset::Animation>              mNextAnimation;
 		std::vector<std::shared_ptr<Asset::Animation>> mAnimations;
 		float                                          mCurrentTime = 0.0f;
-		float                                          mDeltaTime;
-		float                                          mElapsedAnimTransition;
-		float                                          mMaxAnimTransitionDuration;
-		bool                                           mIsSwitchingAnimation;
-		float                                          mTransitionSpeed;
+		float                                          mDeltaTime = 0.0f;
+		float                                          mElapsedAnimTransition = 0.0f;
+		float                                          mMaxAnimTransitionDuration = 0.0f;
+		bool                                           mIsSwitchingAnimation = false;
+		float                                          mTransitionSpeed = 0.0f;
 
 #ifdef EKDEBUG
 	  private:

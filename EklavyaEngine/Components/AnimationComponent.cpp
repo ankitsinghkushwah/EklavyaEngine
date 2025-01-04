@@ -40,7 +40,8 @@ namespace Eklavya
 	glm::mat4 AnimationComponent::InterpolateToNextAnimation(Bone* jointFrom, Bone* jointTo)
 	{
 		glm::mat4 result(1.0f);
-		float     scaleFactor = mElapsedAnimTransition / mMaxAnimTransitionDuration; // 0 - 1
+		float     scaleFactor = mElapsedAnimTransition / (float)mMaxAnimTransitionDuration; // 0 - 1
+		scaleFactor = glm::clamp(scaleFactor, 0.0f, 1.0f);
 		result = LerpPos(jointFrom, jointTo, scaleFactor) * SlerpRot(jointFrom, jointTo, scaleFactor) * LerpScale(jointFrom, jointTo, scaleFactor);
 		return result;
 	}
@@ -70,8 +71,15 @@ namespace Eklavya
 		return glm::scale(glm::mat4(1.0), finalScale);
 	}
 
-	void AnimationComponent::PlayAnimation(std::shared_ptr<Animation> pAnimation)
+	void AnimationComponent::PlayAnimation(std::shared_ptr<Animation> pAnimation, bool smoothTransition)
 	{
+		mElapsedAnimTransition = 0.0f;
+		mCurrentTime = 0.0f;
+		if (smoothTransition == false)
+		{
+			mCurrentAnimation = pAnimation;
+			return;
+		}
 		if (!mCurrentAnimation)
 		{
 			mIsSwitchingAnimation = false;
@@ -82,9 +90,6 @@ namespace Eklavya
 			mNextAnimation = pAnimation;
 			mIsSwitchingAnimation = true;
 		}
-
-		mElapsedAnimTransition = 0.0f;
-		mCurrentTime = 0.0f;
 	}
 
 	void AnimationComponent::Tick(float dt)
@@ -100,14 +105,13 @@ namespace Eklavya
 		else if (mIsSwitchingAnimation && mCurrentAnimation && mNextAnimation)
 		{
 			mElapsedAnimTransition += mTransitionSpeed * dt;
+			AdvanceBones(&mCurrentAnimation->GetRootNode(), glm::mat4(1.0f));
 			if (mElapsedAnimTransition > mMaxAnimTransitionDuration)
 			{
 				mIsSwitchingAnimation = false;
 				mCurrentAnimation = mNextAnimation;
 				mNextAnimation = nullptr;
 			}
-			else
-				AdvanceBones(&mCurrentAnimation->GetRootNode(), glm::mat4(1.0f));
 		}
 	}
 

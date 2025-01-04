@@ -179,7 +179,19 @@ namespace Eklavya::Physics
 				mF += mMass * glm::vec3(0.0f, -98.0f * mGravityScale, 0.0f);
 			}
 		}
+		void SetFreezePositionFlags(glm::vec3 flags)
+		{
+			mFreezePositionFlags = flags;
+		}
 
+		void SetGravityScale(float value)
+		{
+			mGravityScale = value;
+		}
+		void SetDisableRotation(bool disable)
+		{
+			mDisableRotation = disable;
+		}
 #ifdef EKDEBUG
 		bool mShowCollider = false;
 #endif
@@ -208,6 +220,9 @@ namespace Eklavya::Physics
 		glm::vec3 mThetaA;
 		glm::quat mTheta;
 		float     mAngDamping = 0.0f;
+
+		glm::vec3 mFreezePositionFlags;
+		bool      mDisableRotation = false;
 	};
 
 } // namespace Eklavya::Physics

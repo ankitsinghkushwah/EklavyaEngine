@@ -106,7 +106,7 @@ namespace Eklavya::Physics
 		void SetRadius(float radius);
 
 	  private:
-		float mRadius;
+		float mRadius = 0.0f;
 	};
 
 	class BoxColliderComponent : public BaseColliderComponent

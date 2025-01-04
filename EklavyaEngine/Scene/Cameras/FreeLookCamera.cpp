@@ -12,7 +12,7 @@
 
 namespace Eklavya
 {
-	FreeLookCamera::FreeLookCamera(CameraParams options) : ICamera(options), mSenstivity(.005), mSpeed(100.0f)
+	FreeLookCamera::FreeLookCamera(CameraParams options) : ICamera(options), mSenstivity(.005), mSpeed(500.0f)
 	{
 		mPosition = glm::vec3(0.0f, 100.0f, 200.0f);
 	}
