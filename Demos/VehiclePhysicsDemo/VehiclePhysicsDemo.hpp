@@ -17,36 +17,37 @@
 
 namespace Eklavya
 {
-  class VehiclePhysicsDemo final : public MainEntryScene
-  {
-  public:
-    VehiclePhysicsDemo(class Director *pDirector);
+	class VehiclePhysicsDemo final : public MainEntryScene
+	{
+	  public:
+		VehiclePhysicsDemo(class Director* pDirector);
 
-    ~VehiclePhysicsDemo() override;
+		~VehiclePhysicsDemo() override;
 
-  private:
-    void                                CreateCubeStack();
+		void OnKeyAction(int key, int action) override;
 
-    std::array<CarSuspension*, 4>    mSuspensions;
+	  private:
+		void CreateCubeStack();
 
-    Physics::EkBody*              mChassisBody = nullptr;
+		std::array<CarSuspension*, 4> mSuspensions;
 
-    void                                PreloadTextures();
+		Physics::EkBody* mChassisBody = nullptr;
 
-    Asset::MaterialInfo LoadMaterialInfo(const std::string &file,
-                                         std::string        ext = "png");
-    void                ImGuiProc() override;
+		void PreloadTextures();
 
-    void                CreateStage();
+		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
 
-    void                CreateCar();
+		void CreateStage();
 
-    void                LoadMesh();
+		void CreateCar();
+
+		void LoadMesh();
 
 #ifdef EKDEBUG
-    void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
+	void ImGuiProc() override;
+		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
 #endif
-  };
+	};
 
 } // namespace Eklavya
 

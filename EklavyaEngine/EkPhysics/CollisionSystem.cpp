@@ -10,10 +10,18 @@
 #include "EkBody.h"
 #include "EkActor.h"
 
+#ifdef EKDEBUG
+#include "Renderer/DebugRenderer.hpp"
+#endif
+
 namespace Eklavya::Physics::CollisionSystem
 {
 
+#ifdef EKDEBUG
+	bool RayVsOBB(Ray ray, const BoxColliderComponent& boxCollider, float& t, Eklavya::Renderer::DebugRenderer& debugRenderer)
+#else
 	bool RayVsOBB(Ray ray, const BoxColliderComponent& boxCollider, float& t)
+#endif
 	{
 		ray.d = glm::normalize(ray.d);
 
@@ -21,6 +29,7 @@ namespace Eklavya::Physics::CollisionSystem
 		float tMax = FLT_MAX;
 
 		const glm::mat4& worldMatrix = boxCollider.GetOwner().Transform().GetWorldMatrix();
+		const glm::mat4  invWorldMatrix = glm::transpose(worldMatrix);
 
 		glm::vec3 center = worldMatrix[3];
 
@@ -41,8 +50,46 @@ namespace Eklavya::Physics::CollisionSystem
 			farPlane.o = center - (normal * l);
 			farPlane.n = normal;
 
-			RayVsPlane(ray, nearPlane, t1);
-			RayVsPlane(ray, farPlane, t2);
+#ifdef EKDEBUG
+
+			//			float     rad = 3.0f;
+			//			glm::vec4 col(normal, 1.0f);
+			//			float     nLen = 10.0f;
+			//			debugRenderer.AddSphere(nearPlane.o, rad, col);
+			//			debugRenderer.AddLine(nearPlane.o, nearPlane.o + normal * nLen, col, .3f);
+			//			debugRenderer.AddSphere(farPlane.o, rad, col);
+			//			debugRenderer.AddLine(farPlane.o, farPlane.o + normal * nLen, col, .3f);
+
+#endif
+
+			if (RayVsPlane(ray, nearPlane, t1) == false || RayVsPlane(ray, farPlane, t2) == false)
+			{
+				glm::mat4 inv_mat = glm::inverse(worldMatrix);
+				glm::vec3 p0 = inv_mat * glm::vec4(ray.GetPoint(t1), 1.0f);
+				glm::vec3 p1 = inv_mat * glm::vec4(ray.GetPoint(t2), 1.0f);
+				if (p0[i] > l)
+					return false;
+				//				float     radHit = 5.0f;
+				//				glm::vec4 colHit(1.0f, 1.0f, 0.0f, 1.0f);
+				//				debugRenderer.AddSphere(ray.o + ray.d * t1, radHit, colHit);
+				//				debugRenderer.AddSphere(ray.o + ray.d * t2, radHit, colHit);
+				continue;
+			}
+
+			glm::mat4 inv_mat = glm::inverse(worldMatrix);
+			glm::vec3 p0 = inv_mat * glm::vec4(ray.GetPoint(t1), 1.0f);
+			glm::vec3 p1 = inv_mat * glm::vec4(ray.GetPoint(t2), 1.0f);
+			if (p0[i] > l)
+				return false;
+#ifdef EKDEBUG
+
+				//			float     radHit = 5.0f;
+				//			glm::vec4 colHit(0.0f, 1.0f, 1.0f, 1.0f);
+				//
+				//			debugRenderer.AddSphere(ray.o + ray.d * t1, radHit, colHit);
+				//			debugRenderer.AddSphere(ray.o + ray.d * t2, radHit, colHit);
+
+#endif
 
 			if (t1 > t2)
 			{
@@ -60,11 +107,16 @@ namespace Eklavya::Physics::CollisionSystem
 			}
 
 			if (tMax < tMin)
+			{
+				//				debugRenderer.AddSphere(worldMatrix[3], 10.0f, glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 				return false;
+			}
 		}
 
 		t = tMin;
-		return true;
+		if (t > 0.0001f)
+			return true;
+		return false;
 	}
 
 	bool RayVsSphere(Ray ray, glm::vec3 sphereCenter, float radius, glm::vec2& points)

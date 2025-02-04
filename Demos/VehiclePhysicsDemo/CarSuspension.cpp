@@ -23,13 +23,13 @@ CarSuspension::CarSuspension(EkActor& owner,const EkScene *scene, int tireIdx)
   mID = tireIdx;
 
  
-  mSpringLength = 4.0f;
-  mSpringStrength = 40.0f;
+  mSpringLength = 5.0f;
+  mSpringStrength = 50.0f;
   mSpringDamping = 5.0f;
 
   mWheelAngle = 0.0f;
   mWheelRadius = 2.2f;
-  mTireSpeed = 50.0f;
+  mTireSpeed = 100.0f;
 
   mForcesColours[EWheelForces::SUSPSENSION] = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
   mForcesColours[EWheelForces::DESIRED_DIRECTION] =

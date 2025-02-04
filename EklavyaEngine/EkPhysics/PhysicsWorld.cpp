@@ -62,6 +62,8 @@ namespace Eklavya::Physics
 	{
 		Ray           ray{o, d, maxRange};
 		CastHitResult result;
+		if (mDebugRenderer == nullptr)
+			return result;
 
 		float                        t = 0.0f;
 		int                          index = -1;
@@ -80,7 +82,8 @@ namespace Eklavya::Physics
 			if (collider->GetType() == EColliderType::BOX)
 			{
 				const BoxColliderComponent* boxCollider = static_cast<const BoxColliderComponent*>(mBodies[i]->GetCollider());
-				success = CollisionSystem::RayVsOBB(ray, *boxCollider, t);
+
+				success = CollisionSystem::RayVsOBB(ray, *boxCollider, t, *mDebugRenderer);
 			}
 			else if (collider->GetType() == EColliderType::SPHERE)
 			{

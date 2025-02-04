@@ -21,6 +21,7 @@ namespace Eklavya
 		void SetTarget(TransformComponent* actor)
 		{
 			mTarget = actor;
+      mCameraRotation = actor->Rotation();
 		}
 
 		void SetArmsLength(glm::vec3 armsLength)
@@ -38,6 +39,9 @@ namespace Eklavya
 		glm::vec3           mTargetOffset;
 		TransformComponent* mTarget = nullptr;
 		float               mSpeed = 0.0f;
+    float mAngCatchupSpeed = 0.0f;
+    float mPosCatchupSpeed = 0.0f;
+    glm::quat mCameraRotation;
 
 #ifdef EKDEBUG
 		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;

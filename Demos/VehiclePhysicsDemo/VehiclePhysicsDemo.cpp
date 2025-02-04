@@ -143,7 +143,7 @@ namespace Eklavya
 
 			UniqueActor uniqueWheel = SceneHelper::CreateActorFromModel(tire, 1);
 			uniqueWheel->Transform().SetScale(2.6f);
-      EkActor* wheel = uniqueWheel.get();
+			EkActor* wheel = uniqueWheel.get();
 			AddActor(uniqueWheel);
 
 			float offX = -0.5;
@@ -165,6 +165,15 @@ namespace Eklavya
 		}
 
 		car->Transform().SetPosition(0, 100, 0);
+
+		std::shared_ptr<SpringFollowCamera> followCamera = std::make_shared<SpringFollowCamera>(mDefaultCameraParams);
+
+		followCamera->SetTarget(&car->Transform());
+		followCamera->SetArmsLength(glm::vec3(0.0f, 20.0f, 70.0f));
+		followCamera->SetTargetOffset(glm::vec3(0.0f, 0.0f, -400.0f));
+
+		this->OverrideCamera(followCamera);
+
 		AddActor(car);
 	}
 
@@ -194,38 +203,47 @@ namespace Eklavya
 	{
 	}
 
+	void VehiclePhysicsDemo::OnKeyAction(int key, int action)
+	{
+		MainEntryScene::OnKeyAction(key, action);
+		if (key == GLFW_KEY_H && action == GLFW_PRESS)
+			CreateCubeStack();
+	}
+
 	void VehiclePhysicsDemo::CreateCubeStack()
 	{
-		MaterialInfo info;
-		info.mBaseColor = glm::vec3(0.7f, 1.0f, 0.4f);
-		info.mRoughness = 1.0f;
-		info.mMetallic = 1.0f;
+		int   rows = 5;
+		int   cols = 6;
+		float startY = 50.0f;
+		float boxDim = 10.0f;
+		float offsetX = ((cols - 1) / 2.0f) * boxDim;
 
-		float radius = 5.0f;
-		int   rows = 4;
-		int   cols = 4;
-
-		float diameter = radius * 2;
-		float xOffset = (cols * diameter / 2.0f);
-		float yOffset = 2.0f;
-		float offset = 10.0f;
-		for (int row = 1; row <= rows; ++row)
+		for (int r = 0; r < rows; ++r)
 		{
-			for (int col = 1; col <= cols; ++col)
+			for (int c = 0; c < cols; ++c)
 			{
-				float x = xOffset + (col * radius);
-				float y = yOffset + (row * radius + offset);
-				CreateCube(glm::vec3(x, y, 300.0f), glm::vec3(radius), glm::vec3(0.0f), 10.0f, info);
+				float x = (c * boxDim) - offsetX;
+				float y = startY + r * boxDim;
+				float z = 0.0f;
+
+				MaterialInfo info = LoadMaterialInfo("crate");
+				info.mRoughness = 1.0f;
+				info.mMetallic = 0.0f;
+				info.mTiling = 1;
+				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
+				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 5.0f, info, 0);
+
+				//CreateSphere(glm::vec3(x, y, z), boxDim, 20.0f, info);
 			}
 		}
 	}
+
+#ifdef EKDEBUG
 
 	void VehiclePhysicsDemo::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
 	}
-
-#ifdef EKDEBUG
 	void VehiclePhysicsDemo::DebugDraw(Renderer::DebugRenderer& debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);

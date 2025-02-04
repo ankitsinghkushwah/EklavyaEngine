@@ -204,7 +204,7 @@ namespace Eklavya
 		float floorScaleY = 30.0f;
 		CreateCube(glm::vec3(0.0f), glm::vec3(areaAxtent, floorScaleY, areaAxtent), glm::vec3(), FLT_MAX, info, 0);
 
-		CreateCube(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f), glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
+		ikFloor = CreateCube(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f), glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
 	}
 
 	void SkeletalAnimationWithIK::SetupPlayer()
@@ -252,24 +252,44 @@ namespace Eklavya
 		CreateStage();
 		SetupPlayer();
 
-		mFollowCamera = std::make_shared<SpringFollowCamera>(DefaulCameraParams());
-		mFollowCamera->SetTarget(&mPlayer->Transform());
-		mFollowCamera->SetTargetOffset(glm::vec3(-60.0f, 100.0f, 0.0f));
-		mFollowCamera->SetArmsLength(glm::vec3(0.0f, 200.0f, -200.0f));
-		OverrideCamera(mFollowCamera);
+				mFollowCamera = std::make_shared<SpringFollowCamera>(DefaulCameraParams());
+				mFollowCamera->SetTarget(&mPlayer->Transform());
+				mFollowCamera->SetTargetOffset(glm::vec3(0.0f, 0.0f, 50.0f));
+				mFollowCamera->SetArmsLength(glm::vec3(0.0f, 200.0f, -300.0f));
+				OverrideCamera(mFollowCamera);
+	}
+
+	void SkeletalAnimationWithIK::Tick(float dt)
+	{
+		MainEntryScene::Tick(dt);
+
+		float s = 100.0f;
+		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_U))
+		{
+			floorAngle -= s * dt;
+		}
+		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_I))
+		{
+			floorAngle += s * dt;
+		}
+
+		ikFloor->Transform().SetRotation(glm::vec3(floorAngle, 0.0f, 0.0f));
+		printf("\n angle %.3f", floorAngle);
 	}
 
 	SkeletalAnimationWithIK::~SkeletalAnimationWithIK()
 	{
 	}
 
+
+
+#ifdef EKDEBUG
+
 	void SkeletalAnimationWithIK::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
 		mPlayerController->ImGuiProc();
 	}
-
-#ifdef EKDEBUG
 	void SkeletalAnimationWithIK::DebugDraw(Renderer::DebugRenderer& debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);

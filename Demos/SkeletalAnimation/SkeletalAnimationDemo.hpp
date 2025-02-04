@@ -29,13 +29,14 @@ namespace Eklavya
 		void PreloadTextures();
 
 		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
-		void                ImGuiProc() override;
+	
 
 		void CreateStage();
 
 		void LoadMesh();
 
 #ifdef EKDEBUG
+	void                ImGuiProc() override;
 		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
 #endif
 	};

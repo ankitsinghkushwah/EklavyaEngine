@@ -13,6 +13,8 @@
 #include "ComponentIds.h"
 #include "EkPhysics/PhysicsWorld.h"
 
+#include "AnimationIKSolverComponent.hpp"
+
 using namespace Eklavya::Asset;
 
 namespace Eklavya
@@ -22,10 +24,11 @@ namespace Eklavya
 	    , mDeltaTime(0.0f)
 	    , mModelID(modelId)
 	    , mPose(MAX_BONES_SUPPORTED, glm::mat4(1.0f))
-	    , mLocalPose(MAX_BONES_SUPPORTED, glm::mat4(1.0f))
+	    , mBoneWorldPoses(MAX_BONES_SUPPORTED, glm::mat4(1.0f))
+	    , mBoneLocalPoses(MAX_BONES_SUPPORTED, glm::mat4(1.0f))
+	    , mParentTransforms(MAX_BONES_SUPPORTED, glm::mat4(1.0f))
 
 	{
-		mPose.reserve(MAX_BONES_SUPPORTED);
 		mCurrentAnimation = nullptr;
 		mNextAnimation = nullptr;
 		mIsSwitchingAnimation = false;
@@ -115,6 +118,54 @@ namespace Eklavya
 				mNextAnimation = nullptr;
 			}
 		}
+//
+//		if (mCurrentAnimation)
+//		{
+//			AnimationIKSolver* solver = GetOwner().GetComponent<AnimationIKSolver>(CoreComponentIds::IK_SOLVER_COMPONENT);
+//			solver->Solve(mCurrentAnimation->GetBoneIDMap(), mBoneWorldPoses, mBoneLocalPoses, mParentTransforms);
+//			SolveIK(&mCurrentAnimation->GetRootNode(), glm::mat4(1.0f));
+//		}
+	}
+
+	void AnimationComponent::SolveIK(const AssimpNodeData* node, glm::mat4 parentTransform)
+	{
+		std::string nodeName = node->name;
+		glm::mat4   nodeTransform = glm::mat4(1.0f);
+		Bone*       joint = mCurrentAnimation->FindJoint(nodeName);
+
+		if (joint)
+		{
+			glm::vec3 pos(0.0f);
+			glm::mat4 poffset(1.0f);
+			auto      boneInfoMap = mCurrentAnimation->GetBoneIDMap();
+			if (boneInfoMap.find(nodeName) != boneInfoMap.end())
+			{
+				int index = boneInfoMap[nodeName].id;
+				nodeTransform = mBoneLocalPoses[index];
+				poffset = boneInfoMap[nodeName].offset;
+				pos = nodeTransform[3];
+			}
+
+			AnimationIKSolver* solver = GetOwner().GetComponent<AnimationIKSolver>(CoreComponentIds::IK_SOLVER_COMPONENT);
+			if (solver->ContainsJoint(joint->GetJointName()))
+			{
+				nodeTransform = nodeTransform * solver->GetJointTransform(joint->GetJointName());
+			}
+		}
+		else
+		{
+			nodeTransform = node->transform;
+		}
+		glm::mat4 globalTransformation = parentTransform * nodeTransform;
+		auto      boneInfoMap = mCurrentAnimation->GetBoneIDMap();
+		if (boneInfoMap.find(nodeName) != boneInfoMap.end())
+		{
+			int       index = boneInfoMap[nodeName].id;
+			glm::mat4 offset = boneInfoMap[nodeName].offset;
+			mPose[index] = mCurrentAnimation->InvRootTransform() * globalTransformation * offset;
+		}
+		for (int i = 0; i < node->childrenCount; i++)
+			SolveIK(&node->children[i], globalTransformation);
 	}
 
 	void AnimationComponent::AdvanceBones(const AssimpNodeData* node, glm::mat4 parentTransform)
@@ -122,6 +173,7 @@ namespace Eklavya
 		std::string nodeName = node->name;
 		glm::mat4   nodeTransform = glm::mat4(1.0f);
 		Bone*       joint = mCurrentAnimation->FindJoint(nodeName);
+
 		if (joint)
 		{
 			if (mIsSwitchingAnimation)
@@ -147,8 +199,9 @@ namespace Eklavya
 			int       index = boneInfoMap[nodeName].id;
 			glm::mat4 offset = boneInfoMap[nodeName].offset;
 			mPose[index] = mCurrentAnimation->InvRootTransform() * globalTransformation * offset;
-
-			mLocalPose[index] = GetOwner().Transform().GetWorldMatrix() * mCurrentAnimation->InvRootTransform() * globalTransformation;
+			mBoneLocalPoses[index] = nodeTransform;
+			mBoneWorldPoses[index] = GetOwner().Transform().GetWorldMatrix() * mCurrentAnimation->InvRootTransform() * globalTransformation;
+			mParentTransforms[index] = glm::inverse(parentTransform);
 		}
 		for (int i = 0; i < node->childrenCount; i++)
 			AdvanceBones(&node->children[i], globalTransformation);
@@ -164,7 +217,7 @@ namespace Eklavya
 		if (boneInfoMap.find(boneName) != boneInfoMap.end())
 		{
 			int index = boneInfoMap.at(boneName).id;
-			return mLocalPose[index];
+			return mBoneWorldPoses[index];
 		}
 		return glm::mat4(1.0f);
 	}
@@ -185,8 +238,8 @@ namespace Eklavya
 				if (boneInfoMap.find(kid->name) != boneInfoMap.end())
 				{
 					int       index = boneInfoMap[kid->name].id;
-					glm::vec3 pos = mLocalPose[index][3];
-					debugRenderer.DrawLine(parentBonePos, pos, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 0.5f);
+					glm::vec3 pos = mBoneWorldPoses[index][3];
+					debugRenderer.DrawLine(parentBonePos, pos, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), .5f, true);
 					DrawChildren(&node->children[i], pos);
 				}
 			}

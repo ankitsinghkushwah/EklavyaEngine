@@ -143,12 +143,13 @@ namespace Eklavya
 		}
 	}
 
+
+#ifdef EKDEBUG
+
 	void SkeletalAnimationDemo::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
 	}
-
-#ifdef EKDEBUG
 	void SkeletalAnimationDemo::DebugDraw(Renderer::DebugRenderer& debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);

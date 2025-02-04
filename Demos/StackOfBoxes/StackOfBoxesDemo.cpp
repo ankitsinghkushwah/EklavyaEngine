@@ -49,21 +49,19 @@ namespace Eklavya
 	{
 		if (key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
 		{
-			mRayStart = CurrentCamera()->Position();
 			mRayDirection = glm::normalize(CurrentCamera()->Forward());
+			mRayStart = CurrentCamera()->Position() + mRayDirection * 150.0f;
 
-			if (glm::dot(mRayDirection, glm::vec3(0.0f, 1.0f, 0.0f)) > 0.0f)
-			{
-				mRayDirection *= -1.0f;
-			}
-			mRayRange = 30000.0f;
+			mRayRange = 3000.0f;
 
-			mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
+			mLastCastHitResult = GetPhysics().RayCast(mRayStart, glm::vec3(0.0f, -1.0f, 0.0f), mRayRange, -1);
 
-			if (mLastCastHitResult.success)
-			{
-				mLastCastHitResult.body->ApplyImpulseAtPoint(glm::normalize(CurrentCamera()->Forward()) * 1000.0f, mLastCastHitResult.position);
-			}
+      //mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
+
+			//			if (mLastCastHitResult.success)
+			//			{
+			//				mLastCastHitResult.body->ApplyImpulseAtPoint(glm::normalize(CurrentCamera()->Forward()) * 1000.0f, mLastCastHitResult.position);
+			//			}
 		}
 	}
 
@@ -107,15 +105,36 @@ namespace Eklavya
 		info.mTiling = 10;
 		info.mBaseColor = glm::vec3(0.0f, 0.6f, 0.2f);
 
-		float area_extent = 300;
+		float area_extent = 2000;
 		float floorScaleY = 10.0f;
 
 		//CreateSphere(glm::vec3(0.0f,-50.0f,0.0f), 100.0f, FLT_MAX, info);
 		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
+
+		{
+			MaterialInfo info = LoadMaterialInfo("pbr/grid");
+			info.mRoughness = 1.0f;
+			info.mTiling = 40;
+
+			float area_extent = 10000;
+			float floorScaleY = 5.0f;
+			//	CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, STATIC);
+
+			MaterialInfo info2;
+			info2.mBaseColor = glm::vec3(0.5, 0.4, 1.0f);
+			info2.mRoughness = 1.0f;
+			info2.mTiling = 1.0f;
+			CreateCube(glm::vec3(0.0f, 80.0f, 0.0f), glm::vec3(100.0f), glm::vec3(), FLT_MAX, info2, STATIC);
+
+			CreateCube(glm::vec3(-200.0f,80.0f, 0.0f), glm::vec3(100.0f), glm::vec3(), FLT_MAX, info2, STATIC);
+
+			//	CreateSphere(glm::vec3(0.0f, 0.0f, -100.0f), 40.0f, FLT_MAX, info2, STATIC);
+		}
 	}
 
 	void StackOfBoxesDemo::OnKeyAction(int key, int action)
 	{
+		MainEntryScene::OnKeyAction(key, action);
 		if (key == GLFW_KEY_H && action == GLFW_PRESS)
 			CreateStackOfBoxes();
 	}
@@ -126,7 +145,7 @@ namespace Eklavya
 		int   cols = 6;
 		float startY = 50.0f;
 		float boxDim = 20.0f;
-    float offsetX = ((cols - 1)/2.0f) * boxDim;
+		float offsetX = ((cols - 1) / 2.0f) * boxDim;
 
 		for (int r = 0; r < rows; ++r)
 		{
@@ -153,9 +172,14 @@ namespace Eklavya
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 
-		glm::vec3 endPoint = mLastCastHitResult.success ? mLastCastHitResult.position : mRayStart + mRayDirection * mRayRange;
-		debugRenderer.DrawLine(mRayStart, endPoint, glm::vec4(0.0f, 0.0f, 0.0f, .7f), .2f);
+		glm::vec3 endPoint = mLastCastHitResult.success ? mLastCastHitResult.position : mRayStart + glm::vec3(0.0f, -1.0f, 0.0f) * mRayRange;
+		debugRenderer.DrawLine(mRayStart,
+		                       endPoint,
+		                       mLastCastHitResult.success ? glm::vec4(0.0f, 0.6f, 0.0f, 1.0f) : glm::vec4(0.0f, 0.0f, 0.0f, .7f),
+		                       mLastCastHitResult.success ? 0.5f : .3f);
 		debugRenderer.DrawSphere(endPoint, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
+
+		// mLastCastHitResult.success = false;
 	}
 	void StackOfBoxesDemo::ImGuiProc()
 	{

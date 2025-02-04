@@ -40,13 +40,13 @@ namespace Eklavya
 
 	void SceneDebugger::TraverseToDebugDraw(const UniqueActor& actor)
 	{
-		if (actor->mDebugDrawComponents)
+		//		if (actor->mDebugDrawComponents)
+		//		{
+		for (auto& component : actor->Components())
 		{
-			for (auto& component : actor->Components())
-			{
-				component->DebugDraw(mScene.mRenderer->GetDebugRenderer());
-			}
+			component->DebugDraw(mScene.mRenderer->GetDebugRenderer());
 		}
+		//}
 		EkBody* body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 		if (body && body->mShowCollider)
 		{
@@ -312,49 +312,38 @@ namespace Eklavya
 		}
 	}
 
-	/* // Scene Tree
-		if (ImGui::TreeNode("SceneRoot"))
-		{
-			for (auto& rootActor : mScene.mRootActors)
-			{
-				ImGui::PushID(std::to_string(rootActor->ID()).c_str());
-				Traverse(rootActor);
-				ImGui::PopID();
-			}
-			ImGui::TreePop();
-		}*/
-
 	void SceneDebugger::DebugAnimationComponent(const UniqueActor& actor)
 	{
-		char                                       c = '-';
-		std::string                                tabs = "";
-		const AnimationComponent*                  animationComponent = actor->GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID);
+		const AnimationComponent* animationComponent = actor->GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID);
+		if (animationComponent == nullptr)
+			return;
 		SHARED_ANIMATION                           currentAnimation = animationComponent->GetCurrentAnimation();
-		std::function<void(const AssimpNodeData*)> DrawChildren = [c, &currentAnimation, &tabs, this, &DrawChildren](const AssimpNodeData* node) -> void
+		std::function<void(const AssimpNodeData*)> DrawChildren = [&currentAnimation, this, &DrawChildren](const AssimpNodeData* node) -> void
 		{
 			auto boneInfoMap = currentAnimation->GetBoneIDMap();
 
-			for (int i = 0; i < node->childrenCount; i++)
+			if (ImGui::TreeNode(node->name.c_str()))
 			{
-				const AssimpNodeData* kid = &node->children[i];
-				ImGui::Text("%s%s", tabs.c_str(), kid->name.c_str());
-
-				for (const AssimpNodeData& node : kid->children)
+				for (int i = 0; i < node->childrenCount; i++)
 				{
-					tabs += c;
-          tabs += c;
-          tabs += c;
-					DrawChildren(&node);
-          tabs.resize(tabs.size() - 3);
+					const AssimpNodeData* kid = &node->children[i];
+
+					for (const AssimpNodeData& node : kid->children)
+					{
+						ImGui::PushID(node.name.c_str());
+						DrawChildren(&node);
+						ImGui::PopID();
+					}
 				}
+				ImGui::TreePop();
 			}
 		};
 
-		ImGui::Begin("Skeletal Rig");
-
-		ImGui::Text("\n %s%s", tabs.c_str(), currentAnimation->GetRootNode().name.c_str());
-		DrawChildren(&currentAnimation->GetRootNode());
-		ImGui::End();
+		if (ImGui::TreeNode("Skeletal Rig"))
+		{
+			DrawChildren(&currentAnimation->GetRootNode());
+			ImGui::TreePop();
+		}
 	}
 
 } // namespace Eklavya

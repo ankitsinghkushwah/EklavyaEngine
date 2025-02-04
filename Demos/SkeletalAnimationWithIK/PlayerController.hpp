@@ -105,6 +105,7 @@ class PlayerController
 	float mRotationAngle = 0.0f;
 	float mRotationTime = 1.0f;
 	float mRotationTimeElapsed = 0.0f;
+ float mTargetAngle = 0.0f;
 	bool  mTurning = false;
 
 	glm::vec3 mPosition;

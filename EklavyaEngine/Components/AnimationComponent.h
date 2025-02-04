@@ -60,10 +60,13 @@ namespace Eklavya
 		glm::mat4 SlerpRot(Bone* jointFrom, Bone* jointTo, float scaleFactor);
 		glm::mat4 LerpScale(Bone* jointFrom, Bone* jointTo, float scaleFactor);
 		void      AdvanceBones(const Asset::AssimpNodeData* node, glm::mat4 parentTransform);
+		void      SolveIK(const Asset::AssimpNodeData* node, glm::mat4 parentTransform);
 
 		ModelID                                        mModelID = -1;
 		std::vector<glm::mat4>                         mPose;
-		std::vector<glm::mat4>                         mLocalPose;
+		std::vector<glm::mat4>                         mBoneWorldPoses;
+		std::vector<glm::mat4>                         mBoneLocalPoses;
+		std::vector<glm::mat4>                         mParentTransforms;
 		std::shared_ptr<Asset::Animation>              mCurrentAnimation;
 		std::shared_ptr<Asset::Animation>              mNextAnimation;
 		std::vector<std::shared_ptr<Asset::Animation>> mAnimations;

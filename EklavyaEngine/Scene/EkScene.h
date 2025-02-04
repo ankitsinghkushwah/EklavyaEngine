@@ -47,7 +47,7 @@ namespace Eklavya
 		EkScene(Director* director);
 
 		virtual void FixedTick(float fixedDeltaTime) final;
-		virtual void Tick(float deltaTime) final;
+		virtual void Tick(float deltaTime);
 
 		virtual ~EkScene();
 

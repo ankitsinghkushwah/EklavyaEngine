@@ -30,12 +30,13 @@ namespace Eklavya
 		void PreloadTextures();
 
 		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
-		void                ImGuiProc() override;
 
 		void LoadLevel(std::string name);
 		void CreateStage();
 
 		void SetupPlayer();
+
+		void Tick(float dt) override;
 
 		void                          LoadCharactersAndAnimations();
 		void                          InstantiateCharacters();
@@ -54,6 +55,7 @@ namespace Eklavya
 		}
 
 #ifdef EKDEBUG
+		void ImGuiProc() override;
 		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
 #endif
 
@@ -65,6 +67,11 @@ namespace Eklavya
 
 		std::vector<std::string>                                       mCharacters;
 		std::unordered_map<std::string, std::vector<SHARED_ANIMATION>> mAnimations;
+
+		float    floorAngle = 30.0f;
+		EkActor* ikFloor = nullptr;
+
+		glm::vec3 ikTarget;
 	};
 
 } // namespace Eklavya

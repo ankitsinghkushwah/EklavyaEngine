@@ -15,6 +15,8 @@
 #include <glm/gtx/quaternion.hpp>
 #include "EkComponent.hpp"
 #include "EkPhysics/PhysicsWorld.h"
+#include <array>
+#include "AssetManager/AnimationData.h"
 
 namespace Eklavya
 {
@@ -26,22 +28,45 @@ namespace Eklavya
 		class DebugRenderer;
 	}
 
+	struct JointData
+	{
+		std::string boneName;
+		glm::vec3   position;
+		glm::mat4   parentTransform;
+		glm::mat4   sourceWorldTransform;
+		glm::mat4   sourceLocalTransform;
+		glm::mat4   finalTransform;
+	};
+
 	class AnimationIKSolver : public EkComponent
 	{
 	  public:
 		AnimationIKSolver(EkActor& owner, const EkScene& scene);
-		~AnimationIKSolver(){}
+		~AnimationIKSolver()
+		{
+		}
 
 		void Tick(float dt) override;
+
+		glm::mat4        GetJointTransform(const std::string& name) const;
+		bool             ContainsJoint(const std::string& name) const;
+		const JointData* GetJointData(const std::string& name) const;
+		void             SolveForLeg(std::array<JointData, 3>& legJoints, glm::vec3 targetPos, bool leftLeg);
+		void             Solve(const std::map<std::string, BoneInfo>& boneInfoMap,
+		                       const std::vector<glm::mat4>&          boneWorldTransforms,
+		                       const std::vector<glm::mat4>&          boneLocalTransforms,
+		                       const std::vector<glm::mat4>&          parentTransforms);
 
 	  private:
 		const std::string mLeftLegBoneName = "mixamorig_LeftToeBase";
 		const std::string mRightLegBoneName = "mixamorig_RightToeBase";
 
-		float mRayCastRange = 20.0f;
+		float mRayCastRange = 50.0f;
 
-    glm::vec3 mLeftFootWorldPosition;
-    glm::vec3 mRightFootWorldPosition;
+		std::array<std::array<JointData, 3>, 2> mLegsJointsData;
+
+		glm::vec3                       mLeftFootWorldPosition;
+		glm::vec3                       mRightFootWorldPosition;
 		Eklavya::Physics::CastHitResult mLeftFootRayCastResult;
 		Eklavya::Physics::CastHitResult mRightFootRayCastResult;
 

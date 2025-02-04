@@ -11,6 +11,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_access.hpp>
 
+namespace Eklavya::Renderer
+{
+	class DebugRenderer;
+}
+
 namespace Eklavya::Physics
 {
 
@@ -29,6 +34,11 @@ namespace Eklavya::Physics
 		glm::vec3 o;
 		glm::vec3 d;
 		float     range;
+
+		constexpr glm::vec3 GetPoint(float t) const
+		{
+			return o + d * t;
+		}
 	};
 
 	struct Plane
@@ -60,14 +70,19 @@ namespace Eklavya::Physics
 			{
 				float num = glm::dot(plane.n, (plane.o - ray.o));
 				t = num / denom;
-				return true;
+				if (t > 0.0f)
+					return true;
 			}
 			return false;
 		}
-    
-		bool RayVsOBB(Ray ray, const BoxColliderComponent& boxCollider, float& t) ;
 
-		bool RayVsSphere(Ray ray, glm::vec3 sphereCenter, float radius, glm::vec2& points) ;
+#ifdef EKDEBUG
+		bool RayVsOBB(Ray ray, const BoxColliderComponent& boxCollider, float& t, Eklavya::Renderer::DebugRenderer&);
+#else
+		bool RayVsOBB(Ray ray, const BoxColliderComponent& boxCollider, float& t);
+#endif
+
+		bool RayVsSphere(Ray ray, glm::vec3 sphereCenter, float radius, glm::vec2& points);
 
 	} // namespace CollisionSystem
 } // namespace Eklavya::Physics

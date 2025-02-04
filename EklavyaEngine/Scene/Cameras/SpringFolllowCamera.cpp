@@ -24,11 +24,26 @@ namespace Eklavya
 	{
 		if (mTarget != nullptr)
 		{
-			glm::vec3 localArmsLength = glm::vec3(mTarget->Rotation() * glm::vec4(mArmsLength, 1.0f));
-			glm::vec3 localTargetOffset = glm::vec3(mTarget->Rotation() * glm::vec4(mTargetOffset, 1.0f));
-			glm::vec3 targetPosition = mTarget->Position();
+  
+     constexpr float MaxRotDelta = 30;
+      constexpr float MaxAngSpeed = 3.0f;
+		  mCameraRotation = glm::slerp(mCameraRotation, mTarget->Rotation(), dt * MaxAngSpeed);
+    
+    
+			glm::vec3 localArmsLength = glm::vec3(mCameraRotation * glm::vec4(mArmsLength, 1.0f));
+			glm::vec3 localTargetOffset = glm::vec3(mCameraRotation * glm::vec4(mTargetOffset, 1.0f));
+			glm::vec3 targetPosition = mTarget->Position() + localArmsLength;
 
-			mPosition = targetPosition + localArmsLength;
+      
+      constexpr float MaxPosDelta = 100;
+      constexpr float MaxSpeed = 10.0f;
+		 
+     
+      
+      mPosition = glm::mix(mPosition, targetPosition, dt * MaxSpeed);
+      
+      
+      
 
 			mView = glm::lookAt(mPosition, targetPosition + localTargetOffset, glm::vec3(0.0f, 1.0f, 0.0f));
 		}

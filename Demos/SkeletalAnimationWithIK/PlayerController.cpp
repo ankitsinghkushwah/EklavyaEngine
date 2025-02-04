@@ -120,12 +120,14 @@ void PlayerController::OnKeyAction(int key, int action)
 			mTurning = true;
 			mShouldTurnRight = false;
 			mDirection = MD_TURN_LEFT;
+			mTargetAngle = mRotationAngle + 90.0f;
 		}
 
 		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
 		{
 			mTurning = true;
 			mShouldTurnRight = true;
+			mTargetAngle = mRotationAngle - 90.0f;
 			mDirection = MD_TURN_RIGHT;
 		}
 
@@ -195,10 +197,11 @@ void PlayerController::StanceUpdate(float dt)
 void PlayerController::TurnUpdate(float dt)
 {
 	mRotationTimeElapsed += dt;
+	float scaleFactor = mRotationTimeElapsed / mRotationTime;
+	mRotationAngle = glm::mix(mRotationAngle, mTargetAngle, scaleFactor);
+	GetOwner().Transform().SetRotation(glm::vec3(0.0f, mRotationAngle, 0.0f));
 	if (mRotationTimeElapsed >= mRotationTime)
 	{
-		mRotationAngle = mShouldTurnRight ? mRotationAngle - 90.0f : mRotationAngle + 90.0f;
-		GetOwner().Transform().SetRotation(glm::vec3(0.0f, mRotationAngle, 0.0f));
 		mTurning = false;
 		mLastDirection = mDirection;
 	}
@@ -225,7 +228,7 @@ void PlayerController::DebugDraw(Eklavya::Renderer::DebugRenderer& debugRenderer
 		                       5.0f);
 	}
 
-  glm::vec3 c = GetOwner().Transform().Position() + glm::vec3(0.0f,30.0f,0.0f);
+	glm::vec3 c = GetOwner().Transform().Position() + glm::vec3(0.0f, 30.0f, 0.0f);
 	debugRenderer.DrawLine(c, c + mCurrGravityDir * 20.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 3.0f);
 	mCastResult.success = false;
 }

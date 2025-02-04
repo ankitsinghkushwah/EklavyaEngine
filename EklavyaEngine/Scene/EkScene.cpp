@@ -160,7 +160,7 @@ namespace Eklavya
 					mAnimators.erase(animator->GetModelID());
 				}
 				iter->reset();
-        mRootActors.erase(iter);
+				mRootActors.erase(iter);
 			}
 		}
 	}
