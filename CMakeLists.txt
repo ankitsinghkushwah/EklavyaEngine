@@ -89,6 +89,7 @@ if(APPLE)
 #copy assets folder
     copy_resources(${CMAKE_SOURCE_DIR}/Resources ${CMAKE_BINARY_DIR}/Debug/Resources)
     copy_resources(${CMAKE_SOURCE_DIR}/Resources ${CMAKE_BINARY_DIR}/Release/Resources)
+    copy_resources(${CMAKE_SOURCE_DIR}/Resources ${CMAKE_BINARY_DIR}/Resources)
 
     target_link_libraries(EklavyaEngine 
         glfw3

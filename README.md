@@ -12,13 +12,20 @@ A Game Engine written in C++ and OpenGL 4.1.
 ## Project Generation
 
 To generate project files for Visual Studio or Xcode, you need to install **CMake**.
-Download it from [here](https://cmake.org/download/). Once installed, you can generate the project using the following command:
+Download it from [here](https://cmake.org/download/). Once installed, you can run shell file to generate project automatically for your platform (only supported macos and windows currently)
 
 ```sh
-cmake --build <PROJECT_DIRECTORY_PATH>
+chmod +x generate_project.sh #make script executable
+./generate_project.sh  #additionaly pass in --enable-asan to enable Address Sanitizer
 ```
 
-Alternatively, you can use the CMake GUI.
+For MacOS, it will generate xcode project in "xcode_proj"
+For Windows, it will generate visual studio project in "vs_proj"
+
+Note : Shell file will only run on windows if you have git bash installed.  **Git for Windows**.
+Download it from [here](https://git-scm.com/downloads/). 
+
+Alternatively, you can use the CMake GUI if yo don't want to install Git.
 
 ---
 
