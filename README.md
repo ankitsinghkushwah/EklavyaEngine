@@ -31,7 +31,7 @@ Alternatively, you can use the CMake GUI if yo don't want to install Git.
 
 ---
 
-## Project Generation
+## Build Generation
 
 You can also spit out DEBUG or RELEASE build for both macOS and windows by running a shell command :
 
