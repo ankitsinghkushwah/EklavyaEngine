@@ -41,8 +41,8 @@ chmod +x generate_executable.sh # Only for MacOS terminal to make script executa
 ./generate_executable.sh  #additionaly pass debug or release flag for specific build type. By default it generates debug
 ```
 
-For MacOS, builds will be generated in xcode_proj/debug_build for *debug* and xcode_proj/release_build for *release* 
-For Windows, builds will be generated in vs_proj/debug_build for *debug* and vs_proj/release_build for *release* 
+For MacOS, builds will be generated in xcode_proj/debug_build for *debug* and xcode_proj/release_build for *release* .
+For Windows, builds will be generated in vs_proj/debug_build for *debug* and vs_proj/release_build for *release* .
 
 ---
 
