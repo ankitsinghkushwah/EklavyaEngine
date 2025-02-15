@@ -15,7 +15,7 @@ generate_vs_project() {
     local build_dir="vs_proj"
     echo "Generating Visual Studio project for Windows in $build_dir..."
     mkdir -p "$build_dir"
-    cmake -G "Visual Studio 17 2022" -B "$build_dir" "$@"
+    cmake -G "Visual Studio 17 2022" -A Win32 -B "$build_dir" "$@"
     echo "Visual Studio project generated in $build_dir."
     echo "Note: Visual Studio is a multi-config generator. You can select Debug/Release in Visual Studio."
 }
