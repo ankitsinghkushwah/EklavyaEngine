@@ -22,8 +22,8 @@ chmod +x generate_project.sh # Only for MacOS terminal to make script executable
 For MacOS, it will generate xcode project in "xcode_proj"
 For Windows, it will generate visual studio project in "vs_proj"
 
-Note : Shell file will only run on windows if you have git bash installed.  **Git for Windows**.
-Download it from [here](https://git-scm.com/downloads/). 
+Note : Shell file will only run on windows if you have git bash installed.
+Install it from [here](https://git-scm.com/downloads/). 
 
 Alternatively, you can use the CMake GUI if yo don't want to install Git.
 
