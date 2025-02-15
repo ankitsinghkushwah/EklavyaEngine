@@ -1,37 +1,71 @@
 # EklavyaEngine
 
-Game Engine written in C++ and OpenGL 4.1
+A Game Engine written in C++ and OpenGL 4.1.
 
-Features : 
+## Table of Contents
 
-- Scene Graph with Frustum culling
-- Renderer : Renderpasses, shadows and post processing
-- Skeletal animation with smooth transition
-- Custom Physics :
-     - SAT for collision
-     - Euler Integration
-     - Uses impulse based method for resolution
-     - Support for sphere & OBB
-     - ray cast & sphere cast
+1. [Project Generation](#project-generation)
+2. [Features](#features)
+3. [Demos](#demos)
+4. [To-Do](#to-do)
 
-- Asset Loader : Texture,Model & Animation loading using assimp, Shaders etc
+## Project Generation
 
-Demos (click on images to go to videos) : 
+To generate project files for Visual Studio or Xcode, you need to install **CMake**.
+Download it from [here](https://cmake.org/download/). Once installed, you can generate the project using the following command:
 
+```sh
+cmake --build <PROJECT_DIRECTORY_PATH>
+```
+
+Alternatively, you can use the CMake GUI.
+
+---
+
+## Features
+
+### Scene Management
+- Scene Graph with Frustum Culling
+
+### Rendering
+- Support for multiple Render Passes
+- Shadows and Post-Processing
+
+### Animation
+- Skeletal Animation with Smooth Transitions
+
+### Physics Engine
+- Custom Physics Engine
+  - **Collision Detection** using Separating Axis Theorem (SAT)
+  - **Motion Integration** using Euler Integration
+  - **Collision Resolution** using Impulse-based Method
+  - Support for Sphere & Oriented Bounding Box (OBB) Collision
+  - Ray Casting & Sphere Casting
+
+### Asset Management
+- Asset Loader supports:
+  - Textures
+  - Models & Animations (via Assimp)
+  - Shader Loading
+
+---
+
+## Demos
+
+Click on the images below to watch demo videos:
+
+### Vehicle Physics
 [![VEHICLE PHYSICS](https://img.youtube.com/vi/z52WxTNrIpg/sddefault.jpg)](https://www.youtube.com/watch?v=z52WxTNrIpg)
 [![VEHICLE PHYSICS](https://img.youtube.com/vi/abnopf9OntY/sddefault.jpg)](https://www.youtube.com/watch?v=abnopf9OntY)
 
+### Skeletal Animation
 [![SKELETAL ANIMATION](https://img.youtube.com/vi/NbSgJ3GrD_0/sddefault.jpg)](https://www.youtube.com/watch?v=NbSgJ3GrD_0)
 [![SKELETAL ANIMATION](https://img.youtube.com/vi/RszWEUHOxoE/sddefault.jpg)](https://www.youtube.com/watch?v=RszWEUHOxoE)
 
+### Frustum Culling
 [![FRUSTUM CULLING](https://img.youtube.com/vi/H0ntyFogFvU/sddefault.jpg)](https://www.youtube.com/watch?v=H0ntyFogFvU)
 
-To-do : 
+---
 
-- Shader compilation at runtime
-- Improve box stack stability in physics engine
-- Write CMake file to generate visual studio project 
-
-#Compilation
-
-You will need a MacOS to run demos. I setup this project on XCode unfortunately. But I have plans to write CMake to generate projects for windows & MacOS both. 
+## To-Do
+- Implement Shader Compilation at Runtime
