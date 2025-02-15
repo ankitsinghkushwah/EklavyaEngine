@@ -15,7 +15,7 @@ To generate project files for Visual Studio or Xcode, you need to install **CMak
 Download it from [here](https://cmake.org/download/). Once installed, you can run shell file to generate project automatically for your platform (only supported macos and windows currently)
 
 ```sh
-chmod +x generate_project.sh #make script executable
+chmod +x generate_project.sh # Only for MacOS terminal to make script executable
 ./generate_project.sh  #additionaly pass in --enable-asan to enable Address Sanitizer
 ```
 
