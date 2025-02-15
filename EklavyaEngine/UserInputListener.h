@@ -1,7 +1,7 @@
 #ifndef _INC_HIP_HOP_INPUT_MANAGER_H_
 #define _INC_HIP_HOP_INPUT_MANAGER_H_
 
-#include "InputHandler.h"
+#include <InputHandler.h>
 
 /* will only be inherited by pawn actors*/
 class UserInputListener

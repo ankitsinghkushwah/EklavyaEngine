@@ -1,7 +1,7 @@
 #include "Bone.h"
-#include "AssetManager/Animation.h"
+#include <AssetManager/Animation.h>
 #include <iostream>
-#include "Helpers.h"
+#include <Helpers.h>
 
 Bone::Bone(const std::string& name, int ID, const aiNodeAnim* channel) : m_Name(name), m_ID(ID), m_Parent(nullptr), m_LocalTransform(1.0f)
 {

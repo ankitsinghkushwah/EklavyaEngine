@@ -6,7 +6,7 @@
 #define _INC_TIMER_HPP
 
 #include <chrono>
-#include "CoreUtils/Singleton.h"
+#include <CoreUtils/Singleton.h>
 
 using Clock = std::chrono::steady_clock;
 using TimeStamp = std::chrono::steady_clock::time_point;

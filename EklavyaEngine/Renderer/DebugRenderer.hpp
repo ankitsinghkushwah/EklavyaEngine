@@ -7,11 +7,11 @@
 #ifndef DebugHelper_hpp
 #define DebugHelper_hpp
 
-#include "VertexArrayObject.h"
+#include <AssetManager/VertexArrayObject.h>
 #include <glm/glm.hpp>
 #include <vector>
-#include "Asset.h"
-#include "BoundingVolume.h"
+#include <AssetManager/Asset.h>
+#include <Scene/BoundingVolume.h>
 #include <list>
 
 namespace Eklavya

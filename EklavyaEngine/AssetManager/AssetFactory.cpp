@@ -1,8 +1,8 @@
 #include "AssetFactory.h"
 #include "Texture2D.h"
-#include "ShaderProgram.h"
+#include <AssetManager/ShaderProgram.h>
 #include "Cubemap.h"
-#include "GLModel.hpp"
+#include <AssetManager/GLModel.hpp>
 #include <vector>
 #include "Animation.h"
 
@@ -16,7 +16,7 @@ const std::string AssetFactory::s_AnimationsDirPath = "Resources/models/";
 SHARED_TEXTURE AssetFactory::CreateTexture(std::string assetName, std::string ext, bool repeat)
 {
 	SHARED_TEXTURE newTexture = std::make_shared<Texture2D>(assetName);
-	uint32_t       created = newTexture->CreateTexture(s_TexturesDirPath + assetName + "." + ext, repeat);
+	int       created = newTexture->CreateTexture(s_TexturesDirPath + assetName + "." + ext, repeat);
 	return created != -1 ? newTexture : nullptr;
 }
 

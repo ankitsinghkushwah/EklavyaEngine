@@ -9,9 +9,9 @@
 
 #include <Scene/EkScene.h>
 #include <UserInputListener.h>
-#include "Material.h"
-#include "MaterialInfo.h"
-#include "PhysicsWorld.h"
+#include <Renderer/Material.h>
+#include <AssetManager/MaterialInfo.h>
+#include <EkPhysics/PhysicsWorld.h>
 
 namespace Eklavya
 {

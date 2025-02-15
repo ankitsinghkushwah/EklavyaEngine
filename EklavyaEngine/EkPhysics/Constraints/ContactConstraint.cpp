@@ -6,7 +6,7 @@
 //
 
 #include "ContactConstraint.h"
-#include "EkBody.h"
+#include <EkPhysics/EkBody.h>
 
 namespace Eklavya::Physics
 {

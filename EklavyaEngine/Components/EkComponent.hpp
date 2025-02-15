@@ -12,7 +12,7 @@
 #include <memory>
 #include <array>
 #include <string>
-#include "ComponentIds.h"
+#include <Components/ComponentIds.h>
 
 #ifdef EKDEBUG
 namespace Eklavya::Renderer

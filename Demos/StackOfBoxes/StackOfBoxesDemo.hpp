@@ -9,10 +9,10 @@
 
 #include <MainEntryScene.hpp>
 #include <UserInputListener.h>
-#include "Material.h"
-#include "MaterialInfo.h"
+#include <Renderer/Material.h>
+#include <AssetManager/MaterialInfo.h>
 #include <SFML/Audio.hpp>
-#include "SceneHelper.hpp"
+#include "Scene/SceneHelper.hpp"
 #include "EkAudio.hpp"
 
 namespace Eklavya

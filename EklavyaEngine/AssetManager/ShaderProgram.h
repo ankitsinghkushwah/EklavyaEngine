@@ -5,7 +5,8 @@
 #include <cstdint>
 #include <glm/glm.hpp>
 #include <glad/glad.h>
-#include "../AssetManager/IAsset.h"
+#include "IAsset.h"
+#include <memory>
 
 namespace Eklavya::Asset
 {

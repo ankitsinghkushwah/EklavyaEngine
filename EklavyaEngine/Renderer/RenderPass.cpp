@@ -7,14 +7,14 @@
 
 #include "RenderPass.hpp"
 #include "GLRenderer.h"
-#include "EkScene.h"
+#include <Scene/EkScene.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdio.h>
-#include "FreeLookCamera.h"
+#include <Scene/Cameras/FreeLookCamera.h>
 #include <memory.h>
-#include "AssetManager.h"
+#include <AssetManager/AssetManager.h>
 #include <Random.h>
-#include "DebugRenderer.hpp"
+#include <Renderer/DebugRenderer.hpp>
 
 using namespace Eklavya::Renderer;
 

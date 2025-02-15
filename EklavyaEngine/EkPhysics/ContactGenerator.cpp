@@ -7,8 +7,8 @@
 
 #include "ContactGenerator.h"
 #include "Collider.h"
-#include "Scene/EkActor.h"
-#include "Components/EkComponent.hpp"
+#include <Scene/EkActor.h>
+#include <Components/EkComponent.hpp>
 
 namespace Eklavya::Physics::ContactGenerator
 {

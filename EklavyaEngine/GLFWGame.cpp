@@ -1,8 +1,8 @@
 
 #include <glad/glad.h>
-#include "GLFWGame.h"
+#include <GLFWGame.h>
 #include <stdio.h>
-#include "CoreUtils/Logger.h"
+#include <CoreUtils/Logger.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>

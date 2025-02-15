@@ -8,11 +8,11 @@
 #ifndef INC_SUSPENSION
 #define INC_SUSPENSION
 
-#include "EkComponent.hpp"
+#include <Components/EkComponent.hpp>
 #include "UserInputListener.h"
 #include <glm/glm.hpp>
-#include "PhysicsWorld.h"
-#include "EkActor.h"
+#include <EkPhysics/PhysicsWorld.h>
+#include <Scene/EkActor.h>
 #include "EkAudio.hpp"
 
 namespace Eklavya::Physics

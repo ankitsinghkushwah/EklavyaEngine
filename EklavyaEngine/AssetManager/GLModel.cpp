@@ -1,7 +1,7 @@
-#include "GLModel.hpp"
+#include <AssetManager/GLModel.hpp>
 #include <string>
 #include "Texture2D.h"
-#include "AnimationData.h"
+#include <AssetManager/AnimationData.h>
 
 using namespace std;
 using namespace Eklavya::Asset;

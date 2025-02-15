@@ -1,8 +1,7 @@
-#include "InputHandler.h"
+#include <InputHandler.h>
 #include <GLFW/glfw3.h>
-#include "UserInputListener.h"
+#include <UserInputListener.h>
 #include <imgui/imgui.h>
-#include <ForceFeedback/ForceFeedback.h>
 
 InputHandler::InputHandler() : mMousePos(0.0f), mLastMousePos(0.0f)
 {

@@ -8,13 +8,13 @@
 #ifndef MeshComponent_hpp
 #define MeshComponent_hpp
 
-#include "EkComponent.hpp"
+#include <Components/EkComponent.hpp>
 #include <glm/glm.hpp>
 #include <string>
-#include "Material.h"
-#include "GLMesh.hpp"
-#include "BoundingVolume.h"
-#include "AnimationData.h"
+#include <Renderer/Material.h>
+#include <AssetManager/GLMesh.hpp>
+#include <Scene/BoundingVolume.h>
+#include <AssetManager/AnimationData.h>
 
 namespace Eklavya
 {
@@ -30,7 +30,7 @@ namespace Eklavya
 		ASSET
 	};
 
-	struct RenderComponent : public EkComponent
+	class RenderComponent : public EkComponent
 	{
 	  public:
 		RenderComponent(EkActor& owner, const EMeshType builtInMesh);

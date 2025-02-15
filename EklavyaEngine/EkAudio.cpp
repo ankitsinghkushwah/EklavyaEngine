@@ -5,9 +5,9 @@
 //  Created by Ankit Singh Kushwah on 17/03/2024.
 //
 
-#include "EkAudio.hpp"
-#include "TransformComponent.h"
-#include "EkActor.h"
+#include <EkAudio.hpp>
+#include <Components/TransformComponent.h>
+#include <Scene/EkActor.h>
 
 const std::string SOUND_DIR = "Resources/sounds/";
 

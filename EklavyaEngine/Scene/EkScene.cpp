@@ -1,13 +1,13 @@
-#include "EkScene.h"
-#include "RenderComponent.hpp"
-#include "Director.hpp"
-#include "GLFWGame.h"
-#include "GLRenderer.h"
-#include "PhysicsWorld.h"
+#include <Scene/EkScene.h>
+#include <Components/RenderComponent.hpp>
+#include <Director.hpp>
+#include <GLFWGame.h>
+#include <Renderer/GLRenderer.h>
+#include <EkPhysics/PhysicsWorld.h>
 #include <CoreUtils/EkUtils.hpp>
-#include "Collider.h"
-#include "AnimationComponent.h"
-#include "DebugRenderer.hpp"
+#include <EkPhysics/Collider.h>
+#include <Components/AnimationComponent.h>
+#include <Renderer/DebugRenderer.hpp>
 #include "Cameras/FreeLookCamera.h"
 
 using namespace Eklavya::Physics;

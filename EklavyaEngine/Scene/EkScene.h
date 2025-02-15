@@ -6,11 +6,11 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include "Cameras/ICamera.hpp"
-#include "EkActor.h"
-#include "UserInputListener.h"
+#include <Scene/EkActor.h>
+#include <UserInputListener.h>
 #include <SFML/Audio.hpp>
-#include "AnimationData.h"
-#include "AnimationComponent.h"
+#include <AssetManager/AnimationData.h>
+#include <Components/AnimationComponent.h>
 
 #ifdef EKDEBUG
 #include "SceneDebugger.hpp"

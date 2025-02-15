@@ -1,7 +1,7 @@
-#include "Material.h"
-#include "Texture2D.h"
-#include "ShaderProgram.h"
-#include "Cubemap.h"
+#include <Renderer/Material.h>
+#include <AssetManager/Texture2D.h>
+#include <AssetManager/ShaderProgram.h>
+#include <AssetManager/Cubemap.h>
 
 namespace Eklavya::Renderer
 {

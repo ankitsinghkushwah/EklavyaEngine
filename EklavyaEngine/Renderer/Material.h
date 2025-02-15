@@ -2,8 +2,8 @@
 #include <glm/glm.hpp>
 #include <memory>
 #include <array>
-#include "Asset.h"
-#include "AssetManager/MaterialInfo.h"
+#include <AssetManager/Asset.h>
+#include <AssetManager/MaterialInfo.h>
 namespace Eklavya::Renderer
 {
 	// DON'T BREAK THE SEQUENCE

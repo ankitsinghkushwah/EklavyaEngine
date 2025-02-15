@@ -10,7 +10,7 @@
 #include "CollisionSystem.h"
 #include "Constraints/ContactConstraint.h"
 #ifdef EKDEBUG
-#include "Renderer/DebugRenderer.hpp"
+#include <Renderer/DebugRenderer.hpp>
 #endif
 
 // Forward Declarations

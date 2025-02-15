@@ -6,7 +6,7 @@
 #include <memory>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
-#include "EkComponent.hpp"
+#include <Components/EkComponent.hpp>
 
 namespace Eklavya::Physics
 {

@@ -4,13 +4,13 @@
 //
 //  Created by Ankit Singh Kushwah on 21/05/2023.
 //
-#include "RenderComponent.hpp"
-#include "EkComponent.hpp"
-#include "AssetManager.h"
+#include <Components/RenderComponent.hpp>
+#include <Components/EkComponent.hpp>
+#include <AssetManager/AssetManager.h>
 #include <Renderer/GLRenderer.h>
-#include "TransformComponent.h"
-#include "EkActor.h"
-#include "ComponentIds.h"
+#include <Components/TransformComponent.h>
+#include <Scene/EkActor.h>
+#include <Components/ComponentIds.h>
 
 using namespace Eklavya::Renderer;
 using namespace Eklavya::Asset;

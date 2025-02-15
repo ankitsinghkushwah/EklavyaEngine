@@ -8,19 +8,19 @@
 #include "SkeletalAnimationWithIK.hpp"
 
 #include <InputHandler.h>
-#include "RenderComponent.hpp"
-#include "EkActor.h"
-#include "AssetManager.h"
+#include "Components/RenderComponent.hpp"
+#include <Scene/EkActor.h>
+#include "AssetManager/AssetManager.h"
 #include "Director.hpp"
-#include "Material.h"
-#include "imgui.h"
+#include <Renderer/Material.h>
+#include "imgui/imgui.h"
 #include "Random.h"
 #include "EkPhysics/EkBody.h"
 #include "EkPhysics/Collider.h"
 #include <memory>
-#include "FreeLookCamera.h"
-#include "CarComponent.hpp"
-#include "Animation.h"
+#include "Scene/Cameras/FreeLookCamera.h"
+
+#include "AssetManager/Animation.h"
 #include "PlayerController.hpp"
 #include "Components/AnimationIKSolverComponent.hpp"
 

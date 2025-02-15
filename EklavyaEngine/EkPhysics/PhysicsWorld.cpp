@@ -1,12 +1,12 @@
-#include "PhysicsWorld.h"
+#include <EkPhysics/PhysicsWorld.h>
 #include "Collider.h"
-#include "EkBody.h"
+#include <EkPhysics/EkBody.h>
 #include <algorithm>
-#include "Scene/EkActor.h"
-#include "Components/TransformComponent.h"
+#include <Scene/EkActor.h>
+#include <Components/TransformComponent.h>
 #include "imgui/imgui.h"
 #include "ContactGenerator.h"
-#include "Constraint.h"
+#include <EkPhysics/Constraints/Constraint.h>
 
 namespace Eklavya::Physics
 {
@@ -62,8 +62,7 @@ namespace Eklavya::Physics
 	{
 		Ray           ray{o, d, maxRange};
 		CastHitResult result;
-		if (mDebugRenderer == nullptr)
-			return result;
+	
 
 		float                        t = 0.0f;
 		int                          index = -1;
@@ -83,7 +82,7 @@ namespace Eklavya::Physics
 			{
 				const BoxColliderComponent* boxCollider = static_cast<const BoxColliderComponent*>(mBodies[i]->GetCollider());
 
-				success = CollisionSystem::RayVsOBB(ray, *boxCollider, t, *mDebugRenderer);
+				success = CollisionSystem::RayVsOBB(ray, *boxCollider, t,*mDebugRenderer);
 			}
 			else if (collider->GetType() == EColliderType::SPHERE)
 			{

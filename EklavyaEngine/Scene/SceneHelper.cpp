@@ -5,9 +5,9 @@
 //  Created by Ankit Singh Kushwah on 02/07/2023.
 //
 
-#include "SceneHelper.hpp"
-#include "RenderComponent.hpp"
-#include "Material.h"
+#include <Scene/SceneHelper.hpp>
+#include <Components/RenderComponent.hpp>
+#include <Renderer/Material.h>
 #include <glm/gtx/matrix_decompose.hpp>
 using namespace Eklavya;
 using namespace Eklavya::Asset;

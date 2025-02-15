@@ -1,14 +1,14 @@
 #include "FreeLookCamera.h"
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Timer.h"
+#include <Timer.h>
 #include <GLFW/glfw3.h>
-#include "Helpers.h"
-#include "Renderer/DebugRenderer.hpp"
-#include "EkScene.h"
+#include <Helpers.h>
+#include <Renderer/DebugRenderer.hpp>
+#include <Scene/EkScene.h>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
-#include "CoreUtils/Logger.h"
+#include <CoreUtils/Logger.h>
 
 namespace Eklavya
 {

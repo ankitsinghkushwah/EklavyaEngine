@@ -1,7 +1,7 @@
 #ifndef INC_CONSTRAINT_H_
 #define INC_CONSTRAINT_H_
 
-#include "EkBody.h"
+#include <EkPhysics/EkBody.h>
 #include <glm/glm.hpp>
 
 namespace Eklavya::Physics

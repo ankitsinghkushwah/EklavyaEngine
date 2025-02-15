@@ -5,13 +5,13 @@
 //  Created by Ankit Singh Kushwah on 25/06/2023.
 //
 
-#include "DebugRenderer.hpp"
-#include "ShaderProgram.h"
+#include <Renderer/DebugRenderer.hpp>
+#include <AssetManager/ShaderProgram.h>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "AssetManager.h"
-#include "TransformComponent.h"
-#include "Frustum.h"
+#include <AssetManager/AssetManager.h>
+#include <Components/TransformComponent.h>
+#include <Scene/Cameras/Frustum.h>
 
 using namespace Eklavya::Renderer;
 using namespace Eklavya::Asset;

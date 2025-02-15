@@ -1,7 +1,7 @@
 #include "Animation.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "../Helpers.h"
-#include "AnimationData.h"
+#include <AssetManager/AnimationData.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 

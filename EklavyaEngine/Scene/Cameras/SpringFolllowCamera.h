@@ -3,9 +3,9 @@
 
 #include <memory>
 #include <glm/glm.hpp>
-#include "UserInputListener.h"
+#include <UserInputListener.h>
 #include "ICamera.hpp"
-#include "EkActor.h"
+#include <Scene/EkActor.h>
 
 namespace Eklavya
 {

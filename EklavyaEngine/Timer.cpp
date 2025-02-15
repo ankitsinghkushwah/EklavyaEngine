@@ -1,7 +1,7 @@
 //
 // Created by Ankit Singh on 11-11-2018.
 //
-#include "Timer.h"
+#include <Timer.h>
 
 using namespace std;
 using namespace std::chrono_literals;

@@ -9,7 +9,7 @@
 #define SpringFollowCamera_hpp
 
 #include <stdio.h>
-#include "TransformComponent.h"
+#include <Components/TransformComponent.h>
 #include <memory>
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL

@@ -8,11 +8,11 @@
 #ifndef Engine_hpp
 #define Engine_hpp
 
-#include "GLFWGame.h"
-#include "EkScene.h"
-#include "MainEntryScene.hpp"
+#include <GLFWGame.h>
+#include <Scene/EkScene.h>
+#include <MainEntryScene.hpp>
 #include <string>
-#include "GLRenderer.h"
+#include <Renderer/GLRenderer.h>
 
 namespace Eklavya
 {

@@ -3,14 +3,14 @@
 #include <glad/glad.h>
 #include "../Scene/EkScene.h"
 #include "../GLFWGame.h"
-#include "VertexArrayObject.h"
-#include "AssetManager.h"
-#include "CoreUtils/Logger.h"
-#include "CoreUtils/Singleton.h"
-#include "GLMesh.hpp"
-#include "SpringFollowCamera.hpp"
-#include "EkScene.h"
-#include "imgui.h"
+#include <AssetManager/VertexArrayObject.h>
+#include <AssetManager/AssetManager.h>
+#include <CoreUtils/Logger.h>
+#include <CoreUtils/Singleton.h>
+#include <AssetManager/GLMesh.hpp>
+#include <Scene/SpringFollowCamera.hpp>
+#include <Scene/EkScene.h>
+#include "imgui/imgui.h"
 using namespace Eklavya::Asset;
 
 namespace Eklavya::Renderer

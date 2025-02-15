@@ -6,9 +6,9 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <Components/EkComponent.hpp>
-#include "EkUtils.hpp"
+#include <CoreUtils/EkUtils.hpp>
 #include <utility>
-#include "TransformComponent.h"
+#include <Components/TransformComponent.h>
 #include "BoundingVolume.h"
 
 enum ERenderGroup

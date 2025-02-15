@@ -17,7 +17,7 @@
 #include <vector>
 #include "../CoreUtils/Logger.h"
 #include "IAsset.h"
-#include "ShaderProgram.h"
+#include <AssetManager/ShaderProgram.h>
 #include "GLMesh.hpp"
 #include <memory>
 

@@ -6,7 +6,7 @@
 #include <assimp/scene.h>
 #include <AssetManager/Bone.h>
 #include <functional>
-#include "AnimationData.h"
+#include <AssetManager/AnimationData.h>
 #include "IAsset.h"
 
 namespace Eklavya::Asset

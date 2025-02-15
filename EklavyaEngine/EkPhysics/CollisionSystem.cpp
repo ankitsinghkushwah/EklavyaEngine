@@ -7,11 +7,11 @@
 
 #include "CollisionSystem.h"
 #include "Collider.h"
-#include "EkBody.h"
-#include "EkActor.h"
+#include <EkPhysics/EkBody.h>
+#include <Scene/EkActor.h>
 
 #ifdef EKDEBUG
-#include "Renderer/DebugRenderer.hpp"
+#include <Renderer/DebugRenderer.hpp>
 #endif
 
 namespace Eklavya::Physics::CollisionSystem

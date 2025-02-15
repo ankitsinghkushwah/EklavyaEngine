@@ -17,9 +17,9 @@
 #include "../CoreUtils/Singleton.h"
 #include <algorithm>
 #include "Texture2D.h"
-#include "ShaderProgram.h"
+#include <AssetManager/ShaderProgram.h>
 #include "Cubemap.h"
-#include "GLModel.hpp"
+#include <AssetManager/GLModel.hpp>
 #include "Animation.h"
 #include "AssetFactory.h"
 #include "../CoreUtils/Logger.h"

@@ -6,10 +6,10 @@
 //
 
 #include "AnimationIKSolverComponent.hpp"
-#include "EkActor.h"
-#include "Renderer/DebugRenderer.hpp"
+#include <Scene/EkActor.h>
+#include <Renderer/DebugRenderer.hpp>
 #include "AnimationComponent.h"
-#include "Scene/EkScene.h"
+#include <Scene/EkScene.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>

@@ -4,13 +4,13 @@
 #include <unordered_map>
 #include <Components/RenderComponent.hpp>
 #include <GLFWGame.h>
-#include "ShaderProgram.h"
-#include "Material.h"
+#include <AssetManager/ShaderProgram.h>
+#include <Renderer/Material.h>
 #include "RenderPass.hpp"
 #include <array>
 
 #ifdef EKDEBUG
-#include "DebugRenderer.hpp"
+#include <Renderer/DebugRenderer.hpp>
 #endif
 
 namespace Eklavya

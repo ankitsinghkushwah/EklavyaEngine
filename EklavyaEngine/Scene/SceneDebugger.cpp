@@ -6,20 +6,20 @@
 //
 #ifdef EKDEBUG
 #include "SceneDebugger.hpp"
-#include "DebugRenderer.hpp"
-#include "EkScene.h"
-#include "RenderComponent.hpp"
-#include "Director.hpp"
-#include "GLFWGame.h"
-#include "GLRenderer.h"
-#include "PhysicsWorld.h"
+#include <Renderer/DebugRenderer.hpp>
+#include <Scene/EkScene.h>
+#include <Components/RenderComponent.hpp>
+#include <Director.hpp>
+#include <GLFWGame.h>
+#include <Renderer/GLRenderer.h>
+#include <EkPhysics/PhysicsWorld.h>
 #include <CoreUtils/EkUtils.hpp>
-#include "Collider.h"
-#include "AnimationComponent.h"
-#include "DebugRenderer.hpp"
+#include <EkPhysics/Collider.h>
+#include <Components/AnimationComponent.h>
+#include <Renderer/DebugRenderer.hpp>
 #include "Cameras/FreeLookCamera.h"
 #include "imgui/imgui.h"
-#include "AssetManager/Animation.h"
+#include <AssetManager/Animation.h>
 
 using namespace Eklavya::Physics;
 using namespace Eklavya::Renderer;

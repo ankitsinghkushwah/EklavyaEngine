@@ -8,7 +8,7 @@
 #ifndef AudioComponent_hpp
 #define AudioComponent_hpp
 
-#include "TransformComponent.h"
+#include <Components/TransformComponent.h>
 #include <glm/glm.hpp>
 #include <SFML/Audio.hpp>
 #include <unordered_map>

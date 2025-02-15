@@ -4,14 +4,14 @@
 #include <AssetManager/Animation.h>
 #include <AssetManager/Bone.h>
 #include <GLFW/glfw3.h>
-#include "AnimationData.h"
-#include "Bone.h"
-#include "TransformComponent.h"
-#include "EkActor.h"
-#include "Renderer/DebugRenderer.hpp"
+#include <AssetManager/AnimationData.h>
+#include <AssetManager/Bone.h>
+#include <Components/TransformComponent.h>
+#include <Scene/EkActor.h>
+#include <Renderer/DebugRenderer.hpp>
 #include <functional>
-#include "ComponentIds.h"
-#include "EkPhysics/PhysicsWorld.h"
+#include <Components/ComponentIds.h>
+#include <EkPhysics/PhysicsWorld.h>
 
 #include "AnimationIKSolverComponent.hpp"
 

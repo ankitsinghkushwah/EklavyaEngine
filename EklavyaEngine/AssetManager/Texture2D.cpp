@@ -18,6 +18,7 @@ Texture2D::Texture2D(const std::string& assetName) : IAsset(EType::TEXTURE, asse
 Texture2D::~Texture2D()
 {
 	glDeleteTextures(1, &mID);
+	if(mImage != nullptr)
 	SOIL_free_image_data(mImage);
 }
 
@@ -29,7 +30,7 @@ int Texture2D::CreateTexture(std::string path, bool repeat)
 	unsigned char* image = SOIL_load_image(path.c_str(), &width, &height, &channels, 0);
 	if (image == nullptr)
 	{
-		printf("\n failed to load image from path %s, SOIL reason : ", path.c_str(), result_string_pointer);
+		printf("\n failed to load image from path %s, SOIL reason : ", path.c_str());
 		return -1;
 	}
 	mImage = image;

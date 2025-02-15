@@ -1,16 +1,16 @@
-#include "EkBody.h"
+#include <EkPhysics/EkBody.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Collider.h"
-#include "EkBody.h"
+#include <EkPhysics/EkBody.h>
 #include <Components/TransformComponent.h>
 #include "../Helpers.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include <float.h>
 
-#include "PhysicsWorld.h"
-#include "EkActor.h"
-#include "ComponentIds.h"
+#include <EkPhysics/PhysicsWorld.h>
+#include <Scene/EkActor.h>
+#include <Components/ComponentIds.h>
 
 namespace Eklavya::Physics
 {

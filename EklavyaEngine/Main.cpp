@@ -5,11 +5,9 @@
 //  Created by Ankit Singh Kushwah on 27/05/2023.
 //
 
-#include "Director.hpp"
-#include "SkeletalAnimationDemo.hpp"
-#include "VehiclePhysicsDemo.hpp"
-#include "SkeletalAnimationWithIK.hpp"
-#include "StackOfBoxesDemo.hpp"
+#include <Director.hpp>
+
+#include <SkeletalAnimationWithIK/SkeletalAnimationWithIK.hpp>
 
 using namespace Eklavya;
 
@@ -37,7 +35,7 @@ int main()
 	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
 
 	Eklavya::Director* engine = new Eklavya::Director("Eklavya", resolution.width, resolution.height, false);
-	engine->SetScene(new StackOfBoxesDemo(engine));
+	engine->SetScene(new SkeletalAnimationWithIK(engine));
 	engine->Start();
 	return 0;
 }

@@ -8,9 +8,10 @@
 #define GLMesh_hpp
 #include "VertexArrayObject.h"
 #include <glm/glm.hpp>
-#include "MaterialInfo.h"
+#include <AssetManager/MaterialInfo.h>
 #include <string>
-#include "AnimationData.h"
+#include <AssetManager/AnimationData.h>
+#include <vector>
 
 namespace Eklavya::Asset
 {

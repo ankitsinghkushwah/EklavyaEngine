@@ -33,17 +33,17 @@ namespace Eklavya::Asset
 		{
 			return mFormat;
 		}
-
+		
 		inline unsigned char* GetBits() const
 		{
 			return mImage;
 		}
 
 	  protected:
-		GLuint         mID;
+		GLuint         mID = 0;
 		glm::vec2      mSize;
 		GLenum         mFormat;
-		unsigned char* mImage;
+		unsigned char* mImage = nullptr;
 		uint32_t       mBoundToUnit = 0;
 	};
 } // namespace Eklavya::Asset

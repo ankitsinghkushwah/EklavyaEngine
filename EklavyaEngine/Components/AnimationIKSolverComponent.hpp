@@ -13,10 +13,10 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
-#include "EkComponent.hpp"
-#include "EkPhysics/PhysicsWorld.h"
+#include <Components/EkComponent.hpp>
+#include <EkPhysics/PhysicsWorld.h>
 #include <array>
-#include "AssetManager/AnimationData.h"
+#include <AssetManager/AnimationData.h>
 
 namespace Eklavya
 {

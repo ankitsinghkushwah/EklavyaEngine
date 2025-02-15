@@ -10,10 +10,11 @@
 
 #include <stdio.h>
 
-#include "GLModel.hpp"
-#include "AssetManager.h"
-#include "EkActor.h"
-#include "MaterialInfo.h"
+#include <AssetManager/GLModel.hpp>
+#include <AssetManager/AssetManager.h>
+#include <Scene/EkActor.h>
+#include <AssetManager/MaterialInfo.h>
+#include <optional>
 
 namespace Eklavya::SceneHelper
 {

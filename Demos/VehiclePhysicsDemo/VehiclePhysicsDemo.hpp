@@ -9,8 +9,8 @@
 
 #include <MainEntryScene.hpp>
 #include <UserInputListener.h>
-#include "Material.h"
-#include "MaterialInfo.h"
+#include <Renderer/Material.h>
+#include <AssetManager/MaterialInfo.h>
 #include "CarSuspension.hpp"
 #include <SFML/Audio.hpp>
 #include "Scene/Cameras/SpringFolllowCamera.h"

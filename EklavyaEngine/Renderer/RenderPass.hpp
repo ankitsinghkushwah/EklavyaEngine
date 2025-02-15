@@ -10,12 +10,12 @@
 
 #include <stdio.h>
 
-#include "Material.h"
+#include <Renderer/Material.h>
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <unordered_map>
-#include "EkActor.h"
-#include "RenderComponent.hpp"
+#include <Scene/EkActor.h>
+#include <Components/RenderComponent.hpp>
 #include "Framebuffer.hpp"
 
 extern glm::vec3 lightPosition;

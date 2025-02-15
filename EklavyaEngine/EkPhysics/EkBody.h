@@ -6,7 +6,7 @@
 #include <Components/EkComponent.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
-#include "TransformComponent.h"
+#include <Components/TransformComponent.h>
 
 namespace Eklavya
 {

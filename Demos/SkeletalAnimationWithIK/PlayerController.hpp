@@ -8,7 +8,7 @@
 #ifndef PlayerController_hpp
 #define PlayerController_hpp
 
-#include "EkActor.h"
+#include <Scene/EkActor.h>
 #include "Components/AnimationComponent.h"
 #include "AssetManager/Asset.h"
 

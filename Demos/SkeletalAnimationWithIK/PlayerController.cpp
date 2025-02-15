@@ -24,6 +24,8 @@ PlayerController::PlayerController(EkActor& owner, Eklavya::EkScene& scene)
     , mScene(scene)
     , mStandingMovementColliderSize(40.0f, 100, 40.0f)
     , mCurrGravityDir(0.0f, 1.0f, 0.0f)
+	, mDirection(EMovementDirection::MD_IDLE)
+	, mStance(EPlayerStance::STANDING_MOVEMENT)
 {
 	mLastDirection = MD_IDLE;
 }

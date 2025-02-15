@@ -5,21 +5,21 @@
 //  Created by Ankit Singh Kushwah on 19/09/22.
 //
 
-#include "MainEntryScene.hpp"
+#include <MainEntryScene.hpp>
 
 #include <InputHandler.h>
-#include "RenderComponent.hpp"
-#include "EkActor.h"
-#include "AssetManager.h"
-#include "Director.hpp"
-#include "Material.h"
-#include "imgui.h"
-#include "Random.h"
-#include "EkPhysics/EkBody.h"
-#include "EkPhysics/Collider.h"
+#include <Components/RenderComponent.hpp>
+#include <Scene/EkActor.h>
+#include <AssetManager/AssetManager.h>
+#include <Director.hpp>
+#include <Renderer/Material.h>
+#include "imgui/imgui.h"
+#include <Random.h>
+#include <EkPhysics/EkBody.h>
+#include <EkPhysics/Collider.h>
 #include <memory>
-#include "SceneHelper.hpp"
-#include "SpringFollowCamera.hpp"
+#include <Scene/SceneHelper.hpp>
+#include <Scene/SpringFollowCamera.hpp>
 
 using namespace Eklavya::Asset;
 using namespace Eklavya::Renderer;

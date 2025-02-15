@@ -1,13 +1,13 @@
 #ifndef INC_ANIM_COMPONENT
 #define INC_ANIM_COMPONENT
-#include "EkComponent.hpp"
+#include <Components/EkComponent.hpp>
 #include <glm/glm.hpp>
 #include <map>
 #include <vector>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include "../UserInputListener.h"
-#include "AnimationData.h"
+#include <AssetManager/AnimationData.h>
 
 namespace Eklavya::Asset
 {

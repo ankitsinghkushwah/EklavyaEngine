@@ -1,6 +1,6 @@
-#include "EkActor.h"
+#include <Scene/EkActor.h>
 #include <algorithm>
-#include "RenderComponent.hpp"
+#include <Components/RenderComponent.hpp>
 
 namespace Eklavya
 {

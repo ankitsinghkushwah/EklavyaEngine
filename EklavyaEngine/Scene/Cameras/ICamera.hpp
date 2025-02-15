@@ -10,10 +10,10 @@
 
 #include <glm/glm.hpp>
 #include "Frustum.h"
-#include "UserInputListener.h"
+#include <UserInputListener.h>
 
 #ifdef EKDEBUG
-#include "DebugRenderer.hpp"
+#include <Renderer/DebugRenderer.hpp>
 
 #endif
 

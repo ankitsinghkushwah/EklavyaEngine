@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <memory>
-#include <ForceFeedback/ForceFeedback.h>
 #include <glm/glm.hpp>
 
 class UserInputListener;

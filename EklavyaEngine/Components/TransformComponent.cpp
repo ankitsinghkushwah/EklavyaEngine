@@ -1,8 +1,8 @@
-#include "TransformComponent.h"
+#include <Components/TransformComponent.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
-#include "EkUtils.hpp"
-#include "ComponentIds.h"
+#include <CoreUtils/EkUtils.hpp>
+#include <Components/ComponentIds.h>
 
 namespace Eklavya
 {

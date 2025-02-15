@@ -6,11 +6,11 @@
 //
 
 #include "CarComponent.hpp"
-#include "EkBody.h"
-#include "TransformComponent.h"
+#include <EkPhysics/EkBody.h>
+#include <Components/TransformComponent.h>
 #include "GLFWGame.h"
-#include "EkActor.h"
-#include "EkScene.h"
+#include <Scene/EkActor.h>
+#include <Scene/EkScene.h>
 
 using namespace Eklavya;
 using namespace Eklavya::Physics;

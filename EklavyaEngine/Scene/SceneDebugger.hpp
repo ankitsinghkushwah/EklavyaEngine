@@ -9,8 +9,8 @@
 #ifndef SceneDebugger_hpp
 #define SceneDebugger_hpp
 
-#include "EkActor.h"
-#include "UserInputListener.h"
+#include <Scene/EkActor.h>
+#include <UserInputListener.h>
 #include "imgui/imgui.h"
 namespace Eklavya::Renderer
 {
@@ -30,8 +30,9 @@ namespace Eklavya
 		MAX
 	};
 
-	struct SceneDebugger : UserInputListener
+	class SceneDebugger : UserInputListener
 	{
+	public:
 		std::string GetDebugFlagString(ESceneDebugFlags flag);
 		bool        CanTraverse(const UniqueActor& actor);
 		void        TraverseToDebugDraw(const UniqueActor& actor);

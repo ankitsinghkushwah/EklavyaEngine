@@ -1,9 +1,9 @@
 #include "Frustum.h"
-#include "VertexArrayObject.h"
+#include <AssetManager/VertexArrayObject.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
-#include "Helpers.h"
-#include "BoundingVolume.h"
+#include <Helpers.h>
+#include <Scene/BoundingVolume.h>
 
 namespace Eklavya
 {

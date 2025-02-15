@@ -5,11 +5,11 @@
 //  Created by Ankit Singh Kushwah on 26/05/2023.
 //
 
-#include "Director.hpp"
-#include "Timer.h"
-#include "AssetManager.h"
-#include "EkScene.h"
-#include "imgui.h"
+#include <Director.hpp>
+#include <Timer.h>
+#include <AssetManager/AssetManager.h>
+#include <Scene/EkScene.h>
+#include "imgui/imgui.h"
 
 namespace Eklavya
 {

@@ -8,7 +8,7 @@
 #ifndef ContactGenerator_h
 #define ContactGenerator_h
 
-#include "ContactConstraint.h"
+#include <EkPhysics/Constraints/ContactConstraint.h>
 
 namespace Eklavya::Physics
 {
