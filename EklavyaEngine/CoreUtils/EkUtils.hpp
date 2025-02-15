@@ -23,4 +23,5 @@ const inline std::uintptr_t get_uid()
 	return reinterpret_cast<std::uintptr_t>(&typeid(Type));
 }
 
+
 #endif /* EkUtils_hpp */

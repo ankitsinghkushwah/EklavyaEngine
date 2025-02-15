@@ -38,14 +38,12 @@ std::string ShaderProgram::Load(const std::string& path)
 		return "";
 }
 
-#pragma optimize("", off)
-
 bool ShaderProgram::AddAndCompile(const std::string& shaderPath, EShaderType type)
 {
 	std::string shaderCode = Load(shaderPath);
 	if ("" == shaderCode)
 	{
-		m_ErrorInfo = "Error : couldn't load file from path: " + shaderPath;
+		m_ErrorInfo = "\n Error : couldn't load file from path: " + shaderPath;
 		printf(m_ErrorInfo.c_str());
 		return false;
 	}
@@ -77,8 +75,6 @@ bool ShaderProgram::AddAndCompile(const std::string& shaderPath, EShaderType typ
 	m_ShaderIDs.push_back(shaderID);
 	return true;
 }
-
-#pragma optimize("", on)
 
 bool ShaderProgram::Build()
 {

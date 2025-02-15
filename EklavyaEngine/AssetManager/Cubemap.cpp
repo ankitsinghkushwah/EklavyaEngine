@@ -27,7 +27,7 @@ void Cubemap::Create(const std::vector<std::string>& orderedFaceNames)
 
 		if (!image)
 		{
-			// LOG("couldn't load Image : %s", m_Name.c_str());
+			printf("couldn't load Image : %s", orderedFaceNames[index].c_str());
 			assert(0);
 		}
 

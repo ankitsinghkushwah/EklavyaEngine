@@ -5,9 +5,10 @@ A Game Engine written in C++ and OpenGL 4.1.
 ## Table of Contents
 
 1. [Project Generation](#project-generation)
-2. [Features](#features)
-3. [Demos](#demos)
-4. [To-Do](#to-do)
+2. [Build Generation](#build-generation)
+3. [Features](#features)
+4. [Demos](#demos)
+5. [To-Do](#to-do)
 
 ## Project Generation
 
@@ -15,6 +16,7 @@ To generate project files for Visual Studio or Xcode, you need to install **CMak
 Download it from [here](https://cmake.org/download/). Once installed, you can run shell file to generate project automatically for your platform (only supported macos and windows currently)
 
 ```sh
+cd EklavyaEngine #change directory to root project directory 
 chmod +x generate_project.sh # Only for MacOS terminal to make script executable
 ./generate_project.sh  #additionaly pass in --enable-asan to enable Address Sanitizer
 ```
@@ -26,6 +28,21 @@ Note : Shell file will only run on windows if you have git bash installed.
 Install it from [here](https://git-scm.com/downloads/). 
 
 Alternatively, you can use the CMake GUI if yo don't want to install Git.
+
+---
+
+## Project Generation
+
+You can also spit out DEBUG or RELEASE build for both macOS and windows by running a shell command :
+
+```sh
+cd EklavyaEngine #change directory to root project directory 
+chmod +x generate_executable.sh # Only for MacOS terminal to make script executable
+./generate_executable.sh  #additionaly pass debug or release flag for specific build type. By default it generates debug
+```
+
+For MacOS, builds will be generated in xcode_proj/debug_build for *debug* and xcode_proj/release_build for *release* 
+For Windows, builds will be generated in vs_proj/debug_build for *debug* and vs_proj/release_build for *release* 
 
 ---
 

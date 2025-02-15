@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(CMAKE_SUPPRESS_ALL_BUILD ON)
 
-
 # Add an option to enable/disable AddressSanitizer
 option(ENABLE_ASAN "Enable AddressSanitizer for memory error detection" OFF)
 
@@ -32,6 +31,7 @@ endif()
 if(APPLE)
 link_directories(${CMAKE_SOURCE_DIR}/Externals/libs/macos)
 endif()
+
 
 # Include directories
 include_directories(EklavyaEngine
