@@ -19,8 +19,8 @@ chmod +x generate_project.sh # Only for MacOS terminal to make script executable
 ./generate_project.sh  #additionaly pass in --enable-asan to enable Address Sanitizer
 ```
 
-For MacOS, it will generate xcode project in "xcode_proj"
-For Windows, it will generate visual studio project in "vs_proj"
+For MacOS, it will generate xcode project in "xcode_proj".
+For Windows, it will generate visual studio project in "vs_proj".
 
 Note : Shell file will only run on windows if you have git bash installed.
 Install it from [here](https://git-scm.com/downloads/). 
