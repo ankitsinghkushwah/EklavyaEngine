@@ -134,7 +134,6 @@ elseif(WIN32)
     target_link_libraries(EklavyaEngine
         opengl32.lib
         "${CMAKE_SOURCE_DIR}/Externals/libs/win32/glfw3.lib"
-        "${CMAKE_SOURCE_DIR}/Externals/libs/win32/assimp-vc143-mtd.lib"
         "${CMAKE_SOURCE_DIR}/Externals/libs/win32/sfml-audio/openal32.lib"
         "${CMAKE_SOURCE_DIR}/Externals/libs/win32/sfml-audio/flac.lib"
         "${CMAKE_SOURCE_DIR}/Externals/libs/win32/sfml-audio/freetype.lib"
@@ -146,6 +145,8 @@ elseif(WIN32)
         $<$<CONFIG:Release>:${CMAKE_SOURCE_DIR}/Externals/libs/win32/sfml-audio/sfml-system-s.lib>
         $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/Externals/libs/win32/sfml-audio/sfml-audio-s-d.lib>
         $<$<CONFIG:Release>:${CMAKE_SOURCE_DIR}/Externals/libs/win32/sfml-audio/sfml-audio-s.lib>
+        $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/Externals/libs/win32/assimp-vc143-mtd.lib>
+        $<$<CONFIG:Release>:${CMAKE_SOURCE_DIR}/Externals/libs/win32/assimp-vc143-mt.lib>
     )
 
 endif()
