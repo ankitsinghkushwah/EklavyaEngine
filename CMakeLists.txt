@@ -114,6 +114,9 @@ elseif(WIN32)
     file(COPY ${CMAKE_SOURCE_DIR}/Externals/libs/win32/DLLs/assimp-vc143-mtd.dll DESTINATION ${CMAKE_BINARY_DIR}/Debug)
     file(COPY ${CMAKE_SOURCE_DIR}/Externals/libs/win32/DLLs/openal32.dll DESTINATION ${CMAKE_BINARY_DIR}/Debug)
 
+    file(COPY ${CMAKE_SOURCE_DIR}/Externals/libs/win32/DLLs/assimp-vc143-mt.dll DESTINATION ${CMAKE_BINARY_DIR}/Release)
+    file(COPY ${CMAKE_SOURCE_DIR}/Externals/libs/win32/DLLs/openal32.dll DESTINATION ${CMAKE_BINARY_DIR}/Release)
+
     #copy assets
     copy_resources(
         ${CMAKE_SOURCE_DIR}/Resources  
