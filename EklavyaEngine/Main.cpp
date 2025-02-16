@@ -28,6 +28,7 @@ struct ResolutionInfo
 	int height;
 };
 
+
 constexpr ResolutionInfo resolutions[] = {
     {1024, 576}, // LOW
     {1280, 720}, // HD

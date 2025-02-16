@@ -35,7 +35,13 @@ else
     exit 1
 fi
 
-# Create the build directory if it doesn't exist
+# Delete the existing build directory if it exists
+if [ -d "$BUILD_DIR" ]; then
+    echo "Deleting existing build directory: $BUILD_DIR"
+    rm -rf "$BUILD_DIR"
+fi
+
+# Create the build directory
 mkdir -p "$BUILD_DIR"
 
 # Navigate to the build directory
@@ -57,6 +63,3 @@ fi
 cd - || exit
 
 echo "Build completed successfully in $BUILD_DIR"
-
-# Keep the terminal open
-read -p "Press Enter to exit..."
