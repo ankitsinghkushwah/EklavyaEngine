@@ -38,7 +38,9 @@ namespace Eklavya
 	class Frustum
 	{
 	  public:
-		Frustum() {}
+		Frustum()
+		{
+		}
 
 		void Init(float fov, float ratio, float fNear, float fFar);
 		~Frustum();
@@ -48,7 +50,10 @@ namespace Eklavya
 		bool Test(const glm::mat4& transform, const Bound& box) const;
 
 	  public:
-		const glm::vec3* Points() const { return mWorldPoints; }
+		const glm::vec3* Points() const
+		{
+			return mWorldPoints;
+		}
 
 		void OnDebugUpdate(const glm::mat4& view);
 

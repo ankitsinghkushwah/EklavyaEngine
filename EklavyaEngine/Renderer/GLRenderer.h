@@ -1,13 +1,13 @@
 #ifndef _INC_GL_RENDERER_H_
 #define _INC_GL_RENDERER_H_
 
-#include "RenderPass.hpp"
-#include <AssetManager/ShaderProgram.h>
+#include <unordered_map>
 #include <Components/RenderComponent.hpp>
 #include <GLFWGame.h>
+#include <AssetManager/ShaderProgram.h>
 #include <Renderer/Material.h>
+#include "RenderPass.hpp"
 #include <array>
-#include <unordered_map>
 
 #ifdef EKDEBUG
 #include <Renderer/DebugRenderer.hpp>
@@ -65,7 +65,10 @@ namespace Eklavya::Renderer
 
 #ifdef EKDEBUG
 	  public:
-		DebugRenderer& GetDebugRenderer() { return mDebugRenderer; }
+		DebugRenderer& GetDebugRenderer()
+		{
+			return mDebugRenderer;
+		}
 
 	  private:
 		void          DebugDraw(EkScene& scene);

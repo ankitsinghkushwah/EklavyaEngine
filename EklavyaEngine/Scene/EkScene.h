@@ -1,16 +1,16 @@
 #ifndef INC_EKSCENE
 #define INC_EKSCENE
 
+#include <string>
+#include <memory>
+#include <glm/glm.hpp>
+#include <vector>
 #include "Cameras/ICamera.hpp"
-#include <AssetManager/AnimationData.h>
-#include <Components/AnimationComponent.h>
-#include <SFML/Audio.hpp>
 #include <Scene/EkActor.h>
 #include <UserInputListener.h>
-#include <glm/glm.hpp>
-#include <memory>
-#include <string>
-#include <vector>
+#include <SFML/Audio.hpp>
+#include <AssetManager/AnimationData.h>
+#include <Components/AnimationComponent.h>
 
 #ifdef EKDEBUG
 #include "SceneDebugger.hpp"
@@ -52,13 +52,25 @@ namespace Eklavya
 		virtual ~EkScene();
 
 		void AddActor(UniqueActor& actor);
-		void RemoveActor(EkActorID id) { mActorsToBeRemoved.push_back(id); }
+		void RemoveActor(EkActorID id)
+		{
+			mActorsToBeRemoved.push_back(id);
+		}
 
-		const Physics::World& GetPhysics() const { return *mPhysicsWorld.get(); }
+		const Physics::World& GetPhysics() const
+		{
+			return *mPhysicsWorld.get();
+		}
+  
+    const Renderer::GLRenderer& GetRenderer() const
+    {
+      return *mRenderer.get();
+    }
 
-		const Renderer::GLRenderer& GetRenderer() const { return *mRenderer.get(); }
-
-		CameraParams DefaulCameraParams() const { return mDefaultCameraParams; }
+		CameraParams DefaulCameraParams() const
+		{
+			return mDefaultCameraParams;
+		}
 
 		void OverrideCamera(std::shared_ptr<ICamera> cameraImpl)
 		{
@@ -66,16 +78,23 @@ namespace Eklavya
 			mCameraStack.push_back(cameraImpl);
 		}
 
-		const std::shared_ptr<ICamera>& CurrentCamera() const { return mCameraStack[mCurrentCameraIdx]; }
+		const std::shared_ptr<ICamera>& CurrentCamera() const
+		{
+			return mCameraStack[mCurrentCameraIdx];
+		}
 
 		void Draw();
 
 		// UserInputListener overrides
-		void OnMouseAction(int key, int action) override {}
+		void OnMouseAction(int key, int action) override
+		{
+		}
 
 		void OnKeyAction(int key, int action) override;
 
-		void OnCursorMove(double x, double y) override {}
+		void OnCursorMove(double x, double y) override
+		{
+		}
 
 	  protected:
 		void TraverseToUpdate(const UniqueActor& actor, float deltaTime);
@@ -103,8 +122,8 @@ namespace Eklavya
 
 		std::vector<std::shared_ptr<ICamera>> mCameraStack;
 		int                                   mCurrentCameraIdx = 0;
-
-		void Cleanup();
+  
+    void Cleanup();
 	};
 } // namespace Eklavya
 

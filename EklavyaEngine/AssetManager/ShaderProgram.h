@@ -1,12 +1,12 @@
 #ifndef _INC_HIP_HOP_SHADER_PROGRAM_H_
 #define _INC_HIP_HOP_SHADER_PROGRAM_H_
 
-#include "IAsset.h"
-#include <cstdint>
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <memory>
 #include <vector>
+#include <cstdint>
+#include <glm/glm.hpp>
+#include <glad/glad.h>
+#include "IAsset.h"
+#include <memory>
 
 namespace Eklavya::Asset
 {
@@ -28,7 +28,10 @@ namespace Eklavya::Asset
 		bool AddAndCompile(const std::string& shaderPath, EShaderType type);
 		bool Build();
 
-		inline const std::string& GetErrorInfo() { return m_ErrorInfo; }
+		inline const std::string& GetErrorInfo()
+		{
+			return m_ErrorInfo;
+		}
 
 		void Use();
 		void SetInt(const std::string& name, int value);
@@ -39,10 +42,16 @@ namespace Eklavya::Asset
 		void SetMat4(const std::string& name, const glm::mat4& value);
 		void SetNMat4(const std::string& name, std::vector<glm::mat4> transforms, int num);
 
-		inline bool IsCurrentlyActive() { return m_IsCurrentlyActive; }
+		inline bool IsCurrentlyActive()
+		{
+			return m_IsCurrentlyActive;
+		}
 
 		/*Sets whether this shader is currently in use or not*/
-		inline void SetStatus(bool pIsCurrentlyActive) { m_IsCurrentlyActive = pIsCurrentlyActive; }
+		inline void SetStatus(bool pIsCurrentlyActive)
+		{
+			m_IsCurrentlyActive = pIsCurrentlyActive;
+		}
 
 	  protected:
 		GLuint m_ID;

@@ -1,17 +1,17 @@
 #ifndef INC_ANIMATION
 #define INC_ANIMATION
 
-#include "IAsset.h"
-#include <AssetManager/AnimationData.h>
-#include <AssetManager/Bone.h>
-#include <assimp/scene.h>
-#include <functional>
-#include <map>
 #include <vector>
+#include <map>
+#include <assimp/scene.h>
+#include <AssetManager/Bone.h>
+#include <functional>
+#include <AssetManager/AnimationData.h>
+#include "IAsset.h"
 
 namespace Eklavya::Asset
 {
-	struct AssimpNodeData
+  struct AssimpNodeData
 	{
 		glm::mat4                   transform;
 		std::string                 name;
@@ -28,19 +28,40 @@ namespace Eklavya::Asset
 		Bone* FindJoint(const std::string& name);
 
 		// getters
-		inline glm::mat4 RootTransform() { return mRootTransform; }
+		inline glm::mat4 RootTransform()
+		{
+			return mRootTransform;
+		}
 
-		inline glm::mat4 InvRootTransform() { return mInvRootTransform; }
+		inline glm::mat4 InvRootTransform()
+		{
+			return mInvRootTransform;
+		}
 
-		inline float GetTicksPerSecond() { return m_TicksPerSecond; }
+		inline float GetTicksPerSecond()
+		{
+			return m_TicksPerSecond;
+		}
 
-		inline float GetDuration() { return m_Duration; }
+		inline float GetDuration()
+		{
+			return m_Duration;
+		}
 
-		inline float GetRealDuration() { return m_Duration / m_TicksPerSecond; }
+		inline float GetRealDuration()
+		{
+			return m_Duration / m_TicksPerSecond;
+		}
 
-		inline const AssimpNodeData& GetRootNode() { return m_RootNode; }
+		inline const AssimpNodeData& GetRootNode()
+		{
+			return m_RootNode;
+		}
 
-		inline const std::map<std::string, BoneInfo>& GetBoneIDMap() { return m_BoneInfoMap; }
+		inline const std::map<std::string, BoneInfo>& GetBoneIDMap()
+		{
+			return m_BoneInfoMap;
+		}
 
 	  private:
 		void SetupJoints(const aiAnimation* animation, const aiScene& scene);

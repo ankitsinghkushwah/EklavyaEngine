@@ -2,11 +2,11 @@
 #define INC_COLLIDER_H_
 
 #include <glm/glm.hpp>
-#include <memory>
 #include <vector>
+#include <memory>
 #define GLM_ENABLE_EXPERIMENTAL
-#include <Components/EkComponent.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <Components/EkComponent.hpp>
 
 namespace Eklavya::Physics
 {
@@ -24,25 +24,52 @@ namespace Eklavya::Physics
 		BaseColliderComponent(EkActor& owner, EColliderType type);
 		virtual ~BaseColliderComponent();
 
-		EColliderType GetType() const { return mType; }
+		EColliderType GetType() const
+		{
+			return mType;
+		}
 
-		const glm::vec3& GetOffset() const { return mOffset; }
+		const glm::vec3& GetOffset() const
+		{
+			return mOffset;
+		}
 
-		void SetOffset(const glm::vec3& offset) { mOffset = offset; }
+		void SetOffset(const glm::vec3& offset)
+		{
+			mOffset = offset;
+		}
 
-		void SetGroupIndex(int groupIndex) { mGroupFlag = groupIndex; }
+		void SetGroupIndex(int groupIndex)
+		{
+			mGroupFlag = groupIndex;
+		}
 
-		int GroupFlag() const { return mGroupFlag; }
+		int GroupFlag() const
+		{
+			return mGroupFlag;
+		}
 
 		void UpdateTransform(glm::vec3 pos, glm::quat rotation);
 
-		glm::vec3 GetPosition() const { return GetAxis(3); }
+		glm::vec3 GetPosition() const
+		{
+			return GetAxis(3);
+		}
 
-		glm::mat4 GetWorldMatrix() const { return mColliderTR; }
+		glm::mat4 GetWorldMatrix() const
+		{
+			return mColliderTR;
+		}
 
-		glm::vec3 GetPointInLocalSpace(const glm::vec3& point) const { return glm::inverse(mColliderTR) * glm::vec4(point, 1.0f); }
+		glm::vec3 GetPointInLocalSpace(const glm::vec3& point) const
+		{
+			return glm::inverse(mColliderTR) * glm::vec4(point, 1.0f);
+		}
 
-		glm::vec3 GetPointInWorldSpace(const glm::vec3& point) const { return glm::vec3(mColliderTR * glm::vec4(point, 1.0f)); }
+		glm::vec3 GetPointInWorldSpace(const glm::vec3& point) const
+		{
+			return glm::vec3(mColliderTR * glm::vec4(point, 1.0f));
+		}
 
 		glm::mat3 GetRotationMatrix() const
 		{
@@ -53,7 +80,10 @@ namespace Eklavya::Physics
 			return rotation;
 		}
 
-		glm::vec3 GetAxis(int index) const { return glm::vec3(mColliderTR[index]); }
+		glm::vec3 GetAxis(int index) const
+		{
+			return glm::vec3(mColliderTR[index]);
+		}
 
 	  protected:
 		int           mGroupFlag;
@@ -68,7 +98,10 @@ namespace Eklavya::Physics
 		SphereColliderComponent(EkActor& owner);
 		~SphereColliderComponent();
 
-		float GetRadius() const { return mRadius; }
+		float GetRadius() const
+		{
+			return mRadius;
+		}
 
 		void SetRadius(float radius);
 
@@ -82,7 +115,10 @@ namespace Eklavya::Physics
 		BoxColliderComponent(EkActor& owner);
 		~BoxColliderComponent();
 
-		glm::vec3 GetHalfSize() const { return mHalfSize; }
+		glm::vec3 GetHalfSize() const
+		{
+			return mHalfSize;
+		}
 
 		void SetHalfSize(glm::vec3 halfSize);
 

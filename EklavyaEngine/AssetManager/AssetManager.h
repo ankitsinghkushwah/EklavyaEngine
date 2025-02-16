@@ -7,22 +7,22 @@
         when not using the asset so It can be destroyed by AssetManager in
         the end.
 */
-#include "../CoreUtils/Logger.h"
-#include "../CoreUtils/Singleton.h"
-#include "Animation.h"
-#include "Asset.h"
-#include "AssetFactory.h"
-#include "Cubemap.h"
-#include "IAsset.h"
-#include "Texture2D.h"
-#include <AssetManager/GLModel.hpp>
-#include <AssetManager/ShaderProgram.h>
-#include <algorithm>
-#include <list>
-#include <map>
-#include <memory>
 #include <string>
+#include <map>
+#include <list>
+#include <memory>
 #include <type_traits>
+#include "Asset.h"
+#include "IAsset.h"
+#include "../CoreUtils/Singleton.h"
+#include <algorithm>
+#include "Texture2D.h"
+#include <AssetManager/ShaderProgram.h>
+#include "Cubemap.h"
+#include <AssetManager/GLModel.hpp>
+#include "Animation.h"
+#include "AssetFactory.h"
+#include "../CoreUtils/Logger.h"
 namespace Eklavya
 {
 	using AssetList = std::list<std::shared_ptr<Asset::IAsset>>;

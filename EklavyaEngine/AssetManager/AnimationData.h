@@ -12,9 +12,9 @@
 
 */
 
+#include <string>
 #include <glm/glm.hpp>
 #include <map>
-#include <string>
 
 constexpr std::uint32_t MAX_BONES_SUPPORTED = 100;
 

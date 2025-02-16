@@ -4,8 +4,8 @@
 #include <glm/gtc/quaternion.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL
-#include <Components/EkComponent.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <Components/EkComponent.hpp>
 
 namespace Eklavya
 {
@@ -50,22 +50,40 @@ namespace Eklavya
 
 		void ApplyParentTransform(const glm::mat4& parentT);
 
-		inline const glm::quat& Rotation() { return mRotation; }
+		inline const glm::quat& Rotation()
+		{
+			return mRotation;
+		}
 
-		inline const glm::quat& LocalRotation() { return mLocalRotation; }
+		inline const glm::quat& LocalRotation()
+		{
+			return mLocalRotation;
+		}
 
-		inline const glm::vec3& Position() const { return mPosition; }
+		inline const glm::vec3& Position() const
+		{
+			return mPosition;
+		}
 
-		inline const glm::vec3& GetScale() const { return mScale; }
+		inline const glm::vec3& GetScale() const
+		{
+			return mScale;
+		}
 
 		glm::vec3 TransformToLocal(const glm::vec3& vertex);
 		glm::vec3 TransformToWorld(const glm::vec3& vertex);
 
-		const glm::mat4& GetWorldMatrix() const { return mWorld; }
+		const glm::mat4& GetWorldMatrix() const
+		{
+			return mWorld;
+		}
 
 		glm::mat4 GetRotationMatrix() const;
 
-		const glm::vec3& forward() { return mForward; }
+		const glm::vec3& forward()
+		{
+			return mForward;
+		}
 
 		const glm::vec3& up(bool local = false)
 		{
@@ -75,7 +93,10 @@ namespace Eklavya
 			return mUp;
 		}
 
-		const glm::vec3& right() { return mRight; }
+		const glm::vec3& right()
+		{
+			return mRight;
+		}
 
 	  private:
 		void UpdateBasis();

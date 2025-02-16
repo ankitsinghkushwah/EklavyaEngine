@@ -5,13 +5,13 @@
 //  Created by Ankit Singh Kushwah on 25/06/2023.
 //
 
-#include <AssetManager/AssetManager.h>
-#include <AssetManager/ShaderProgram.h>
-#include <Components/TransformComponent.h>
 #include <Renderer/DebugRenderer.hpp>
-#include <Scene/Cameras/Frustum.h>
-#include <glm/gtc/matrix_transform.hpp>
+#include <AssetManager/ShaderProgram.h>
 #include <glm/gtc/quaternion.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <AssetManager/AssetManager.h>
+#include <Components/TransformComponent.h>
+#include <Scene/Cameras/Frustum.h>
 
 using namespace Eklavya::Renderer;
 using namespace Eklavya::Asset;
@@ -167,7 +167,9 @@ void DebugRenderer::DrawFrustum(const Frustum& frustum)
 	}
 }
 
-void DebugRenderer::DrawPoints(std::vector<glm::vec3>& points, glm::vec4 color) {}
+void DebugRenderer::DrawPoints(std::vector<glm::vec3>& points, glm::vec4 color)
+{
+}
 
 #define RGB(r, g, b) glm::vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f)
 
@@ -200,9 +202,16 @@ void DebugRenderer::DrawTransform(TransformComponent& transform)
 	glDepthFunc(GL_LEQUAL);
 }
 
-void DebugRenderer::AddLine(glm::vec3 start, glm::vec3 end, glm::vec4 color, float thickness) { mLinesToDraw.emplace_back(start, end, color, thickness); }
+void DebugRenderer::AddLine(glm::vec3 start, glm::vec3 end, glm::vec4 color, float thickness)
+{
+	mLinesToDraw.emplace_back(start, end, color, thickness);
+}
 
-void DebugRenderer::AddSphere(glm::vec3 center, float radius, glm::vec4 color) { mSpheresToDraw.emplace_back(center, color, radius); }
+void DebugRenderer::AddSphere(glm::vec3 center, float radius, glm::vec4 color)
+
+{
+	mSpheresToDraw.emplace_back(center, color, radius);
+}
 
 void DebugRenderer::DrawAddedShapes()
 {

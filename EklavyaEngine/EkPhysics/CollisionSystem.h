@@ -35,7 +35,10 @@ namespace Eklavya::Physics
 		glm::vec3 d;
 		float     range;
 
-		constexpr glm::vec3 GetPoint(float t) const { return o + d * t; }
+		constexpr glm::vec3 GetPoint(float t) const
+		{
+			return o + d * t;
+		}
 	};
 
 	struct Plane
@@ -53,7 +56,9 @@ namespace Eklavya::Physics
 		glm::vec3 position;
 		bool      success = false;
 
-		CastHitResult() : t(0.0f), normal(0.0f), position(0.0f) {}
+		CastHitResult() : t(0.0f), normal(0.0f), position(0.0f)
+		{
+		}
 	};
 	namespace CollisionSystem
 	{

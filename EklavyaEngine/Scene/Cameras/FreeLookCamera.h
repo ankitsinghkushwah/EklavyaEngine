@@ -1,10 +1,10 @@
 #ifndef _INC_DEBUG_CAMERA_H_
 #define _INC_DEBUG_CAMERA_H_
 
-#include "ICamera.hpp"
-#include <UserInputListener.h>
-#include <glm/glm.hpp>
 #include <memory>
+#include <glm/glm.hpp>
+#include <UserInputListener.h>
+#include "ICamera.hpp"
 
 namespace Eklavya
 {
@@ -25,8 +25,14 @@ namespace Eklavya
 		void PollKeyAction() override;
 		void OnKeyAction(int key, int action) override;
 		void Update(float deltaTime) override;
-		void SetSenstivity(float senstivity) { mSenstivity = senstivity; }
-		void SetEnabled(bool flag) { mEnabled = flag; }
+		void SetSenstivity(float senstivity)
+		{
+			mSenstivity = senstivity;
+		}
+		void SetEnabled(bool flag)
+		{
+			mEnabled = flag;
+		}
 
 	  private:
 		void Move(EDirection direction, float dt);
