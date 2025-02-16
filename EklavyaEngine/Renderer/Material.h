@@ -1,9 +1,9 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <memory>
-#include <array>
 #include <AssetManager/Asset.h>
 #include <AssetManager/MaterialInfo.h>
+#include <array>
+#include <glm/glm.hpp>
+#include <memory>
 namespace Eklavya::Renderer
 {
 	// DON'T BREAK THE SEQUENCE
@@ -19,16 +19,11 @@ namespace Eklavya::Renderer
 	  public:
 		IMaterial(SHARED_SHADER shader, ERenderGroup state);
 		virtual ~IMaterial();
-		virtual void Activate();
-		virtual void SetMaterialInfo(const Asset::MaterialInfo& info)
-		{
-		}
-		virtual void Deactivate();
-		virtual void Tick(float dt);
-		bool         IsActive()
-		{
-			return m_Active;
-		}
+		virtual void      Activate();
+		virtual void      SetMaterialInfo(const Asset::MaterialInfo& info) {}
+		virtual void      Deactivate();
+		virtual void      Tick(float dt);
+		bool              IsActive() { return m_Active; }
 		ERenderGroup      m_State = ERenderGroup::ACTOR;
 		SHARED_SHADER     m_Shader = nullptr;
 		const MATERIAL_ID mID;

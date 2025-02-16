@@ -3,10 +3,10 @@
 
 /* Container for bone data */
 
-#include <vector>
 #include <assimp/scene.h>
-#include <list>
 #include <glm/glm.hpp>
+#include <list>
+#include <vector>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
@@ -31,51 +31,22 @@ struct KeyScale
 class Bone
 {
   public:
-	Bone()
-	{
-	}
+	Bone() {}
 	Bone(const std::string& name, int ID, const aiNodeAnim* channel);
 	~Bone();
-	void      Update(float animationTime);
-	glm::mat4 GetLocalTransform()
-	{
-		return m_LocalTransform;
-	}
-	std::string GetJointName() const
-	{
-		return m_Name;
-	}
-	int GetJointID()
-	{
-		return m_ID;
-	}
-	std::vector<Bone*> GetChildren()
-	{
-		return m_Children;
-	}
-	void        AddChild(Bone* child);
-	inline void SetParent(Bone* parent)
-	{
-		m_Parent = parent;
-	}
-	inline const Bone* GetParent()
-	{
-		return m_Parent;
-	}
-	void PrintHeirarchy();
+	void               Update(float animationTime);
+	glm::mat4          GetLocalTransform() { return m_LocalTransform; }
+	std::string        GetJointName() const { return m_Name; }
+	int                GetJointID() { return m_ID; }
+	std::vector<Bone*> GetChildren() { return m_Children; }
+	void               AddChild(Bone* child);
+	inline void        SetParent(Bone* parent) { m_Parent = parent; }
+	inline const Bone* GetParent() { return m_Parent; }
+	void               PrintHeirarchy();
 
-	glm::vec3 GetPosAtIndex(int index)
-	{
-		return m_Positions[index].position;
-	}
-	glm::quat GetRotAtIndex(int index)
-	{
-		return m_Rotations[index].orientation;
-	}
-	glm::vec3 GetScaleAtIndex(int index)
-	{
-		return m_Scales[index].scale;
-	}
+	glm::vec3 GetPosAtIndex(int index) { return m_Positions[index].position; }
+	glm::quat GetRotAtIndex(int index) { return m_Rotations[index].orientation; }
+	glm::vec3 GetScaleAtIndex(int index) { return m_Scales[index].scale; }
 
 	int GetPositionIndex(float animationTime);
 	int GetRotationIndex(float animationTime);

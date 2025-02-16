@@ -2,9 +2,9 @@
 #define INC_RANDOM_H
 
 // C++ headers
-#include <random>
 #include <chrono>
 #include <memory>
+#include <random>
 
 // third pary headers
 #include <glm/glm.hpp>

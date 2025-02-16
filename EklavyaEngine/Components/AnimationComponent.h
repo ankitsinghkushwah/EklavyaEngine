@@ -1,13 +1,13 @@
 #ifndef INC_ANIM_COMPONENT
 #define INC_ANIM_COMPONENT
+#include "../UserInputListener.h"
+#include <AssetManager/AnimationData.h>
 #include <Components/EkComponent.hpp>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
 #include <glm/glm.hpp>
 #include <map>
 #include <vector>
-#include <assimp/scene.h>
-#include <assimp/Importer.hpp>
-#include "../UserInputListener.h"
-#include <AssetManager/AnimationData.h>
 
 namespace Eklavya::Asset
 {
@@ -27,21 +27,12 @@ namespace Eklavya
 		~AnimationComponent();
 		void Tick(float dt) override;
 
-		std::shared_ptr<Asset::Animation> GetCurrentAnimation() const
-		{
-			return mCurrentAnimation;
-		}
-		void PlayAnimation(std::shared_ptr<Asset::Animation> pAnimation, bool smoothTransition = false);
+		std::shared_ptr<Asset::Animation> GetCurrentAnimation() const { return mCurrentAnimation; }
+		void                              PlayAnimation(std::shared_ptr<Asset::Animation> pAnimation, bool smoothTransition = false);
 
-		const std::vector<glm::mat4>& GetPoseTransforms()
-		{
-			return mPose;
-		}
+		const std::vector<glm::mat4>& GetPoseTransforms() { return mPose; }
 
-		ModelID GetModelID()
-		{
-			return mModelID;
-		}
+		ModelID GetModelID() { return mModelID; }
 
 		// TEMP function
 		void PlayAnimation(int index)

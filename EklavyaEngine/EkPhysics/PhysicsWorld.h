@@ -1,14 +1,14 @@
 #ifndef INC_PHYSICS_WORLD_H
 #define INC_PHYSICS_WORLD_H
 
-#include <memory>
-#include <vector>
-#include <map>
-#include <string>
-#include <glm/glm.hpp>
-#include <bitset>
 #include "CollisionSystem.h"
 #include "Constraints/ContactConstraint.h"
+#include <bitset>
+#include <glm/glm.hpp>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 #ifdef EKDEBUG
 #include <Renderer/DebugRenderer.hpp>
 #endif

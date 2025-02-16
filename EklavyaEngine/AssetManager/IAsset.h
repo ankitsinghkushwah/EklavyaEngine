@@ -23,15 +23,9 @@ namespace Eklavya::Asset
 		IAsset(EType type, const std::string& name);
 		virtual ~IAsset();
 
-		inline EType GetType() const
-		{
-			return m_Type;
-		}
+		inline EType GetType() const { return m_Type; }
 
-		inline std::string GetName() const
-		{
-			return m_Name;
-		}
+		inline std::string GetName() const { return m_Name; }
 
 	  protected:
 		EType       m_Type;

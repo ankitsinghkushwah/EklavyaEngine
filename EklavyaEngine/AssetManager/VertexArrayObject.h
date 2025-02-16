@@ -1,7 +1,7 @@
 #ifndef _INC_HIP_HOP_VAO_H_
 #define _INC_HIP_HOP_VAO_H_
-#include <glad/glad.h>
 #include <cstddef>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 namespace Eklavya
@@ -21,25 +21,13 @@ namespace Eklavya
 		void SetBoneIdsPtr(int startOffset, int strideOffset);
 		void SetBoneWeightPtr(int startOffset, int strideOffset);
 
-		void Bind() const
-		{
-			glBindVertexArray(m_VAO);
-		}
+		void Bind() const { glBindVertexArray(m_VAO); }
 
-		bool HasSharedVertices() const
-		{
-			return mIndicesSize != -1;
-		}
+		bool HasSharedVertices() const { return mIndicesSize != -1; }
 
-		int GetIndicesSize() const
-		{
-			return mIndicesSize;
-		}
+		int GetIndicesSize() const { return mIndicesSize; }
 
-		void Unbind() const
-		{
-			glBindVertexArray(0);
-		}
+		void Unbind() const { glBindVertexArray(0); }
 
 		static void SetupVAOForSphere(VertexArrayObject& vao, glm::vec3& min, glm::vec3& max);
 		static void SetupVAOForBox(VertexArrayObject& vao, glm::vec3& min, glm::vec3& max);

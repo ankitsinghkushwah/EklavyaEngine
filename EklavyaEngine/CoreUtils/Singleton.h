@@ -12,9 +12,7 @@ class Singleton
 	}
 
   protected:
-	Singleton()
-	{
-	}
+	Singleton() {}
 };
 
 #endif

@@ -2,10 +2,10 @@
 #define INC_HIP_HOP_LOGGER_H
 
 // C++ headers
-#include <cstdio>
-#include <cstdarg>
-#include <string>
 #include "Singleton.h"
+#include <cstdarg>
+#include <cstdio>
+#include <string>
 
 class Logger : public Singleton<Logger>
 {

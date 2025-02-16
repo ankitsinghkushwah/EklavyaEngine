@@ -7,12 +7,12 @@
 #ifndef DebugHelper_hpp
 #define DebugHelper_hpp
 
-#include <AssetManager/VertexArrayObject.h>
-#include <glm/glm.hpp>
-#include <vector>
 #include <AssetManager/Asset.h>
+#include <AssetManager/VertexArrayObject.h>
 #include <Scene/BoundingVolume.h>
+#include <glm/glm.hpp>
 #include <list>
+#include <vector>
 
 namespace Eklavya
 {
@@ -30,9 +30,7 @@ namespace Eklavya::Renderer
 			glm::vec4 color;
 			float     thickness;
 
-			DebugLine(glm::vec3 s, glm::vec3 e, glm::vec4 c, float t) : start(s), end(e), color(c), thickness(t)
-			{
-			}
+			DebugLine(glm::vec3 s, glm::vec3 e, glm::vec4 c, float t) : start(s), end(e), color(c), thickness(t) {}
 		};
 
 		struct DebugSphere
@@ -41,9 +39,7 @@ namespace Eklavya::Renderer
 			glm::vec4 color;
 			float     radius;
 
-			DebugSphere(glm::vec3 p, glm::vec4 c, float r) : center(p), color(c), radius(r)
-			{
-			}
+			DebugSphere(glm::vec3 p, glm::vec4 c, float r) : center(p), color(c), radius(r) {}
 		};
 	} // namespace
 
@@ -51,12 +47,15 @@ namespace Eklavya::Renderer
 	{
 	  public:
 		DebugRenderer();
+
 		~DebugRenderer();
 
 		void SetData(glm::mat4& projection, glm::mat4& view);
 
 		void DrawLine(glm::vec3 start, glm::vec3 end, glm::vec4 color, float thickness, bool disableDepthTest = false);
+
 		void DrawSphere(glm::vec3 center, float radius, glm::vec4 color);
+
 		void DrawSphere(glm::vec3 center, glm::vec3 extents, glm::vec4 color);
 
 		void DrawBox(glm::vec3 center, glm::vec3 rotation, glm::vec3 extents, glm::vec4 color);
@@ -76,7 +75,8 @@ namespace Eklavya::Renderer
 		void DrawAddedShapes();
 
 	  private:
-		glm::mat4     GetModel(glm::vec3 t, const glm::quat& r, glm::vec3 s);
+		glm::mat4 GetModel(glm::vec3 t, const glm::quat& r, glm::vec3 s);
+
 		glm::mat4     mProjection;
 		glm::mat4     mView;
 		SHARED_SHADER mUnlitSolids = nullptr;

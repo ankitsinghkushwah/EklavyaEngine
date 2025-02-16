@@ -1,9 +1,9 @@
 #ifndef INPUT_HANDLER
 #define INPUT_HANDLER
 
-#include <vector>
-#include <memory>
 #include <glm/glm.hpp>
+#include <memory>
+#include <vector>
 
 class UserInputListener;
 
@@ -35,20 +35,11 @@ class InputHandler
 	void AddListener(UserInputListener* pListener);
 	void RemoveListener(UserInputListener* pListener);
 
-	inline bool KeyHasPressed(int key)
-	{
-		return mKeyStates[key];
-	}
+	inline bool KeyHasPressed(int key) { return mKeyStates[key]; }
 
-	inline float GetMouseX()
-	{
-		return mMousePos.x;
-	}
+	inline float GetMouseX() { return mMousePos.x; }
 
-	inline float GetMouseY()
-	{
-		return mMousePos.y;
-	}
+	inline float GetMouseY() { return mMousePos.y; }
 
 	inline glm::vec2 GetMouseDragDelta() const
 	{
@@ -58,10 +49,7 @@ class InputHandler
 			return mMousePos - mLastMousePos;
 	}
 
-	inline bool IsControllerConnected()
-	{
-		return mControllerReady;
-	}
+	inline bool IsControllerConnected() { return mControllerReady; }
 
 	// Controller
 	float GetAxis(int axisId);

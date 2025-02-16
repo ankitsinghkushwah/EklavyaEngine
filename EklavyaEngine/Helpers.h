@@ -1,12 +1,12 @@
 #ifndef INC_HELPERS_H
 #define INC_HELPERS_H
 
-#include <memory>
-#include <functional>
 #include <Event/Events.h>
-#include <assimp/vector3.h>
 #include <assimp/matrix4x4.h>
 #include <assimp/quaternion.h>
+#include <assimp/vector3.h>
+#include <functional>
+#include <memory>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
@@ -24,15 +24,9 @@ inline std::shared_ptr<Type> MakeSharedPtr(std::weak_ptr<Type> weakObject)
 		return std::shared_ptr<Type>();
 }
 
-inline glm::vec3 GetGLMVec(const aiVector3D& vec)
-{
-	return glm::vec3(vec.x, vec.y, vec.z);
-}
+inline glm::vec3 GetGLMVec(const aiVector3D& vec) { return glm::vec3(vec.x, vec.y, vec.z); }
 
-inline glm::quat GetGLMQuat(const aiQuaternion& pOrientation)
-{
-	return glm::quat(pOrientation.w, pOrientation.x, pOrientation.y, pOrientation.z);
-}
+inline glm::quat GetGLMQuat(const aiQuaternion& pOrientation) { return glm::quat(pOrientation.w, pOrientation.x, pOrientation.y, pOrientation.z); }
 
 inline glm::mat4 GetGLMMat(const aiMatrix4x4& from)
 {

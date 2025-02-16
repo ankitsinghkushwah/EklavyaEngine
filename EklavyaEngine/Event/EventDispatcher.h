@@ -1,10 +1,10 @@
 #ifndef EVENT_DISPATCHER_H_
 #define EVENT_DISPATCHER_H_
 
-#include "Events.h"
 #include "EventType.h"
-#include <vector>
+#include "Events.h"
 #include <functional>
+#include <vector>
 
 using Callback = std::function<void(std::shared_ptr<IEventData>)>;
 using EventDataSharedPtr = std::shared_ptr<IEventData>;

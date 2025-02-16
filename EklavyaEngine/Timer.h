@@ -5,8 +5,8 @@
 #ifndef _INC_TIMER_HPP
 #define _INC_TIMER_HPP
 
-#include <chrono>
 #include <CoreUtils/Singleton.h>
+#include <chrono>
 
 using Clock = std::chrono::steady_clock;
 using TimeStamp = std::chrono::steady_clock::time_point;
@@ -17,20 +17,11 @@ class Timer : public Singleton<Timer>
 	Timer();
 	~Timer();
 
-	inline double GetDeltaTimeInMS()
-	{
-		return mFrameTime;
-	}
+	inline double GetDeltaTimeInMS() { return mFrameTime; }
 
-	inline float GetFrameTime()
-	{
-		return mFrameTime * .001f;
-	}
+	inline float GetFrameTime() { return mFrameTime * .001f; }
 
-	inline int GetFramesPerSecond()
-	{
-		return m_FPS;
-	}
+	inline int GetFramesPerSecond() { return m_FPS; }
 
 	void Update();
 	void Reset();

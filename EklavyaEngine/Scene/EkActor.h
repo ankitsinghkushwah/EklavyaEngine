@@ -1,15 +1,15 @@
 #ifndef INC_ACTOR_H
 #define INC_ACTOR_H
 
-#include <vector>
+#include "BoundingVolume.h"
+#include <Components/EkComponent.hpp>
+#include <Components/TransformComponent.h>
+#include <CoreUtils/EkUtils.hpp>
+#include <glm/glm.hpp>
 #include <memory>
 #include <string>
-#include <glm/glm.hpp>
-#include <Components/EkComponent.hpp>
-#include <CoreUtils/EkUtils.hpp>
 #include <utility>
-#include <Components/TransformComponent.h>
-#include "BoundingVolume.h"
+#include <vector>
 
 enum ERenderGroup
 {
@@ -36,10 +36,7 @@ namespace Eklavya
 		EkActor();
 		~EkActor();
 
-		const std::vector<std::unique_ptr<EkComponent>>& Components()
-		{
-			return mComponents;
-		}
+		const std::vector<std::unique_ptr<EkComponent>>& Components() { return mComponents; }
 
 		template<typename ComponentType>
 		ComponentType* GetComponent(EkComponentID id)
@@ -82,74 +79,35 @@ namespace Eklavya
 
 		EkActor* GetChild(const std::string& name);
 
-		const EkActor* Parent() const
-		{
-			return mParent;
-		}
+		const EkActor* Parent() const { return mParent; }
 
-		EkActor* Parent()
-		{
-			return mParent;
-		}
+		EkActor* Parent() { return mParent; }
 
-		void SetParent(EkActor* parent)
-		{
-			mParent = parent;
-		}
+		void SetParent(EkActor* parent) { mParent = parent; }
 
 		void AddKid(UniqueActor& actor);
 
-		const std::vector<UniqueActor>& Kids() const
-		{
-			return mKids;
-		}
+		const std::vector<UniqueActor>& Kids() const { return mKids; }
 
-		std::vector<UniqueActor>& Kids()
-		{
-			return mKids;
-		}
+		std::vector<UniqueActor>& Kids() { return mKids; }
 
-		bool operator==(EkActorID rhs)
-		{
-			return mID == rhs;
-		}
+		bool operator==(EkActorID rhs) { return mID == rhs; }
 
-		EkActorID ID() const
-		{
-			return mID;
-		}
+		EkActorID ID() const { return mID; }
 
 		void SetBound(const glm::vec3& halfExtents);
 
-		const std::string& Name() const
-		{
-			return mName;
-		}
+		const std::string& Name() const { return mName; }
 
-		void SetName(const std::string& name)
-		{
-			mName = name;
-		}
+		void SetName(const std::string& name) { mName = name; }
 
-		const TransformComponent& Transform() const
-		{
-			return *mTransform;
-		}
+		const TransformComponent& Transform() const { return *mTransform; }
 
-		TransformComponent& Transform()
-		{
-			return *mTransform;
-		}
+		TransformComponent& Transform() { return *mTransform; }
 
-		bool IsEnabled() const
-		{
-			return mIsEnabled;
-		}
+		bool IsEnabled() const { return mIsEnabled; }
 
-		void SetEnabled(bool isEnabled)
-		{
-			mIsEnabled = isEnabled;
-		}
+		void SetEnabled(bool isEnabled) { mIsEnabled = isEnabled; }
 
 #ifdef EKDEBUG
 		bool mDebugDrawComponents = false;
@@ -159,7 +117,7 @@ namespace Eklavya
 		std::string                               mName;
 		TransformComponent*                       mTransform = nullptr;
 		std::vector<std::unique_ptr<EkComponent>> mComponents;
-		std::vector<UniqueActor>     mKids;
+		std::vector<UniqueActor>                  mKids;
 		EkActor*                                  mParent = nullptr;
 		EkActorID                                 mID;
 		bool                                      mIsEnabled = true;
