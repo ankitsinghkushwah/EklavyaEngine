@@ -7,13 +7,12 @@
 #ifndef Asset_h
 #define Asset_h
 #include <memory>
-namespace Eklavya::Asset
-{
-	class Texture2D;
-	class ShaderProgram;
-	class Cubemap;
-	class GLModel;
-	class Animation;
+namespace Eklavya::Asset {
+class Texture2D;
+class ShaderProgram;
+class Cubemap;
+class GLModel;
+class Animation;
 } // namespace Eklavya::Asset
 // assets
 using SHARED_TEXTURE = std::shared_ptr<Eklavya::Asset::Texture2D>;

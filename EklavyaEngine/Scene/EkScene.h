@@ -1,130 +1,109 @@
 #ifndef INC_EKSCENE
 #define INC_EKSCENE
 
-#include <string>
-#include <memory>
-#include <glm/glm.hpp>
-#include <vector>
 #include "Cameras/ICamera.hpp"
-#include <Scene/EkActor.h>
-#include <UserInputListener.h>
-#include <SFML/Audio.hpp>
 #include <AssetManager/AnimationData.h>
 #include <Components/AnimationComponent.h>
+#include <SFML/Audio.hpp>
+#include <Scene/EkActor.h>
+#include <UserInputListener.h>
+#include <glm/glm.hpp>
+#include <memory>
+#include <string>
+#include <vector>
 
 #ifdef EKDEBUG
 #include "SceneDebugger.hpp"
 #endif
 
-namespace Eklavya
-{
-	// forward declarations
+namespace Eklavya {
+// forward declarations
 
-	class AnimationComponent;
-	class FreeLookCamera;
+class AnimationComponent;
+class FreeLookCamera;
 
-	namespace Renderer
-	{
-		class GLRenderer;
-		class DebugRenderer;
-	} // namespace Renderer
+namespace Renderer {
+class GLRenderer;
+class DebugRenderer;
+} // namespace Renderer
 
-	namespace Physics
-	{
-		class World;
-	}
+namespace Physics {
+class World;
+}
 
-	class Director;
+class Director;
 
-	class EkScene : public UserInputListener
-	{
+class EkScene : public UserInputListener {
 #ifdef EKDEBUG
-		friend class SceneDebugger;
+  friend class SceneDebugger;
 #endif
-		friend class Director;
+  friend class Director;
 
-	  public:
-		EkScene(Director* director);
+public:
+  EkScene(Director *director);
 
-		virtual void FixedTick(float fixedDeltaTime) final;
-		virtual void Tick(float deltaTime);
+  virtual void FixedTick(float fixedDeltaTime) final;
+  virtual void Tick(float deltaTime);
 
-		virtual ~EkScene();
+  virtual ~EkScene();
 
-		void AddActor(UniqueActor& actor);
-		void RemoveActor(EkActorID id)
-		{
-			mActorsToBeRemoved.push_back(id);
-		}
+  void AddActor(UniqueActor &actor);
+  void RemoveActor(EkActorID id) { mActorsToBeRemoved.push_back(id); }
 
-		const Physics::World& GetPhysics() const
-		{
-			return *mPhysicsWorld.get();
-		}
-  
-    const Renderer::GLRenderer& GetRenderer() const
-    {
-      return *mRenderer.get();
-    }
+  const Physics::World &GetPhysics() const { return *mPhysicsWorld.get(); }
 
-		CameraParams DefaulCameraParams() const
-		{
-			return mDefaultCameraParams;
-		}
+  const Renderer::GLRenderer &GetRenderer() const { return *mRenderer.get(); }
 
-		void OverrideCamera(std::shared_ptr<ICamera> cameraImpl)
-		{
-			mCurrentCameraIdx = static_cast<int>(mCameraStack.size());
-			mCameraStack.push_back(cameraImpl);
-		}
+  CameraParams DefaulCameraParams() const { return mDefaultCameraParams; }
 
-		const std::shared_ptr<ICamera>& CurrentCamera() const
-		{
-			return mCameraStack[mCurrentCameraIdx];
-		}
+  void OverrideCamera(std::shared_ptr<ICamera> cameraImpl) {
+    mCurrentCameraIdx = static_cast<int>(mCameraStack.size());
+    mCameraStack.push_back(cameraImpl);
+  }
 
-		void Draw();
+  const std::shared_ptr<ICamera> &CurrentCamera() const {
+    return mCameraStack[mCurrentCameraIdx];
+  }
 
-		// UserInputListener overrides
-		void OnMouseAction(int key, int action) override
-		{
-		}
+  void Draw();
 
-		void OnKeyAction(int key, int action) override;
+  // UserInputListener overrides
+  void OnMouseAction(int key, int action) override {}
 
-		void OnCursorMove(double x, double y) override
-		{
-		}
+  void OnKeyAction(int key, int action) override;
 
-	  protected:
-		void TraverseToUpdate(const UniqueActor& actor, float deltaTime);
-		void TraverseToFixedUpdateComponents(const UniqueActor& actor, float fixedDeltaTime);
+  void OnCursorMove(double x, double y) override {}
 
-		CameraParams mDefaultCameraParams;
+protected:
+  void TraverseToUpdate(const UniqueActor &actor, float deltaTime);
+  void TraverseToFixedUpdateComponents(const UniqueActor &actor,
+                                       float fixedDeltaTime);
+
+  CameraParams mDefaultCameraParams;
 
 #ifdef EKDEBUG
-	  public:
-		virtual void ImGuiProc();
-		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer);
+public:
+  virtual void ImGuiProc();
+  virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer);
 
-	  protected:
-		SceneDebugger mSceneDebugger;
+protected:
+  SceneDebugger mSceneDebugger;
 #endif
 
-	  private:
-		std::shared_ptr<FreeLookCamera>                  mFreeLookCamera;
-		std::vector<UniqueActor>                         mRootActors;
-		std::vector<EkActorID>                           mActorsToBeRemoved;
-		std::unique_ptr<Renderer::GLRenderer>            mRenderer;
-		std::unique_ptr<Physics::World>                  mPhysicsWorld;
-		Director*                                        mDirector;
-		std::unordered_map<ModelID, AnimationComponent*> mAnimators;
+private:
+  std::shared_ptr<FreeLookCamera> mFreeLookCamera;
+  std::vector<UniqueActor> mRootActors;
+  std::vector<EkActorID> mActorsToBeRemoved;
+  std::unique_ptr<Renderer::GLRenderer> mRenderer;
+  std::unique_ptr<Physics::World> mPhysicsWorld;
+  Director *mDirector;
+  std::unordered_map<ModelID, AnimationComponent *> mAnimators;
 
-		std::vector<std::shared_ptr<ICamera>> mCameraStack;
-		int                                   mCurrentCameraIdx = 0;
-  
-    void Cleanup();
-	};
+  std::vector<std::shared_ptr<ICamera>> mCameraStack;
+  int mCurrentCameraIdx = 0;
+
+  void Cleanup();
+};
 } // namespace Eklavya
 
 #endif

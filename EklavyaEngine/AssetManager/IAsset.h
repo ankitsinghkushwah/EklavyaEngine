@@ -3,40 +3,31 @@
 
 #include <string>
 
-namespace Eklavya::Asset
-{
-	enum class EType
-	{
-		ASSET_TYPE_MIN = 0,
-		TEXTURE = ASSET_TYPE_MIN,
-		SHADER,
-		CUBEMAP,
-		MODEL,
-		ANIMATION,
-		ASSET_TYPE_MAX
-	};
+namespace Eklavya::Asset {
+enum class EType {
+  ASSET_TYPE_MIN = 0,
+  TEXTURE = ASSET_TYPE_MIN,
+  SHADER,
+  CUBEMAP,
+  MODEL,
+  ANIMATION,
+  ASSET_TYPE_MAX
+};
 
-	class IAsset
-	{
-	  public:
-		IAsset() = default;
-		IAsset(EType type, const std::string& name);
-		virtual ~IAsset();
+class IAsset {
+public:
+  IAsset() = default;
+  IAsset(EType type, const std::string &name);
+  virtual ~IAsset();
 
-		inline EType GetType() const
-		{
-			return m_Type;
-		}
+  inline EType GetType() const { return m_Type; }
 
-		inline std::string GetName() const
-		{
-			return m_Name;
-		}
+  inline std::string GetName() const { return m_Name; }
 
-	  protected:
-		EType       m_Type;
-		std::string m_Name;
-	};
+protected:
+  EType m_Type;
+  std::string m_Name;
+};
 
 } // namespace Eklavya::Asset
 
