@@ -37,5 +37,4 @@ namespace Eklavya
 	{
 		mSound.setPosition(pos.x, pos.y, pos.z);
 	}
-
 } // namespace Eklavya

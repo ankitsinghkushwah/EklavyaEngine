@@ -15,7 +15,9 @@ using namespace Eklavya::Asset;
 
 namespace Eklavya::Renderer
 {
-	GLRenderer::GLRenderer(const GLWindowContext& context) : mContext(context), mOutputModel(1.0f)
+	GLRenderer::GLRenderer(const GLWindowContext& context)
+		: mContext(context)
+		, mOutputModel(1.0f)
 	{
 		for (int rp = 0; rp < mRenderPasses.size(); ++rp)
 		{
@@ -47,6 +49,7 @@ namespace Eklavya::Renderer
 		mMainOutputShader = AssetManager::GetInstance().GetAsset<ShaderProgram>("main_output");
 	}
 
+
 	void GLRenderer::Init()
 	{
 		LoadBuiltInMaterials();
@@ -56,10 +59,11 @@ namespace Eklavya::Renderer
 		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		float quadVertices[] = {// vertex attributes for a quad that fills the entire screen in
-		                        // Normalized Device Coordinates. positions   // texCoords
-		                        -1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f,
-		                        -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  -1.0f, 1.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f};
+		float quadVertices[] = {
+			// vertex attributes for a quad that fills the entire screen in
+			// Normalized Device Coordinates. positions   // texCoords
+			-1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f,
+			-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f};
 		glGenVertexArrays(1, &mVAO);
 		glBindVertexArray(mVAO);
 		GLuint vbo;
@@ -73,10 +77,7 @@ namespace Eklavya::Renderer
 		glBindVertexArray(0);
 	}
 
-	void GLRenderer::AddMaterialToState(ERenderGroup group, SHARED_MATERIAL material)
-	{
-		mGroupMaterials[group] = material;
-	}
+	void GLRenderer::AddMaterialToState(ERenderGroup group, SHARED_MATERIAL material) { mGroupMaterials[group] = material; }
 
 	void GLRenderer::AddActor(const RenderComponent& renderComponent)
 	{
@@ -113,10 +114,7 @@ namespace Eklavya::Renderer
 				shader->SetMat4(n.c_str(), transforms[i]);
 			}
 		}
-		else
-		{
-			shader->SetInt("bApplyAnimation", 0);
-		}
+		else { shader->SetInt("bApplyAnimation", 0); }
 	}
 
 	void GLRenderer::RenderInternal(const std::vector<const RenderComponent*>& actors, SHARED_SHADER& shader, SHARED_MATERIAL material)
@@ -126,10 +124,7 @@ namespace Eklavya::Renderer
 			const VertexArrayObject& vao = renderComponent->GetMesh().VAO();
 			vao.Bind();
 			const glm::mat4& model = renderComponent->mWorldMatrix;
-			if (material != nullptr)
-			{
-				material->SetMaterialInfo(renderComponent->GetMesh().mMaterialInfo);
-			}
+			if (material != nullptr) { material->SetMaterialInfo(renderComponent->GetMesh().mMaterialInfo); }
 			shader->SetMat4("model", model);
 
 			SetShaderDataForActor(*renderComponent, shader);
@@ -149,10 +144,7 @@ namespace Eklavya::Renderer
 			pass->PreRun();
 			pass->Run(*this, scene);
 #ifdef EKDEBUG
-			if (pass->GetType() == MAIN_PASS)
-			{
-				DebugDraw(scene);
-			}
+			if (pass->GetType() == MAIN_PASS) { DebugDraw(scene); }
 #endif
 			pass->PostRun();
 		}
@@ -173,5 +165,4 @@ namespace Eklavya::Renderer
 	void GLRenderer::ImGuiProc()
 	{
 	}
-
 } // namespace Eklavya::Renderer
