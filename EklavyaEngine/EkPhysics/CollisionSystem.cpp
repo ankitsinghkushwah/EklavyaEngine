@@ -16,20 +16,15 @@
 
 namespace Eklavya::Physics::CollisionSystem
 {
-
-#ifdef EKDEBUG
-	bool RayVsOBB(Ray ray, const BoxColliderComponent& boxCollider, float& t, Eklavya::Renderer::DebugRenderer& debugRenderer)
-#else
-	bool RayVsOBB(Ray ray, const BoxColliderComponent& boxCollider, float& t)
-#endif
+	bool RayVsOBB(Ray ray, const BoxColliderComponent &boxCollider, float &t)
 	{
 		ray.d = glm::normalize(ray.d);
 
 		float tMin = -FLT_MAX;
 		float tMax = FLT_MAX;
 
-		const glm::mat4& worldMatrix = boxCollider.GetOwner().Transform().GetWorldMatrix();
-		const glm::mat4  invWorldMatrix = glm::transpose(worldMatrix);
+		const glm::mat4 &worldMatrix = boxCollider.GetOwner().Transform().GetWorldMatrix();
+		const glm::mat4 invWorldMatrix = glm::transpose(worldMatrix);
 
 		glm::vec3 center = worldMatrix[3];
 
@@ -39,7 +34,7 @@ namespace Eklavya::Physics::CollisionSystem
 			float t2 = FLT_MAX;
 
 			glm::vec3 normal = glm::column(worldMatrix, i);
-			float     l = glm::length(normal) * 0.5f;
+			float l = glm::length(normal) * 0.5f;
 			normal = glm::normalize(normal);
 
 			Plane nearPlane;
@@ -52,13 +47,13 @@ namespace Eklavya::Physics::CollisionSystem
 
 #ifdef EKDEBUG
 
-			//			float     rad = 3.0f;
-			//			glm::vec4 col(normal, 1.0f);
-			//			float     nLen = 10.0f;
-			//			debugRenderer.AddSphere(nearPlane.o, rad, col);
-			//			debugRenderer.AddLine(nearPlane.o, nearPlane.o + normal * nLen, col, .3f);
-			//			debugRenderer.AddSphere(farPlane.o, rad, col);
-			//			debugRenderer.AddLine(farPlane.o, farPlane.o + normal * nLen, col, .3f);
+			float rad = 3.0f;
+			glm::vec4 col(normal, 1.0f);
+			float nLen = 10.0f;
+			Renderer::DebugRenderer::GetInstance().AddSphere(nearPlane.o, rad, col);
+			Renderer::DebugRenderer::GetInstance().AddLine(nearPlane.o, nearPlane.o + normal * nLen, col, .3f);
+			Renderer::DebugRenderer::GetInstance().AddSphere(farPlane.o, rad, col);
+			Renderer::DebugRenderer::GetInstance().AddLine(farPlane.o, farPlane.o + normal * nLen, col, .3f);
 
 #endif
 
@@ -83,11 +78,11 @@ namespace Eklavya::Physics::CollisionSystem
 				return false;
 #ifdef EKDEBUG
 
-				//			float     radHit = 5.0f;
-				//			glm::vec4 colHit(0.0f, 1.0f, 1.0f, 1.0f);
-				//
-				//			debugRenderer.AddSphere(ray.o + ray.d * t1, radHit, colHit);
-				//			debugRenderer.AddSphere(ray.o + ray.d * t2, radHit, colHit);
+			//			float     radHit = 5.0f;
+			//			glm::vec4 colHit(0.0f, 1.0f, 1.0f, 1.0f);
+			//
+			//			debugRenderer.AddSphere(ray.o + ray.d * t1, radHit, colHit);
+			//			debugRenderer.AddSphere(ray.o + ray.d * t2, radHit, colHit);
 
 #endif
 
@@ -119,7 +114,7 @@ namespace Eklavya::Physics::CollisionSystem
 		return false;
 	}
 
-	bool RayVsSphere(Ray ray, glm::vec3 sphereCenter, float radius, glm::vec2& points)
+	bool RayVsSphere(Ray ray, glm::vec3 sphereCenter, float radius, glm::vec2 &points)
 	{
 		glm::vec3 L = ray.o - sphereCenter;
 
@@ -144,5 +139,4 @@ namespace Eklavya::Physics::CollisionSystem
 
 		return true;
 	}
-
 } // namespace Eklavya::Physics::CollisionSystem

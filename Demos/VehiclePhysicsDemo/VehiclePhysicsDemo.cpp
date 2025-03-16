@@ -26,11 +26,8 @@ using namespace Eklavya::Asset;
 using namespace Eklavya::Renderer;
 using namespace Eklavya::Physics;
 
-namespace Eklavya
-{
-
-	enum MatIndex
-	{
+namespace Eklavya {
+	enum MatIndex {
 		GOLD,
 		RUBBER,
 		CRATE_SCIFI,
@@ -40,14 +37,12 @@ namespace Eklavya
 
 	// std::array<MaterialInfo> mMats;
 
-	void VehiclePhysicsDemo::PreloadTextures()
-	{
+	void VehiclePhysicsDemo::PreloadTextures() {
 		std::vector<std::string> texturesList = {"grid", "crate", "grass", "floor"};
 
 		std::string ext = "png";
 
-		for (auto& name : texturesList)
-		{
+		for (auto &name: texturesList) {
 			std::string folder = "pbr/" + name + "/";
 
 			AssetManager::GetInstance().LoadTexture(folder + "albedo", ext);
@@ -58,8 +53,7 @@ namespace Eklavya
 		}
 	}
 
-	MaterialInfo VehiclePhysicsDemo::LoadMaterialInfo(const std::string& file, std::string ext)
-	{
+	MaterialInfo VehiclePhysicsDemo::LoadMaterialInfo(const std::string &file, std::string ext) {
 		MaterialInfo info;
 
 		std::string folder = "pbr/" + file + "/";
@@ -74,11 +68,10 @@ namespace Eklavya
 		return info;
 	}
 
-	std::string tire = "truck/tire";
+	std::string tire = "truck/tire2";
 	std::string chassis = "truck/chassis";
 
-	void VehiclePhysicsDemo::CreateStage()
-	{
+	void VehiclePhysicsDemo::CreateStage() {
 		MaterialInfo info;
 		info.mRoughness = 1.0f;
 		info.mTiling = 40;
@@ -94,29 +87,30 @@ namespace Eklavya
 		float scaleY = 1.0f;
 		float pos = floorScaleY / 2 + scaleY / 2;
 
-		for (int z = 0; z < 5; z++)
-		{
-			CreateCube(glm::vec3(0.0, pos, 10 + z * 10.0f), glm::vec3(30.0f, 2.0f, scaleY + 2), glm::vec3(0.0f, 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
+		for (int z = 0; z < 5; z++) {
+			CreateCube(glm::vec3(0.0, pos, 10 + z * 10.0f), glm::vec3(30.0f, 2.0f, scaleY + 2),
+			           glm::vec3(0.0f, 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
 		}
 
 		//
-		CreateCube(glm::vec3(0.0, 17, -100.0f), glm::vec3(100.0f, 7.0f, 120), glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
+		CreateCube(glm::vec3(0.0, 17, -100.0f), glm::vec3(100.0f, 7.0f, 120),
+		           glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
 		//
-		CreateCube(glm::vec3(0.0, 15, -300.0f), glm::vec3(100.0f, 7.0f, 120), glm::vec3(glm::radians(-15.0f), 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
+		CreateCube(glm::vec3(0.0, 15, -300.0f), glm::vec3(100.0f, 7.0f, 120),
+		           glm::vec3(glm::radians(-15.0f), 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
 	}
 
-	void VehiclePhysicsDemo::CreateCar()
-	{
+	void VehiclePhysicsDemo::CreateCar() {
 		MaterialInfo info;
 		info.mBaseColor = glm::vec3(0.7f);
 		info.mRoughness = 0.5f;
 		info.mMetallic = 1.0f;
 
-		glm::vec3   carScale(8, 7, 24);
+		glm::vec3 carScale(8, 7, 24);
 		UniqueActor car = SceneHelper::CreateActorFromModel(chassis, 0);
 		car->Transform().SetScale(glm::vec3(3.0f));
 
-		auto      collider = car->EmplaceComponent<Physics::BoxColliderComponent>();
+		auto collider = car->EmplaceComponent<Physics::BoxColliderComponent>();
 		glm::vec3 colliderScale = carScale;
 		colliderScale.z *= 0.8f;
 		collider->SetHalfSize(carScale);
@@ -134,16 +128,15 @@ namespace Eklavya
 		car->EmplaceComponent<CarComponent>();
 
 		// FORWARD-RIGHT SUSPENSION
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 			UniqueActor uniqueSuspension = std::make_unique<EkActor>();
 			uniqueSuspension->SetName("suspension");
-			EkActor* suspension = uniqueSuspension.get();
+			EkActor *suspension = uniqueSuspension.get();
 			car->AddKid(uniqueSuspension);
 
 			UniqueActor uniqueWheel = SceneHelper::CreateActorFromModel(tire, 1);
-			uniqueWheel->Transform().SetScale(2.6f);
-			EkActor* wheel = uniqueWheel.get();
+			uniqueWheel->Transform().SetScale(6.0f);
+			EkActor *wheel = uniqueWheel.get();
 			AddActor(uniqueWheel);
 
 			float offX = -0.5;
@@ -177,8 +170,7 @@ namespace Eklavya
 		AddActor(car);
 	}
 
-	void VehiclePhysicsDemo::LoadMesh()
-	{
+	void VehiclePhysicsDemo::LoadMesh() {
 		std::string name = "kart/kart";
 
 		UniqueActor actor = SceneHelper::CreateActorFromModel(name, 0);
@@ -186,8 +178,7 @@ namespace Eklavya
 		AddActor(actor);
 	}
 
-	VehiclePhysicsDemo::VehiclePhysicsDemo(Director* pDirector) : MainEntryScene(pDirector)
-	{
+	VehiclePhysicsDemo::VehiclePhysicsDemo(Director *pDirector) : MainEntryScene(pDirector) {
 		// Load assets
 
 		PreloadTextures();
@@ -199,29 +190,24 @@ namespace Eklavya
 		CreateCar();
 	}
 
-	VehiclePhysicsDemo::~VehiclePhysicsDemo()
-	{
+	VehiclePhysicsDemo::~VehiclePhysicsDemo() {
 	}
 
-	void VehiclePhysicsDemo::OnKeyAction(int key, int action)
-	{
+	void VehiclePhysicsDemo::OnKeyAction(int key, int action) {
 		MainEntryScene::OnKeyAction(key, action);
 		if (key == GLFW_KEY_H && action == GLFW_PRESS)
 			CreateCubeStack();
 	}
 
-	void VehiclePhysicsDemo::CreateCubeStack()
-	{
-		int   rows = 5;
-		int   cols = 6;
+	void VehiclePhysicsDemo::CreateCubeStack() {
+		int rows = 5;
+		int cols = 6;
 		float startY = 50.0f;
 		float boxDim = 10.0f;
 		float offsetX = ((cols - 1) / 2.0f) * boxDim;
 
-		for (int r = 0; r < rows; ++r)
-		{
-			for (int c = 0; c < cols; ++c)
-			{
+		for (int r = 0; r < rows; ++r) {
+			for (int c = 0; c < cols; ++c) {
 				float x = (c * boxDim) - offsetX;
 				float y = startY + r * boxDim;
 				float z = 0.0f;
@@ -231,7 +217,8 @@ namespace Eklavya
 				info.mMetallic = 0.0f;
 				info.mTiling = 1;
 				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 5.0f, info, 0);
+				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 5.0f, info,
+				           0);
 
 				//CreateSphere(glm::vec3(x, y, z), boxDim, 20.0f, info);
 			}
@@ -240,18 +227,15 @@ namespace Eklavya
 
 #ifdef EKDEBUG
 
-	void VehiclePhysicsDemo::ImGuiProc()
-	{
+	void VehiclePhysicsDemo::ImGuiProc() {
 		MainEntryScene::ImGuiProc();
 	}
-	void VehiclePhysicsDemo::DebugDraw(Renderer::DebugRenderer& debugRenderer)
-	{
+
+	void VehiclePhysicsDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer) {
 		MainEntryScene::DebugDraw(debugRenderer);
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 			mSuspensions[i]->DebugDraw(debugRenderer);
 		}
 	}
 #endif
-
 } // namespace Eklavya

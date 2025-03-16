@@ -5,19 +5,20 @@
 #include "../GLFWGame.h"
 #include <AssetManager/VertexArrayObject.h>
 #include <AssetManager/AssetManager.h>
-#include <CoreUtils/Logger.h>
 #include <CoreUtils/Singleton.h>
 #include <AssetManager/GLMesh.hpp>
-#include <Scene/SpringFollowCamera.hpp>
-#include <Scene/EkScene.h>
 #include "imgui/imgui.h"
 using namespace Eklavya::Asset;
 
 namespace Eklavya::Renderer
 {
-	GLRenderer::GLRenderer(const GLWindowContext& context)
-		: mContext(context)
+	GLRenderer::GLRenderer(const GLWindowContext &context)
+		:
+		mContext(context)
 		, mOutputModel(1.0f)
+#ifdef EKDEBUG
+		, mDebugRenderer(DebugRenderer::GetInstance())
+#endif
 	{
 		for (int rp = 0; rp < mRenderPasses.size(); ++rp)
 		{
@@ -34,16 +35,14 @@ namespace Eklavya::Renderer
 		}
 	}
 
-	GLRenderer::~GLRenderer()
-	{
-	}
+	GLRenderer::~GLRenderer() {}
 
 	void GLRenderer::LoadBuiltInMaterials()
 	{
-		SHARED_SHADER       skyShader = AssetManager::GetInstance().GetAsset<ShaderProgram>("skybox");
+		SHARED_SHADER skyShader = AssetManager::GetInstance().GetAsset<ShaderProgram>("skybox");
 		SHARED_SKY_MATERIAL skyboxMat = std::make_shared<SkyboxMaterial>(skyShader);
 		AddMaterialToState(Renderer::ERenderGroup::SKYBOX, skyboxMat);
-		SHARED_SHADER       brdf = AssetManager::GetInstance().GetAsset<ShaderProgram>("standard_brdf");
+		SHARED_SHADER brdf = AssetManager::GetInstance().GetAsset<ShaderProgram>("standard_brdf");
 		SHARED_PBR_MATERIAL pbrMat = std::make_shared<PBRMaterial>(brdf);
 		AddMaterialToState(Renderer::ERenderGroup::ACTOR, pbrMat);
 		mMainOutputShader = AssetManager::GetInstance().GetAsset<ShaderProgram>("main_output");
@@ -63,7 +62,8 @@ namespace Eklavya::Renderer
 			// vertex attributes for a quad that fills the entire screen in
 			// Normalized Device Coordinates. positions   // texCoords
 			-1.0f, 1.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, 0.0f,
-			-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f};
+			-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f
+		};
 		glGenVertexArrays(1, &mVAO);
 		glBindVertexArray(mVAO);
 		GLuint vbo;
@@ -73,15 +73,18 @@ namespace Eklavya::Renderer
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, 0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)(sizeof(float) * 2));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void *) (sizeof(float) * 2));
 		glBindVertexArray(0);
 	}
 
-	void GLRenderer::AddMaterialToState(ERenderGroup group, SHARED_MATERIAL material) { mGroupMaterials[group] = material; }
-
-	void GLRenderer::AddActor(const RenderComponent& renderComponent)
+	void GLRenderer::AddMaterialToState(ERenderGroup group, SHARED_MATERIAL material)
 	{
-		for (auto& rp_ptr : mRenderPasses)
+		mGroupMaterials[group] = material;
+	}
+
+	void GLRenderer::AddActor(const RenderComponent &renderComponent)
+	{
+		for (auto &rp_ptr: mRenderPasses)
 			rp_ptr->TryAddingActor(renderComponent);
 	}
 
@@ -101,29 +104,29 @@ namespace Eklavya::Renderer
 		glBindVertexArray(0);
 	}
 
-	void GLRenderer::SetShaderDataForActor(const RenderComponent& renderComponent, SHARED_SHADER& shader)
+	void GLRenderer::SetShaderDataForActor(const RenderComponent &renderComponent, SHARED_SHADER &shader)
 	{
 		if (renderComponent.mHasBones)
 		{
 			shader->SetInt("bApplyAnimation", 1);
-			const std::vector<glm::mat4>& transforms = renderComponent.boneTransforms;
+			const std::vector<glm::mat4> &transforms = renderComponent.boneTransforms;
 
 			for (int i = 0; i < MAX_BONES_SUPPORTED; ++i)
 			{
 				std::string n = "gBones[" + std::to_string(i) + "]";
 				shader->SetMat4(n.c_str(), transforms[i]);
 			}
-		}
-		else { shader->SetInt("bApplyAnimation", 0); }
+		} else { shader->SetInt("bApplyAnimation", 0); }
 	}
 
-	void GLRenderer::RenderInternal(const std::vector<const RenderComponent*>& actors, SHARED_SHADER& shader, SHARED_MATERIAL material)
+	void GLRenderer::RenderInternal(const std::vector<const RenderComponent *> &actors, SHARED_SHADER &shader,
+	                                SHARED_MATERIAL material)
 	{
-		for (const RenderComponent* renderComponent : actors)
+		for (const RenderComponent *renderComponent: actors)
 		{
-			const VertexArrayObject& vao = renderComponent->GetMesh().VAO();
+			const VertexArrayObject &vao = renderComponent->GetMesh().VAO();
 			vao.Bind();
-			const glm::mat4& model = renderComponent->mWorldMatrix;
+			const glm::mat4 &model = renderComponent->mWorldMatrix;
 			if (material != nullptr) { material->SetMaterialInfo(renderComponent->GetMesh().mMaterialInfo); }
 			shader->SetMat4("model", model);
 
@@ -137,9 +140,9 @@ namespace Eklavya::Renderer
 		}
 	}
 
-	void GLRenderer::Render(EkScene& scene)
+	void GLRenderer::Render(EkScene &scene)
 	{
-		for (auto& pass : mRenderPasses)
+		for (auto &pass: mRenderPasses)
 		{
 			pass->PreRun();
 			pass->Run(*this, scene);
@@ -152,7 +155,7 @@ namespace Eklavya::Renderer
 	}
 
 #ifdef EKDEBUG
-	void GLRenderer::DebugDraw(EkScene& scene)
+	void GLRenderer::DebugDraw(EkScene &scene)
 	{
 		glm::mat4 projection = scene.CurrentCamera()->GetProjection();
 		glm::mat4 view = scene.CurrentCamera()->GetView();
@@ -162,7 +165,5 @@ namespace Eklavya::Renderer
 	}
 #endif
 
-	void GLRenderer::ImGuiProc()
-	{
-	}
+	void GLRenderer::ImGuiProc() {}
 } // namespace Eklavya::Renderer

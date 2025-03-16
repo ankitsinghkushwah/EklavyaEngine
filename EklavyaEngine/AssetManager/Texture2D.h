@@ -6,32 +6,40 @@
 #include <glm/glm.hpp>
 #include <string>
 
-namespace Eklavya::Asset {
-class Texture2D : public IAsset {
-public:
-  Texture2D();
-  Texture2D(const std::string &assetName);
-  int CreateTexture(std::string path, bool repeat = false);
-  int CreateTextureFromBuffer(unsigned int bufferSize, void *imageData);
-  ~Texture2D();
-  void BindToUnit(uint32_t textureUnit);
-  void Unbind();
+namespace Eklavya::Asset
+{
+  class Texture2D : public IAsset
+  {
+  public:
+    Texture2D();
 
-  inline GLuint GetID() const { return mID; }
+    Texture2D(const std::string &assetName);
 
-  inline glm::vec2 GetSize() const { return mSize; }
+    int CreateTexture(std::string path, bool repeat = false);
 
-  inline GLenum GetFormat() const { return mFormat; }
+    int CreateTextureFromBuffer(unsigned int bufferSize, void *imageData);
 
-  inline unsigned char *GetBits() const { return mImage; }
+    ~Texture2D();
 
-protected:
-  GLuint mID = 0;
-  glm::vec2 mSize;
-  GLenum mFormat;
-  unsigned char *mImage = nullptr;
-  uint32_t mBoundToUnit = 0;
-};
+    void BindToUnit(uint32_t textureUnit);
+
+    void Unbind();
+
+    inline GLuint GetID() const { return mID; }
+
+    inline glm::vec2 GetSize() const { return mSize; }
+
+    inline GLenum GetFormat() const { return mFormat; }
+
+    inline unsigned char *GetBits() const { return mImage; }
+
+  protected:
+    GLuint mID = 0;
+    glm::vec2 mSize;
+    GLenum mFormat;
+    unsigned char *mImage = nullptr;
+    uint32_t mBoundToUnit = 0;
+  };
 } // namespace Eklavya::Asset
 
 #endif

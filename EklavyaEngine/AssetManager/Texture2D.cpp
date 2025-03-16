@@ -1,25 +1,22 @@
 // Declaration header
 
 #include "Texture2D.h"
-
 #define STB_IMAGE_IMPLEMENTATION
 #include <SOIL.h>
 
 using namespace Eklavya::Asset;
 
-Texture2D::Texture2D() : mImage(nullptr)
-{
-}
+Texture2D::Texture2D() :
+	mImage(nullptr) {}
 
-Texture2D::Texture2D(const std::string& assetName) : IAsset(EType::TEXTURE, assetName)
-{
-}
+Texture2D::Texture2D(const std::string &assetName) :
+	IAsset(EType::TEXTURE, assetName) {}
 
 Texture2D::~Texture2D()
 {
 	glDeleteTextures(1, &mID);
-	if(mImage != nullptr)
-	SOIL_free_image_data(mImage);
+	if (mImage != nullptr)
+		SOIL_free_image_data(mImage);
 }
 
 int Texture2D::CreateTexture(std::string path, bool repeat)
@@ -27,7 +24,7 @@ int Texture2D::CreateTexture(std::string path, bool repeat)
 	int width, height;
 	int channels;
 
-	unsigned char* image = SOIL_load_image(path.c_str(), &width, &height, &channels, 0);
+	unsigned char *image = SOIL_load_image(path.c_str(), &width, &height, &channels, 0);
 	if (image == nullptr)
 	{
 		printf("\n failed to load image from path %s, SOIL reason : ", path.c_str());
@@ -62,12 +59,13 @@ int Texture2D::CreateTexture(std::string path, bool repeat)
 	return mID;
 }
 
-int Texture2D::CreateTextureFromBuffer(unsigned int bufferSize, void* imageData)
+int Texture2D::CreateTextureFromBuffer(unsigned int bufferSize, void *imageData)
 {
 	int width, height;
 	int channels;
 
-	unsigned char* image = SOIL_load_image_from_memory((const unsigned char* const)imageData, bufferSize, &width, &height, &channels, 0);
+	unsigned char *image = SOIL_load_image_from_memory((const unsigned char * const) imageData, bufferSize, &width,
+	                                                   &height, &channels, 0);
 	if (image == nullptr)
 	{
 		printf("\n failed to load image from buffer");

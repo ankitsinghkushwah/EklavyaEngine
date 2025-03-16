@@ -5,6 +5,7 @@
 //  Created by Ankit Singh Kushwah on 25/06/2023.
 //
 
+#ifdef EKDEBUG
 #include <Renderer/DebugRenderer.hpp>
 #include <AssetManager/ShaderProgram.h>
 #include <glm/gtc/quaternion.hpp>
@@ -30,13 +31,13 @@ DebugRenderer::~DebugRenderer()
 	mSphereVAO.Destroy();
 }
 
-void DebugRenderer::SetData(glm::mat4& projection, glm::mat4& view)
+void DebugRenderer::SetData(glm::mat4 &projection, glm::mat4 &view)
 {
 	mProjection = projection;
 	mView = view;
 }
 
-glm::mat4 DebugRenderer::GetModel(glm::vec3 t, const glm::quat& r, glm::vec3 s)
+glm::mat4 DebugRenderer::GetModel(glm::vec3 t, const glm::quat &r, glm::vec3 s)
 {
 	glm::mat4 rotation = glm::mat4_cast(r);
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), s);
@@ -53,7 +54,7 @@ void DebugRenderer::DrawLine(glm::vec3 start, glm::vec3 end, glm::vec4 color, fl
 		glDepthFunc(GL_ALWAYS);
 	}
 	glm::vec3 direction = glm::normalize(end - start);
-	float     len = glm::length(end - start);
+	float len = glm::length(end - start);
 	glm::quat q = glm::quatLookAt(direction, glm::vec3(0.0f, 1.0f, 0.0f));
 	q = glm::normalize(q);
 	glm::vec3 translate = start + ((end - start) / 2.0f);
@@ -123,7 +124,7 @@ void DebugRenderer::DrawBox(glm::vec3 center, glm::vec3 rotation, glm::vec3 exte
 	mBoxVAO.Unbind();
 }
 
-void DebugRenderer::DrawBound(const glm::mat4& model, const Bound& bound, glm::vec4 color)
+void DebugRenderer::DrawBound(const glm::mat4 &model, const Bound &bound, glm::vec4 color)
 {
 	glm::mat4 scaledModel = glm::scale(model, bound.Extents());
 	mUnlitSolids->Use();
@@ -137,29 +138,31 @@ void DebugRenderer::DrawBound(const glm::mat4& model, const Bound& bound, glm::v
 	mBoxVAO.Unbind();
 }
 
-void DebugRenderer::DrawFrustum(const Frustum& frustum)
+void DebugRenderer::DrawFrustum(const Frustum &frustum)
 {
-	std::vector<std::array<int, 2>> planeIndices = {// front
-	                                                {0, 1},
-	                                                {1, 2},
-	                                                {2, 3},
-	                                                {3, 0},
+	std::vector<std::array<int, 2> > planeIndices = {
+		// front
+		{0, 1},
+		{1, 2},
+		{2, 3},
+		{3, 0},
 
-	                                                // back
-	                                                {4, 5},
-	                                                {5, 6},
-	                                                {6, 7},
-	                                                {7, 4},
+		// back
+		{4, 5},
+		{5, 6},
+		{6, 7},
+		{7, 4},
 
-	                                                // middle
-	                                                {0, 4},
-	                                                {1, 5},
-	                                                {2, 6},
-	                                                {3, 7}};
+		// middle
+		{0, 4},
+		{1, 5},
+		{2, 6},
+		{3, 7}
+	};
 
-	const glm::vec3* points = frustum.Points();
+	const glm::vec3 *points = frustum.Points();
 
-	for (const std::array<int, 2>& indices : planeIndices)
+	for (const std::array<int, 2> &indices: planeIndices)
 	{
 		glm::vec3 s = points[indices[0]];
 		glm::vec3 e = points[indices[1]];
@@ -167,20 +170,18 @@ void DebugRenderer::DrawFrustum(const Frustum& frustum)
 	}
 }
 
-void DebugRenderer::DrawPoints(std::vector<glm::vec3>& points, glm::vec4 color)
-{
-}
+void DebugRenderer::DrawPoints(std::vector<glm::vec3> &points, glm::vec4 color) {}
 
 #define RGB(r, g, b) glm::vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f)
 
-glm::vec4 R = RGB(255, 100, 100);
-glm::vec4 G = RGB(38, 244, 124);
-glm::vec4 B = RGB(5, 195, 244);
+constexpr glm::vec4 R = RGB(255, 100, 100);
+constexpr glm::vec4 G = RGB(38, 244, 124);
+constexpr glm::vec4 B = RGB(5, 195, 244);
 
 float extend = 3.0f;
 float thickness = 3.0f;
 
-void DebugRenderer::DrawTransform(TransformComponent& transform)
+void DebugRenderer::DrawTransform(TransformComponent &transform)
 {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_ALWAYS);
@@ -202,21 +203,58 @@ void DebugRenderer::DrawTransform(TransformComponent& transform)
 	glDepthFunc(GL_LEQUAL);
 }
 
+void DebugRenderer::DrawPlane(const DebugPlane &plane)
+{
+	glm::vec3 direction = plane.normal;
+	float len = plane.thickness;
+	glm::quat q = glm::quatLookAt(direction, glm::vec3(0.0f, 1.0f, 0.0f));
+	q = glm::normalize(q);
+	glm::vec3 translate = plane.center;
+	glm::vec3 scale(plane.extents.x, plane.extents.y, len);
+	glm::mat4 model = GetModel(translate, q, scale);
+
+	mUnlitSolids->Use();
+	mUnlitSolids->SetMat4("projection", mProjection);
+	mUnlitSolids->SetMat4("view", mView);
+	mUnlitSolids->SetMat4("model", model);
+	mUnlitSolids->SetVec3("color", glm::vec3(plane.color));
+	mUnlitSolids->SetFloat("opacity", plane.color.a);
+	mBoxVAO.Bind();
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	mBoxVAO.Unbind();
+}
+
 void DebugRenderer::AddLine(glm::vec3 start, glm::vec3 end, glm::vec4 color, float thickness)
 {
 	mLinesToDraw.emplace_back(start, end, color, thickness);
 }
 
 void DebugRenderer::AddSphere(glm::vec3 center, float radius, glm::vec4 color)
-
 {
 	mSpheresToDraw.emplace_back(center, color, radius);
 }
 
+void DebugRenderer::AddBox(glm::vec3 center, glm::vec3 extents, glm::vec3 rotation, glm::vec4 color)
+{
+	mBoxesToDraw.emplace_back(center, extents, rotation, color);
+}
+
+void DebugRenderer::AddPlane(glm::vec3 center, glm::vec3 normal, glm::vec2 extents, float thickness, glm::vec4 color)
+{
+	mPlanesToDraw.emplace_back(center, normal, extents, thickness, color);
+}
+
+
 void DebugRenderer::DrawAddedShapes()
 {
-	for (DebugLine& l : mLinesToDraw)
+	for (DebugLine &l: mLinesToDraw)
 		DrawLine(l.start, l.end, l.color, l.thickness);
-	for (DebugSphere& s : mSpheresToDraw)
+	for (DebugSphere &s: mSpheresToDraw)
 		DrawSphere(s.center, s.radius, s.color);
+	for (DebugBox &b: mBoxesToDraw)
+		DrawBox(b.center, b.rotation, b.extents, b.color);
+	for (DebugPlane &plane: mPlanesToDraw)
+		DrawPlane(plane);
 }
+
+#endif

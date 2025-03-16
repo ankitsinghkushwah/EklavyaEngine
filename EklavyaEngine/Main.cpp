@@ -11,14 +11,17 @@
 #include <vector>
 #include <filesystem>
 
+#include "StackOfBoxes/StackOfBoxesDemo.hpp"
+#include "VehiclePhysicsDemo/VehiclePhysicsDemo.hpp"
+
 using namespace Eklavya;
 using namespace std;
 using namespace rang;
 
 enum Resolution
 {
-	LOW,    // 1024x576
-	HD,     // 1280x720
+	LOW, // 1024x576
+	HD, // 1280x720
 	FULL_HD // 1920x1080
 };
 
@@ -30,12 +33,12 @@ struct ResolutionInfo
 
 
 constexpr ResolutionInfo resolutions[] = {
-    {1024, 576}, // LOW
-    {1280, 720}, // HD
-    {1920, 1080} // FULL HD
+	{1024, 576}, // LOW
+	{1280, 720}, // HD
+	{1920, 1080} // FULL HD
 };
 
-void SetWorkingDirectoryToExecutablePath(char* argv[])
+void SetWorkingDirectoryToExecutablePath(char *argv[])
 {
 	// Get the path of the executable
 	std::filesystem::path executablePath = std::filesystem::canonical(std::filesystem::path(argv[0]));
@@ -46,14 +49,13 @@ void SetWorkingDirectoryToExecutablePath(char* argv[])
 	{
 		std::filesystem::current_path(executableDir);
 		std::cout << "Working directory set to: " << executableDir << std::endl;
-	}
-	else
+	} else
 	{
 		std::cerr << "Failed to set working directory!" << std::endl;
 	}
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	SetWorkingDirectoryToExecutablePath(argv);
 
@@ -61,14 +63,17 @@ int main(int argc, char* argv[])
 	std::cout << style::italic << "Current working directory: " << currentPath << std::endl;
 
 	std::vector<std::string> demos =
-	    {"Deferred Pipeline : Shadows", "Fructum Culling", "Skeletal Animation", "Skeletal Animation With IK", "Vehicle Physics Demo", "Custom Physics - Stack Of Boxes"};
+	{
+		"Deferred Pipeline : Shadows", "Fructum Culling", "Skeletal Animation", "Skeletal Animation With IK",
+		"Vehicle Physics Demo", "Custom Physics - Stack Of Boxes"
+	};
 
 	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
 	cout << style::bold << rang::fg::cyan << "=================EKLAVYA ENGINE DEMOS ====================\n\n";
 	int idx = 0;
-	for (const std::string& demo : demos)
+	for (const std::string &demo: demos)
 	{
-		cout << style::bold << rang::fg::green << ++idx <<". "<< demo;
+		cout << style::bold << rang::fg::green << ++idx << ". " << demo;
 		cout << "\n";
 	}
 
@@ -80,8 +85,8 @@ int main(int argc, char* argv[])
 
 	cout << style::reset << rang::fg::reset;
 
-	Eklavya::Director* engine = new Eklavya::Director("Eklavya", resolution.width, resolution.height, false);
-	engine->SetScene(new SkeletalAnimationWithIK(engine));
+	Eklavya::Director *engine = new Eklavya::Director("Eklavya", resolution.width, resolution.height, false);
+	engine->SetScene(new StackOfBoxesDemo(engine));
 	engine->Start();
 	return 0;
 }

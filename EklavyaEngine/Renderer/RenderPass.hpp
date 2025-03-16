@@ -12,7 +12,6 @@
 
 #include <Renderer/Material.h>
 #include <glm/glm.hpp>
-#include <glad/glad.h>
 #include <unordered_map>
 #include <Scene/EkActor.h>
 #include <Components/RenderComponent.hpp>
@@ -31,7 +30,7 @@ namespace Eklavya::Renderer
 	class GLRenderer;
 	class DebugRenderer;
 
-	using ACTORS_MAP = std::array<std::vector<const RenderComponent*>, ERenderGroup::RG_MAX>;
+	using ACTORS_MAP = std::array<std::vector<const RenderComponent *>, ERenderGroup::RG_MAX>;
 
 	enum ERenderPass
 	{
@@ -43,13 +42,19 @@ namespace Eklavya::Renderer
 
 	class IRenderPass
 	{
-	  public:
+	public:
 		IRenderPass(ERenderPass type);
+
 		virtual ~IRenderPass();
+
 		virtual bool Init() = 0;
-		virtual void TryAddingActor(const RenderComponent& renderComponent) = 0;
+
+		virtual void TryAddingActor(const RenderComponent &renderComponent) = 0;
+
 		virtual void PreRun() = 0;
-		virtual void Run(GLRenderer& renderer, const EkScene& scene) = 0;
+
+		virtual void Run(GLRenderer &renderer, const EkScene &scene) = 0;
+
 		virtual void PostRun() = 0;
 
 		ERenderPass GetType()
@@ -64,20 +69,26 @@ namespace Eklavya::Renderer
 		{
 		}
 #endif
-	  protected:
+
+	protected:
 		ERenderPass mType;
 	};
 
 	class ShadowMapPass : public IRenderPass
 	{
-	  public:
+	public:
 		ShadowMapPass(int depthPrecision, int width, int height);
+
 		~ShadowMapPass();
 
 		bool Init() override;
-		void TryAddingActor(const RenderComponent& renderComponent) override;
+
+		void TryAddingActor(const RenderComponent &renderComponent) override;
+
 		void PreRun() override;
-		void Run(GLRenderer& renderer, const EkScene& scene) override;
+
+		void Run(GLRenderer &renderer, const EkScene &scene) override;
+
 		void PostRun() override;
 
 #ifdef EKDEBUG
@@ -86,39 +97,44 @@ namespace Eklavya::Renderer
 
 		glm::mat4 mLightPVMatrix;
 
-	  private:
+	private:
 		int mDepthPrecision;
 		int mWidth;
 		int mHeight;
 
 		SHARED_SHADER mShader;
 
-		std::vector<const RenderComponent*> mActors;
+		std::vector<const RenderComponent *> mActors;
 	};
 
 	class MainPass : public IRenderPass
 	{
-	  public:
+	public:
 		MainPass(int depth, int colorChannels, int width, int height);
+
 		~MainPass();
 
 		bool Init() override;
-		void TryAddingActor(const RenderComponent& renderComponent) override;
+
+		void TryAddingActor(const RenderComponent &renderComponent) override;
+
 		void PreRun() override;
-		void Run(GLRenderer& renderer, const EkScene& scene) override;
+
+		void Run(GLRenderer &renderer, const EkScene &scene) override;
+
 		void PostRun() override;
 
 #ifdef EKDEBUG
 		void DebugDraw(DebugRenderer&) override;
 #endif
-	  private:
+
+	private:
 		int mDepthPrecision;
 		int mWidth;
 		int mHeight;
 
 		ACTORS_MAP mActorsMap;
 	};
-
 } // namespace Eklavya::Renderer
 
 #endif /* RenderPass_hpp */

@@ -19,7 +19,7 @@
 			"rotation":[
 				0,
 				0,
-				-0.9999845623970032,
+				-0.999984622001648,
 				0.0055554695427417755
 			]
 		}
@@ -70,7 +70,7 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":888,
+			"count":896,
 			"max":[
 				0.6330792903900146,
 				0.8016455173492432,
@@ -86,13 +86,13 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":888,
+			"count":896,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":888,
+			"count":896,
 			"type":"VEC3"
 		},
 		{
@@ -105,26 +105,26 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":10656,
+			"byteLength":10752,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":7104,
-			"byteOffset":10656,
+			"byteLength":7168,
+			"byteOffset":10752,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":10656,
-			"byteOffset":17760,
+			"byteLength":10752,
+			"byteOffset":17920,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":3072,
-			"byteOffset":28416,
+			"byteOffset":28672,
 			"target":34963
 		}
 	],
@@ -136,7 +136,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":31488,
+			"byteLength":31744,
 			"uri":"tire.bin"
 		}
 	]

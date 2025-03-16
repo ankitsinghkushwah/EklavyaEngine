@@ -16,18 +16,19 @@
 
 namespace Eklavya
 {
-
 	// forward declarations
 	class EkScene;
 
 	class Director : public GLFWGame
 	{
-	  public:
-		Director(const std::string& title, uint32_t width, uint32_t height, bool fullScreen);
+	public:
+		Director(const std::string &title, uint32_t width, uint32_t height, bool fullScreen);
+
 		~Director();
 
 		void LoadAssets();
-		void SetScene(MainEntryScene* sceneImpl);
+
+		void SetScene(MainEntryScene *sceneImpl);
 
 		void SetPhysicsTickRate(float physicsTickRate)
 		{
@@ -40,7 +41,7 @@ namespace Eklavya
 		}
 
 		template<typename SceneType>
-		SceneType* CreateNewScene()
+		SceneType *CreateNewScene()
 		{
 			return new SceneType(this);
 		}
@@ -50,17 +51,22 @@ namespace Eklavya
 		void ImGuiProc() override;
 
 		void OnKeyAction(int pKey, int pAction) override;
-		void OnError(int pError, const char* pDesc) override;
+
+		void OnError(int pError, const char *pDesc) override;
+
 		void OnResize(int newWidth, int newHeight) override;
+
 		void OnMouseAction(int pKey, int pAction) override;
+
 		void OnCursorMoved(double pX, double pY) override;
+
 		void OnJoystickStateChange(int, int) override;
 
-	  private:
-		MainEntryScene* mCurrentScene;
-		float           mPhysicsTickRate = 1.0f / 60.0f;
-		float           mTimeSinceStart = 0.0f;
-    float           mTimeScale = 1.0f;
+	private:
+		MainEntryScene *mCurrentScene;
+		float mPhysicsTickRate = 1.0f / 60.0f;
+		float mTimeSinceStart = 0.0f;
+		float mTimeScale = 1.0f;
 	};
 } // namespace Eklavya
 

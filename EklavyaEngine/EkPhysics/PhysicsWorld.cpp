@@ -10,20 +10,16 @@
 
 namespace Eklavya::Physics
 {
-	World::World()
-	{
-	}
+	World::World() {}
 
-	World::~World()
-	{
-	}
+	World::~World() {}
 
-	void World::AddBody(EkBody* body)
+	void World::AddBody(EkBody *body)
 	{
 		mBodies.push_back(body);
 	}
 
-	void World::RemoveBody(EkBody* body)
+	void World::RemoveBody(EkBody *body)
 	{
 		auto iter = std::find(mBodies.begin(), mBodies.end(), body);
 		if (iter != mBodies.end())
@@ -34,12 +30,12 @@ namespace Eklavya::Physics
 
 	void World::Step(float delta)
 	{
-		for (const auto& body : mBodies)
+		for (const auto &body: mBodies)
 		{
 			body->ApplyGravityForce();
 		}
 
-		for (auto* body : mBodies)
+		for (auto *body: mBodies)
 			body->Integrate(delta);
 
 		// Generate Contacts
@@ -47,7 +43,7 @@ namespace Eklavya::Physics
 
 		for (int i = 0; i < mIterations; i++)
 		{
-			for (auto& constraint : constraints)
+			for (auto &constraint: constraints)
 			{
 				constraint.Solve(delta);
 			}
@@ -60,14 +56,14 @@ namespace Eklavya::Physics
 
 	CastHitResult World::RayCast(glm::vec3 o, glm::vec3 d, float maxRange, int ignoreGroupFlag) const
 	{
-		Ray           ray{o, d, maxRange};
+		Ray ray{o, d, maxRange};
 		CastHitResult result;
-	
 
-		float                        t = 0.0f;
-		int                          index = -1;
-		float                        shortestT = maxRange;
-		const BaseColliderComponent* hitCollider = nullptr;
+
+		float t = 0.0f;
+		int index = -1;
+		float shortestT = maxRange;
+		const BaseColliderComponent *hitCollider = nullptr;
 
 		for (int i = 0; i < mBodies.size(); i++)
 		{
@@ -80,15 +76,17 @@ namespace Eklavya::Physics
 
 			if (collider->GetType() == EColliderType::BOX)
 			{
-				const BoxColliderComponent* boxCollider = static_cast<const BoxColliderComponent*>(mBodies[i]->GetCollider());
+				const BoxColliderComponent *boxCollider = static_cast<const BoxColliderComponent *>(mBodies[i]->
+					GetCollider());
 
-				success = CollisionSystem::RayVsOBB(ray, *boxCollider, t,*mDebugRenderer);
-			}
-			else if (collider->GetType() == EColliderType::SPHERE)
+				success = CollisionSystem::RayVsOBB(ray, *boxCollider, t);
+			} else if (collider->GetType() == EColliderType::SPHERE)
 			{
-				const SphereColliderComponent* sphereCollider = static_cast<const SphereColliderComponent*>(mBodies[i]->GetCollider());
-				glm::vec2                      points;
-				success = CollisionSystem::RayVsSphere(ray, sphereCollider->GetPosition(), sphereCollider->GetRadius(), points);
+				const SphereColliderComponent *sphereCollider = static_cast<const SphereColliderComponent *>(mBodies[i]
+					->GetCollider());
+				glm::vec2 points;
+				success = CollisionSystem::RayVsSphere(ray, sphereCollider->GetPosition(), sphereCollider->GetRadius(),
+				                                       points);
 				if (success)
 				{
 					t = points[0];
@@ -109,8 +107,7 @@ namespace Eklavya::Physics
 			result.success = true;
 			result.position = o + d * shortestT;
 			result.body = mBodies[index];
-		}
-		else
+		} else
 		{
 			result.position = o + d * maxRange;
 		}
@@ -119,13 +116,13 @@ namespace Eklavya::Physics
 	}
 
 #ifdef EKDEBUG
-	void World::OnDebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void World::OnDebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		if (mDebugRenderer == nullptr)
 			mDebugRenderer = &debugRenderer;
-		for (auto& constraint : mCachedContactsForDebug)
+		for (auto &constraint: mCachedContactsForDebug)
 		{
-			for (auto& contact : constraint.GetCollisionPoints())
+			for (auto &contact: constraint.GetCollisionPoints())
 			{
 				glm::vec3 endPoint = contact.location - contact.normal * 10.0f;
 				debugRenderer.DrawLine(contact.location, endPoint, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), .2f, true);
@@ -142,5 +139,4 @@ namespace Eklavya::Physics
 	}
 
 #endif
-
 } // namespace Eklavya::Physics

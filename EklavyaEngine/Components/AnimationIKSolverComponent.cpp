@@ -12,11 +12,13 @@
 #include <Scene/EkScene.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <AssetManager/Asset.h>
 #include <glm/gtx/quaternion.hpp>
 
 namespace Eklavya
 {
-	AnimationIKSolver::AnimationIKSolver(EkActor& owner, const EkScene& scene) : EkComponent(owner, CoreComponentIds::IK_SOLVER_COMPONENT), mScene(scene)
+	AnimationIKSolver::AnimationIKSolver(EkActor &owner, const EkScene &scene) :
+		EkComponent(owner, CoreComponentIds::IK_SOLVER_COMPONENT), mScene(scene)
 	{
 		mLegsJointsData[0][0] = {"mixamorig_LeftUpLeg", glm::vec3(0.0f)};
 		mLegsJointsData[0][1] = {"mixamorig_LeftLeg", glm::vec3(0.0f)};
@@ -29,7 +31,8 @@ namespace Eklavya
 
 	void AnimationIKSolver::Tick(float dt)
 	{
-		AnimationComponent* animationComponent = GetOwner().GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID);
+		AnimationComponent *animationComponent = GetOwner().GetComponent<AnimationComponent>(
+			CoreComponentIds::ANIMATION_COMPONENT_ID);
 		if (SHARED_ANIMATION currAnimation = animationComponent->GetCurrentAnimation())
 		{
 			mLeftFootWorldPosition = animationComponent->GetBoneTransform(mLeftLegBoneName)[3];
@@ -41,20 +44,21 @@ namespace Eklavya
 		}
 	}
 
-	bool AnimationIKSolver::ContainsJoint(const std::string& name) const
+	bool AnimationIKSolver::ContainsJoint(const std::string &name) const
 	{
-		const JointData* data = GetJointData(name);
+		const JointData *data = GetJointData(name);
 		return data;
 	}
 
-	glm::mat4 AnimationIKSolver::GetJointTransform(const std::string& name) const
+	glm::mat4 AnimationIKSolver::GetJointTransform(const std::string &name) const
 	{
-		const JointData* data = GetJointData(name);
+		const JointData *data = GetJointData(name);
 		if (data == nullptr)
 			return glm::mat4(1.0f);
 		return data->finalTransform;
 	}
-	const JointData* AnimationIKSolver::GetJointData(const std::string& name) const
+
+	const JointData *AnimationIKSolver::GetJointData(const std::string &name) const
 	{
 		for (int legIdx = 0; legIdx < 2; ++legIdx)
 		{
@@ -66,10 +70,11 @@ namespace Eklavya
 		}
 		return nullptr;
 	}
-	void AnimationIKSolver::Solve(const std::map<std::string, BoneInfo>& boneInfoMap,
-	                              const std::vector<glm::mat4>&          boneWorldTransforms,
-	                              const std::vector<glm::mat4>&          boneLocalTransforms,
-	                              const std::vector<glm::mat4>&          parentTransforms)
+
+	void AnimationIKSolver::Solve(const std::map<std::string, BoneInfo> &boneInfoMap,
+	                              const std::vector<glm::mat4> &boneWorldTransforms,
+	                              const std::vector<glm::mat4> &boneLocalTransforms,
+	                              const std::vector<glm::mat4> &parentTransforms)
 	{
 		//Raycast to determine target position for both foots
 
@@ -83,7 +88,7 @@ namespace Eklavya
 		{
 			for (int jointIdx = 0; jointIdx < 3; ++jointIdx)
 			{
-				JointData& data = mLegsJointsData[legIdx][jointIdx];
+				JointData &data = mLegsJointsData[legIdx][jointIdx];
 				if (boneInfoMap.find(data.boneName) != boneInfoMap.end())
 				{
 					int idx = boneInfoMap.at(data.boneName).id;
@@ -91,8 +96,7 @@ namespace Eklavya
 					data.sourceLocalTransform = boneLocalTransforms[idx];
 					data.parentTransform = parentTransforms[idx];
 					data.position = data.sourceWorldTransform[3];
-				}
-				else
+				} else
 					assert(false);
 			}
 		}
@@ -108,7 +112,7 @@ namespace Eklavya
 		}
 	}
 
-	glm::vec3 GetEuler(const glm::mat4& matrix)
+	glm::vec3 GetEuler(const glm::mat4 &matrix)
 	{
 		// Extract quaternion from the matrix
 		glm::quat rotation = glm::quat_cast(matrix);
@@ -116,9 +120,7 @@ namespace Eklavya
 		return glm::eulerAngles(rotation);
 	}
 
-	void AnimationIKSolver::SolveForLeg(std::array<JointData, 3>& legJoints, glm::vec3 targetPos, bool leftLeg)
-	{
-	}
+	void AnimationIKSolver::SolveForLeg(std::array<JointData, 3> &legJoints, glm::vec3 targetPos, bool leftLeg) {}
 
 #ifdef EKDEBUG
 	void AnimationIKSolver::DebugDraw(Renderer::DebugRenderer& debugRenderer)
