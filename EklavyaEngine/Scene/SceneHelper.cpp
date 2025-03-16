@@ -14,28 +14,7 @@ using namespace Eklavya::Asset;
 
 namespace Eklavya::SceneHelper
 {
-
-	UniqueActor CreateActorFromModel(const std::string& name, int modelId, ModelLoadOptions materials)
-	{
-		SHARED_MODEL model = AssetManager::GetInstance().GetAsset<GLModel>(name);
-
-		if (model == nullptr)
-		{
-			return nullptr;
-		}
-		ModelNode   dummy;
-		UniqueActor actor = ModelToActor(model->mRootNode, modelId, materials);
-
-		for (auto& mesh : model->mSceneMeshes)
-		{
-			if (UniqueActor kid = CreateActorForMesh(*mesh, *model->mRootNode.get(), modelId))
-				actor->AddKid(kid);
-		}
-
-		return actor;
-	}
-
-	UniqueActor CreateActorForMesh(const GLMesh& mesh, const Asset::ModelNode& node, int modelID)
+	UniqueActor CreateActorForMesh(const GLMesh &mesh, const Asset::ModelNode &node, int modelID)
 	{
 		UniqueActor actorWithMesh = std::make_unique<EkActor>();
 		actorWithMesh->SetName(mesh.mName);
@@ -62,10 +41,10 @@ namespace Eklavya::SceneHelper
 		return actorWithMesh;
 	};
 
-	std::optional<Asset::MaterialInfo> GetMaterialForMesh(const std::string& name, const MATERIALS_FOR_ACTOR& materials)
+	std::optional<Asset::MaterialInfo> GetMaterialForMesh(const std::string &name, const MATERIALS_FOR_ACTOR &materials)
 	{
 		std::optional<MaterialInfo> materialInfo = std::nullopt;
-		for (const Asset::MaterialInfo& info : materials)
+		for (const Asset::MaterialInfo &info: materials)
 		{
 			if (name.compare(info.mMeshName) > 4)
 			{
@@ -75,21 +54,21 @@ namespace Eklavya::SceneHelper
 		return materialInfo;
 	}
 
-	UniqueActor ModelToActor(std::shared_ptr<Asset::ModelNode> node, int modelId, const ModelLoadOptions& loadOptions)
+	UniqueActor ModelToActor(std::shared_ptr<Asset::ModelNode> node, int modelId, const ModelLoadOptions &loadOptions)
 	{
 		UniqueActor actor = std::make_unique<EkActor>();
 
 		actor->SetName(node->mName);
 
-		for (auto& mesh : node->mMeshes)
+		for (auto &mesh: node->mMeshes)
 		{
 			if (loadOptions.forceSingleMaterial)
 			{
 				mesh->mMaterialInfo = loadOptions.materials[0];
-			}
-			else
+			} else
 			{
-				std::optional<Asset::MaterialInfo> materialInfo = GetMaterialForMesh(mesh->mName, loadOptions.materials);
+				std::optional<Asset::MaterialInfo> materialInfo =
+						GetMaterialForMesh(mesh->mName, loadOptions.materials);
 				if (materialInfo.has_value())
 				{
 					mesh->mMaterialInfo = materialInfo.value();
@@ -100,7 +79,7 @@ namespace Eklavya::SceneHelper
 			actor->AddKid(kid);
 		}
 
-		for (auto& kid : node->mChildren)
+		for (auto &kid: node->mChildren)
 		{
 			UniqueActor kidActor = ModelToActor(kid, modelId, loadOptions);
 			actor->AddKid(kidActor);
@@ -109,4 +88,23 @@ namespace Eklavya::SceneHelper
 		return actor;
 	}
 
+	UniqueActor CreateActorFromModel(const std::string &name, int modelId, ModelLoadOptions materials)
+	{
+		SHARED_MODEL model = AssetManager::GetInstance().GetAsset<GLModel>(name);
+
+		if (model == nullptr)
+		{
+			return nullptr;
+		}
+		ModelNode dummy;
+		UniqueActor actor = ModelToActor(model->mRootNode, modelId, materials);
+
+		for (auto &mesh: model->mSceneMeshes)
+		{
+			if (UniqueActor kid = CreateActorForMesh(*mesh, *model->mRootNode.get(), modelId))
+				actor->AddKid(kid);
+		}
+
+		return actor;
+	}
 } // namespace Eklavya::SceneHelper

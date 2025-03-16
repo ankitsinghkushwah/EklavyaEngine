@@ -17,29 +17,29 @@ namespace Eklavya
 {
 	class SkeletalAnimationDemo final : public MainEntryScene
 	{
-	  public:
-		SkeletalAnimationDemo(class Director* pDirector);
+	public:
+		SkeletalAnimationDemo(class Director &pDirector);
 
 		~SkeletalAnimationDemo() override;
 
-	  private:
+	private:
 		void CreateCubeStack();
 
 		void PreloadTextures();
 
-		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
-	
+		Asset::MaterialInfo LoadMaterialInfo(const std::string &file, std::string ext = "png");
+
 
 		void CreateStage();
 
 		void LoadMesh();
 
 #ifdef EKDEBUG
-	void                ImGuiProc() override;
-		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
+		void ImGuiProc() override;
+
+		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 #endif
 	};
-
 } // namespace Eklavya
 
 #endif

@@ -19,37 +19,39 @@ namespace Eklavya
 {
 	class StackOfBoxesDemo final : public MainEntryScene
 	{
-	  public:
-		StackOfBoxesDemo(class Director* pDirector);
+	public:
+		StackOfBoxesDemo(class Director &pDirector);
 
 		~StackOfBoxesDemo() override;
 
-	  private:
+	private:
 		void PreloadTextures();
 
-		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
+		Asset::MaterialInfo LoadMaterialInfo(const std::string &file, std::string ext = "png");
 
 		void CreateStackOfBoxes();
+
 		void CreateStage();
 
 		void OnMouseAction(int key, int action) override;
+
 		void OnKeyAction(int key, int action) override;
 
 #ifdef EKDEBUG
-		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
+		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
+
 		void ImGuiProc() override;
 #endif
 
-	  private:
-		glm::vec3              mRayStart;
-		glm::vec3              mRayDirection;
-		float                  mRayRange = 0.0f;
+	private:
+		glm::vec3 mRayStart;
+		glm::vec3 mRayDirection;
+		float mRayRange = 0.0f;
 		Physics::CastHitResult mLastCastHitResult;
-		Eklavya::Audio         mAudio;
-		std::string            mEngineLoopSound;
-		class EkActor*         mCube = nullptr;
+		Eklavya::Audio mAudio;
+		std::string mEngineLoopSound;
+		class EkActor *mCube = nullptr;
 	};
-
 } // namespace Eklavya
 
 #endif

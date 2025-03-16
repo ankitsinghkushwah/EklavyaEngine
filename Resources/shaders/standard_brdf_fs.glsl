@@ -60,12 +60,12 @@ float GetShadowValue(float cosTheta)
     float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowPassOutput, 0);
 
-    if(fragParams.lightSpacePos.z > 1.0f)
-        return 0.0f;
+    if (fragParams.lightSpacePos.z > 1.0f)
+    return 0.0f;
 
-    for(int x = -3; x <= 3; ++x)
+    for (int x = -3; x <= 3; ++x)
     {
-        for(int y = -3; y <= 3; ++y)
+        for (int y = -3; y <= 3; ++y)
         {
             float pcfDepth = texture(shadowPassOutput, sampleCoords.xy + vec2(x, y) * texelSize).r;
             shadow += sampleCoords.z < pcfDepth + bias ? 0.0 : 1.0;
@@ -77,7 +77,7 @@ float GetShadowValue(float cosTheta)
 
 vec3 getNormalFromMap()
 {
-    if(material.bNormal == 1)
+    if (material.bNormal == 1)
     {
         vec2 tex = fragParams.texCoords * material.tiling;
         vec3 tangentNormal = texture(material.normalMap, tex).xyz * 2.0 - 1.0;
@@ -147,27 +147,34 @@ void main()
     vec2 tex = fragParams.texCoords * material.tiling;
 
     vec3 albedo;
+    float albedo_alpha = 1.0;
     float metallic, roughness, ao;
 
-    if(material.bAlbedo == 1)
-        albedo = pow(texture(material.albedoMap, tex).rgb, vec3(2.2));
+    if (material.bAlbedo == 1)
+    {
+        vec4 albedoTex = texture(material.albedoMap, tex);
+        albedo = pow(albedoTex.rgb, vec3(2.2));
+        albedo_alpha = albedoTex.a;
+    }
     else
+    {
         albedo = material.color;
+    }
 
-    if(material.bMetallic == 1)
-        metallic = texture(material.metallicMap, tex).r;
+    if (material.bMetallic == 1)
+    metallic = texture(material.metallicMap, tex).r;
     else
-        metallic = material.metallic;
+    metallic = material.metallic;
 
-    if(material.bRoughness == 1)
-        roughness = texture(material.roughnessMap, tex).r;
+    if (material.bRoughness == 1)
+    roughness = texture(material.roughnessMap, tex).r;
     else
-        roughness = material.roughness;
+    roughness = material.roughness;
 
-    if(material.bAO == 1)
-        ao = texture(material.aoMap, tex).r;
+    if (material.bAO == 1)
+    ao = texture(material.aoMap, tex).r;
     else
-        ao = 1.0;
+    ao = 1.0;
 
     vec3 N = getNormalFromMap();
     vec3 V = normalize(-fragParams.VMPos);
@@ -220,5 +227,5 @@ void main()
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0 / 2.2));
 
-    FragColor = vec4(color, 1.0f);
+    FragColor = vec4(color, albedo_alpha);
 }

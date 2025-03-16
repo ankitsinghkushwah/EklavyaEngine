@@ -57,7 +57,7 @@ private:
 	bool InitImGUI();
 
 protected:
-	GLWindowContext *m_CurrentContext;
+	GLWindowContext *m_CurrentContext = nullptr;
 
 public:
 	GLFWGame();

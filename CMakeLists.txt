@@ -59,7 +59,9 @@ file(GLOB_RECURSE HEADER_FILES
 )
 
 # Add the executable
-add_executable(EklavyaEngine ${SRC_FILES} ${HEADER_FILES})
+add_executable(EklavyaEngine ${SRC_FILES} ${HEADER_FILES}
+        SceneTemplate/SceneTemplate.h
+        SceneTemplate/SceneTemplate.cpp)
 
 # Function to organize files into groups
 function(organize_files_into_groups FILES)

@@ -13,25 +13,22 @@
 
 namespace Eklavya
 {
-	Director::Director(const std::string& title, uint32_t width, uint32_t height, bool fullScreen)
+	Director::Director(const std::string &title, uint32_t width, uint32_t height, bool fullScreen)
 	{
 		GLFWGame::Initialize(title, width, height, fullScreen);
 
 		LoadAssets();
 
-		mCurrentScene = new MainEntryScene(this);
+		mCurrentScene = new MainEntryScene(*this);
 
 		GLFWGame::HideMouse();
 	}
 
-	Director::~Director()
-	{
-		delete mCurrentScene;
-	}
+	Director::~Director() {}
 
-	void Director::SetScene(MainEntryScene* sceneImpl)
+	void Director::SetScene(MainEntryScene &sceneImpl)
 	{
-		mCurrentScene = sceneImpl;
+		mCurrentScene = &sceneImpl;
 	}
 
 	void Director::LoadAssets()
@@ -60,7 +57,7 @@ namespace Eklavya
 			mCurrentScene->FixedTick(mPhysicsTickRate * mTimeScale);
 			mCurrentScene->Tick(frameTime * mTimeScale);
 			mCurrentScene->Draw();
-      mCurrentScene->Cleanup();
+			mCurrentScene->Cleanup();
 		}
 	}
 
@@ -84,9 +81,7 @@ namespace Eklavya
 			CloseWindow();
 	}
 
-	void Director::OnError(int pError, const char* pDesc)
-	{
-	}
+	void Director::OnError(int pError, const char *pDesc) {}
 
 	void Director::OnResize(int newWidth, int newHeight)
 	{
@@ -107,5 +102,4 @@ namespace Eklavya
 	{
 		InputHandler::GetInstance()->OnControllerStateChanged(joy, event);
 	}
-
 } // namespace Eklavya

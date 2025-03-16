@@ -6,8 +6,6 @@
 //
 
 #include <MainEntryScene.hpp>
-
-#include <InputHandler.h>
 #include <Components/RenderComponent.hpp>
 #include <Scene/EkActor.h>
 #include <AssetManager/AssetManager.h>
@@ -17,9 +15,9 @@
 #include <Random.h>
 #include <EkPhysics/EkBody.h>
 #include <EkPhysics/Collider.h>
-#include <memory>
 #include <Scene/SceneHelper.hpp>
 #include <Scene/SpringFollowCamera.hpp>
+#include <Renderer/GLRenderer.h>
 
 using namespace Eklavya::Asset;
 using namespace Eklavya::Renderer;
@@ -36,16 +34,17 @@ namespace Eklavya
 		PLASTIC
 	};
 
-	EkActor* MainEntryScene::CreateCube(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate, float mass, Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
+	EkActor *MainEntryScene::CreateCube(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate, float mass,
+	                                    Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
 	{
 		UniqueActor floor = std::make_unique<EkActor>();
 		floor->Transform().SetScale(scale);
 		floor->Transform().SetPosition(pos);
-		RenderComponent* render = floor->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
+		RenderComponent *render = floor->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
 		render->GetMesh().mMaterialInfo = matInfo;
 
-		EkActor* rawActor = floor.get();
+		EkActor *rawActor = floor.get();
 		if (!kid)
 		{
 			auto collider = floor->EmplaceComponent<Physics::BoxColliderComponent>();
@@ -64,7 +63,8 @@ namespace Eklavya
 		return rawActor;
 	}
 
-	EkActor* MainEntryScene::CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
+	EkActor *MainEntryScene::CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
+	                                      uint32_t flag, bool kid)
 	{
 		UniqueActor sphere = std::make_unique<EkActor>();
 		sphere->Transform().SetScale(radius);
@@ -73,7 +73,7 @@ namespace Eklavya
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
 		render->GetMesh().mMaterialInfo = matInfo;
 
-		EkActor* rawActor = sphere.get();
+		EkActor *rawActor = sphere.get();
 		if (!kid)
 		{
 			auto collider = sphere->EmplaceComponent<Physics::SphereColliderComponent>();
@@ -91,23 +91,23 @@ namespace Eklavya
 		return rawActor;
 	}
 
-	MainEntryScene::MainEntryScene(Director* pDirector) : EkScene(pDirector)
+	MainEntryScene::MainEntryScene(Director &pDirector) :
+		EkScene(pDirector)
 	{
-		GetRenderer().GetMaterialForGroup<SkyboxMaterial>(Renderer::ERenderGroup::SKYBOX)->mCubemap = AssetManager::GetInstance().LoadCubemap("Day", "png");
+		GetRenderer().GetMaterialForGroup<SkyboxMaterial>(Renderer::ERenderGroup::SKYBOX)->mCubemap =
+				AssetManager::GetInstance().LoadCubemap("Day", "png");
 
-		UniqueActor      sky = std::make_unique<EkActor>();
-		RenderComponent* render = sky->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
+		UniqueActor sky = std::make_unique<EkActor>();
+		RenderComponent *render = sky->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
 		render->mProjectsShadow = false;
 		render->mRenderGroup = Renderer::ERenderGroup::SKYBOX;
 		AddActor(sky);
 	}
 
-	MainEntryScene::~MainEntryScene()
-	{
-	}
+	MainEntryScene::~MainEntryScene() {}
 
 #ifdef EKDEBUG
-	void MainEntryScene::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void MainEntryScene::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		EkScene::DebugDraw(debugRenderer);
 	}
@@ -117,5 +117,4 @@ namespace Eklavya
 		EkScene::ImGuiProc();
 	}
 #endif
-
 } // namespace Eklavya

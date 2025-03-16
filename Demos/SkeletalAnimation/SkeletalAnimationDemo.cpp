@@ -7,19 +7,16 @@
 
 #include "SkeletalAnimationDemo.hpp"
 
-#include <InputHandler.h>
-#include "Components/RenderComponent.hpp"
+#include <Renderer/GLRenderer.h>
 #include <Scene/EkActor.h>
 #include "AssetManager/AssetManager.h"
 #include "Director.hpp"
 #include <Renderer/Material.h>
-#include "imgui/imgui.h"
 #include "Random.h"
 #include "EkPhysics/EkBody.h"
 #include "EkPhysics/Collider.h"
-#include <memory>
 #include "Scene/SceneHelper.hpp"
-#include "Scene/Cameras/FreeLookCamera.h"
+
 
 #include "AssetManager/Animation.h"
 
@@ -29,7 +26,6 @@ using namespace Eklavya::Physics;
 
 namespace Eklavya
 {
-
 	enum MatIndex
 	{
 		GOLD,
@@ -47,7 +43,7 @@ namespace Eklavya
 
 		std::string ext = "png";
 
-		for (auto& name : texturesList)
+		for (auto &name: texturesList)
 		{
 			std::string folder = "pbr/" + name + "/";
 
@@ -59,7 +55,7 @@ namespace Eklavya
 		}
 	}
 
-	MaterialInfo SkeletalAnimationDemo::LoadMaterialInfo(const std::string& file, std::string ext)
+	MaterialInfo SkeletalAnimationDemo::LoadMaterialInfo(const std::string &file, std::string ext)
 	{
 		MaterialInfo info;
 
@@ -83,16 +79,18 @@ namespace Eklavya
 
 		float area_extent = 10000;
 		float floorScaleY = 5.0f;
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, STATIC);
+		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info,
+		           STATIC);
 	}
 
 	void SkeletalAnimationDemo::LoadMesh()
 	{
 		std::string name = "characters/swat/swat";
 
-		UniqueActor         actor = SceneHelper::CreateActorFromModel(name, 0);
-		AnimationComponent* animator = actor->EmplaceComponent<AnimationComponent>(0);
-		SHARED_ANIMATION    animation = AssetManager::GetInstance().GetAsset<Asset::Animation>("characters/swat/animations/standing_jog_forward");
+		UniqueActor actor = SceneHelper::CreateActorFromModel(name, 0);
+		AnimationComponent *animator = actor->EmplaceComponent<AnimationComponent>(0);
+		SHARED_ANIMATION animation = AssetManager::GetInstance().GetAsset<Asset::Animation>(
+			"characters/swat/animations/standing_jog_forward");
 
 		animator->PlayAnimation(animation);
 		actor->Transform().SetScale(1.0f);
@@ -100,7 +98,8 @@ namespace Eklavya
 		AddActor(actor);
 	}
 
-	SkeletalAnimationDemo::SkeletalAnimationDemo(Director* pDirector) : MainEntryScene(pDirector)
+	SkeletalAnimationDemo::SkeletalAnimationDemo(Director &pDirector) :
+		MainEntryScene(pDirector)
 	{
 		// Load assets
 
@@ -113,9 +112,7 @@ namespace Eklavya
 		LoadMesh();
 	}
 
-	SkeletalAnimationDemo::~SkeletalAnimationDemo()
-	{
-	}
+	SkeletalAnimationDemo::~SkeletalAnimationDemo() {}
 
 	void SkeletalAnimationDemo::CreateCubeStack()
 	{
@@ -125,8 +122,8 @@ namespace Eklavya
 		info.mMetallic = 1.0f;
 
 		float radius = 5.0f;
-		int   rows = 4;
-		int   cols = 4;
+		int rows = 4;
+		int cols = 4;
 
 		float diameter = radius * 2;
 		float xOffset = (cols * diameter / 2.0f);
@@ -150,10 +147,10 @@ namespace Eklavya
 	{
 		MainEntryScene::ImGuiProc();
 	}
-	void SkeletalAnimationDemo::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+
+	void SkeletalAnimationDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 	}
 #endif
-
 } // namespace Eklavya

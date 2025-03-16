@@ -12,7 +12,6 @@
 #include <Scene/EkScene.h>
 #include <MainEntryScene.hpp>
 #include <string>
-#include <Renderer/GLRenderer.h>
 
 namespace Eklavya
 {
@@ -28,7 +27,7 @@ namespace Eklavya
 
 		void LoadAssets();
 
-		void SetScene(MainEntryScene *sceneImpl);
+		void SetScene(MainEntryScene &sceneImpl);
 
 		void SetPhysicsTickRate(float physicsTickRate)
 		{
@@ -63,7 +62,7 @@ namespace Eklavya
 		void OnJoystickStateChange(int, int) override;
 
 	private:
-		MainEntryScene *mCurrentScene;
+		MainEntryScene *mCurrentScene = nullptr;
 		float mPhysicsTickRate = 1.0f / 60.0f;
 		float mTimeSinceStart = 0.0f;
 		float mTimeScale = 1.0f;

@@ -7,12 +7,15 @@
 
 #include <Director.hpp>
 #include <rang.hpp>
+#include <Shadows/ShadowsDemo.h>
+#include <FrustumCulling/FrustumCullingDemo.h>
+#include <VehiclePhysicsDemo/VehiclePhysicsDemo.hpp>
 #include <SkeletalAnimationWithIK/SkeletalAnimationWithIK.hpp>
+#include <StackOfBoxes/StackOfBoxesDemo.hpp>
 #include <vector>
 #include <filesystem>
+#include "SkeletalAnimation/SkeletalAnimationDemo.hpp"
 
-#include "StackOfBoxes/StackOfBoxesDemo.hpp"
-#include "VehiclePhysicsDemo/VehiclePhysicsDemo.hpp"
 
 using namespace Eklavya;
 using namespace std;
@@ -64,8 +67,8 @@ int main(int argc, char *argv[])
 
 	std::vector<std::string> demos =
 	{
-		"Deferred Pipeline : Shadows", "Fructum Culling", "Skeletal Animation", "Skeletal Animation With IK",
-		"Vehicle Physics Demo", "Custom Physics - Stack Of Boxes"
+		"Stack Of Boxes", "Vehicle Physics", "Skeletal Animation", "Skeletal Aimation IK (inverse kinematics)",
+		"Shadows", "Frustum Culling"
 	};
 
 	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
@@ -83,10 +86,57 @@ int main(int argc, char *argv[])
 	cout << "Enter number between 1 to " << demos.size() << " to launch demo\n";
 	cin >> user_selection;
 
-	cout << style::reset << rang::fg::reset;
+	cout << style::reset << fg::reset;
 
-	Eklavya::Director *engine = new Eklavya::Director("Eklavya", resolution.width, resolution.height, false);
-	engine->SetScene(new StackOfBoxesDemo(engine));
-	engine->Start();
+	Director director = Director("Eklavya", resolution.width, resolution.height, false);
+
+	switch (user_selection)
+	{
+		case 1:
+		{
+			StackOfBoxesDemo stackOfBoxes(director);
+			director.SetScene(stackOfBoxes);
+			director.Start();
+		}
+		break;
+		case 2:
+		{
+			VehiclePhysicsDemo vehiclePhysicsDemo(director);
+			director.SetScene(vehiclePhysicsDemo);
+			director.Start();
+		}
+		break;
+		case 3:
+		{
+			SkeletalAnimationDemo skeletalAnimationDemo(director);
+			director.SetScene(skeletalAnimationDemo);
+			director.Start();
+		}
+		break;
+		case 4:
+		{
+			SkeletalAnimationWithIK skeletalAnimationWithIk(director);
+			director.SetScene(skeletalAnimationWithIk);
+			director.Start();
+		}
+		break;
+
+		case 5:
+		{
+			ShadowsDemo shadowsDemo(director);
+			director.SetScene(shadowsDemo);
+			director.Start();
+		}
+		break;
+		case 6:
+		{
+			FrustumCullingDemo frustCullingDemo(director);
+			director.SetScene(frustCullingDemo);
+			director.Start();
+		}
+		break;
+	}
+
+
 	return 0;
 }

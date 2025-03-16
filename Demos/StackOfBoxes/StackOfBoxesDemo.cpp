@@ -26,8 +26,8 @@ using namespace Eklavya::Physics;
 
 namespace Eklavya
 {
-
-	StackOfBoxesDemo::StackOfBoxesDemo(Director* pDirector) : MainEntryScene(pDirector), mEngineLoopSound("shotgun.wav")
+	StackOfBoxesDemo::StackOfBoxesDemo(Director &pDirector) :
+		MainEntryScene(pDirector), mEngineLoopSound("shotgun.wav")
 	{
 		PreloadTextures();
 
@@ -40,9 +40,7 @@ namespace Eklavya
 		mAudio.GetSound().setLoop(false);
 	}
 
-	StackOfBoxesDemo::~StackOfBoxesDemo()
-	{
-	}
+	StackOfBoxesDemo::~StackOfBoxesDemo() {}
 
 	void StackOfBoxesDemo::OnMouseAction(int key, int action)
 	{
@@ -55,7 +53,7 @@ namespace Eklavya
 
 			mLastCastHitResult = GetPhysics().RayCast(mRayStart, glm::vec3(0.0f, -1.0f, 0.0f), mRayRange, -1);
 
-      //mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
+			//mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
 
 			//			if (mLastCastHitResult.success)
 			//			{
@@ -70,7 +68,7 @@ namespace Eklavya
 
 		std::vector<std::string> texturesList = {"grid", "crate", "grass", "floor"};
 
-		for (auto& name : texturesList)
+		for (auto &name: texturesList)
 		{
 			std::string folder = "pbr/" + name + "/";
 
@@ -82,7 +80,7 @@ namespace Eklavya
 		}
 	}
 
-	MaterialInfo StackOfBoxesDemo::LoadMaterialInfo(const std::string& file, std::string ext)
+	MaterialInfo StackOfBoxesDemo::LoadMaterialInfo(const std::string &file, std::string ext)
 	{
 		MaterialInfo info;
 
@@ -108,9 +106,7 @@ namespace Eklavya
 		float floorScaleY = 10.0f;
 
 		//CreateSphere(glm::vec3(0.0f,-50.0f,0.0f), 100.0f, FLT_MAX, info);
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
-
-		{
+		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0); {
 			MaterialInfo info = LoadMaterialInfo("pbr/grid");
 			info.mRoughness = 1.0f;
 			info.mTiling = 40;
@@ -125,7 +121,7 @@ namespace Eklavya
 			info2.mTiling = 1.0f;
 			CreateCube(glm::vec3(0.0f, 80.0f, 0.0f), glm::vec3(100.0f), glm::vec3(), FLT_MAX, info2, STATIC);
 
-			CreateCube(glm::vec3(-200.0f,80.0f, 0.0f), glm::vec3(100.0f), glm::vec3(), FLT_MAX, info2, STATIC);
+			CreateCube(glm::vec3(-200.0f, 80.0f, 0.0f), glm::vec3(100.0f), glm::vec3(), FLT_MAX, info2, STATIC);
 
 			//	CreateSphere(glm::vec3(0.0f, 0.0f, -100.0f), 40.0f, FLT_MAX, info2, STATIC);
 		}
@@ -140,8 +136,8 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStackOfBoxes()
 	{
-		int   rows = 5;
-		int   cols = 6;
+		int rows = 5;
+		int cols = 6;
 		float startY = 50.0f;
 		float boxDim = 20.0f;
 		float offsetX = ((cols - 1) / 2.0f) * boxDim;
@@ -159,7 +155,8 @@ namespace Eklavya
 				info.mMetallic = 0.0f;
 				info.mTiling = 1;
 				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 30.0f, info, 0);
+				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 30.0f,
+				           info, 0);
 
 				//CreateSphere(glm::vec3(x, y, z), boxDim, 20.0f, info);
 			}
@@ -167,23 +164,27 @@ namespace Eklavya
 	}
 
 #ifdef EKDEBUG
-	void StackOfBoxesDemo::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void StackOfBoxesDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 
-		glm::vec3 endPoint = mLastCastHitResult.success ? mLastCastHitResult.position : mRayStart + glm::vec3(0.0f, -1.0f, 0.0f) * mRayRange;
+		glm::vec3 endPoint = mLastCastHitResult.success
+			                     ? mLastCastHitResult.position
+			                     : mRayStart + glm::vec3(0.0f, -1.0f, 0.0f) * mRayRange;
 		debugRenderer.DrawLine(mRayStart,
 		                       endPoint,
-		                       mLastCastHitResult.success ? glm::vec4(0.0f, 0.6f, 0.0f, 1.0f) : glm::vec4(0.0f, 0.0f, 0.0f, .7f),
+		                       mLastCastHitResult.success
+			                       ? glm::vec4(0.0f, 0.6f, 0.0f, 1.0f)
+			                       : glm::vec4(0.0f, 0.0f, 0.0f, .7f),
 		                       mLastCastHitResult.success ? 0.5f : .3f);
 		debugRenderer.DrawSphere(endPoint, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
 
 		// mLastCastHitResult.success = false;
 	}
+
 	void StackOfBoxesDemo::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
 	}
 #endif
-
 } // namespace Eklavya

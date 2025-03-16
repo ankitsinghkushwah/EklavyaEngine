@@ -20,59 +20,64 @@ namespace Eklavya
 {
 	class SkeletalAnimationWithIK final : public MainEntryScene
 	{
-	  public:
-		SkeletalAnimationWithIK(class Director* pDirector);
+	public:
+		SkeletalAnimationWithIK(class Director &pDirector);
 
 		~SkeletalAnimationWithIK() override;
 
-	  private:
+	private:
 		void PreloadTextures();
 
-		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
+		Asset::MaterialInfo LoadMaterialInfo(const std::string &file, std::string ext = "png");
 
 		void LoadLevel(std::string name);
+
 		void CreateStage();
 
 		void SetupPlayer();
 
 		void Tick(float dt) override;
 
-		void                          LoadCharactersAndAnimations();
-		void                          InstantiateCharacters();
-		SceneHelper::ModelLoadOptions GetMaterialsForCharacter(const std::string& character);
-		std::string                   GetExtension(const std::string& character);
-		std::vector<std::string>      AnimationsToLoad(const std::string& animations);
+		void LoadCharactersAndAnimations();
 
-		std::string ModelName(const std::string& character)
+		void InstantiateCharacters();
+
+		SceneHelper::ModelLoadOptions GetMaterialsForCharacter(const std::string &character);
+
+		std::string GetExtension(const std::string &character);
+
+		std::vector<std::string> AnimationsToLoad(const std::string &animations);
+
+		std::string ModelName(const std::string &character)
 		{
 			return "characters/" + character + "/" + character;
 		}
 
-		std::string AnimationName(const std::string& character, const std::string& animation)
+		std::string AnimationName(const std::string &character, const std::string &animation)
 		{
 			return "characters/" + character + "/" + animation;
 		}
 
 #ifdef EKDEBUG
 		void ImGuiProc() override;
-		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
+
+		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 #endif
 
-	  private:
-		EkActor*          mPlayer = nullptr;
-		PlayerController* mPlayerController = nullptr;
+	private:
+		EkActor *mPlayer = nullptr;
+		PlayerController *mPlayerController = nullptr;
 
 		std::shared_ptr<Eklavya::SpringFollowCamera> mFollowCamera = nullptr;
 
-		std::vector<std::string>                                       mCharacters;
-		std::unordered_map<std::string, std::vector<SHARED_ANIMATION>> mAnimations;
+		std::vector<std::string> mCharacters;
+		std::unordered_map<std::string, std::vector<SHARED_ANIMATION> > mAnimations;
 
-		float    floorAngle = 30.0f;
-		EkActor* ikFloor = nullptr;
+		float floorAngle = 30.0f;
+		EkActor *ikFloor = nullptr;
 
 		glm::vec3 ikTarget;
 	};
-
 } // namespace Eklavya
 
 #endif

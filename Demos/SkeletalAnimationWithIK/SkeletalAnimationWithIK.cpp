@@ -32,12 +32,11 @@ using namespace Eklavya::Physics;
 
 namespace Eklavya
 {
-
 	void SkeletalAnimationWithIK::PreloadTextures()
 	{
 		std::string ext = "png";
 
-		for (auto& name : mCharacters)
+		for (auto &name: mCharacters)
 		{
 			std::string folder = "characters/" + name + "/";
 
@@ -50,7 +49,7 @@ namespace Eklavya
 
 		std::vector<std::string> texturesList = {"grid", "crate", "grass", "floor"};
 
-		for (auto& name : texturesList)
+		for (auto &name: texturesList)
 		{
 			std::string folder = "pbr/" + name + "/";
 
@@ -62,7 +61,7 @@ namespace Eklavya
 		}
 	}
 
-	MaterialInfo SkeletalAnimationWithIK::LoadMaterialInfo(const std::string& file, std::string ext)
+	MaterialInfo SkeletalAnimationWithIK::LoadMaterialInfo(const std::string &file, std::string ext)
 	{
 		MaterialInfo info;
 
@@ -76,13 +75,12 @@ namespace Eklavya
 		return info;
 	}
 
-	std::string SkeletalAnimationWithIK::GetExtension(const std::string& character)
+	std::string SkeletalAnimationWithIK::GetExtension(const std::string &character)
 	{
 		if (character == "player")
 		{
 			return ".fbx";
-		}
-		else if (character == "swat")
+		} else if (character == "swat")
 		{
 			return ".dae";
 		}
@@ -93,12 +91,12 @@ namespace Eklavya
 	void SkeletalAnimationWithIK::LoadCharactersAndAnimations()
 	{
 		int modelID = 0;
-		for (std::string& character : mCharacters)
+		for (std::string &character: mCharacters)
 		{
 			std::string ext = GetExtension(character);
 			AssetManager::GetInstance().LoadModel(ModelName(character), ext, modelID);
 			std::vector<std::string> animations = AnimationsToLoad(character);
-			for (auto& animation : animations)
+			for (auto &animation: animations)
 			{
 				AssetManager::GetInstance().LoadAnimation(AnimationName(character, animation), ext, modelID);
 			}
@@ -106,9 +104,9 @@ namespace Eklavya
 		}
 	}
 
-	SceneHelper::ModelLoadOptions SkeletalAnimationWithIK::GetMaterialsForCharacter(const std::string& character)
+	SceneHelper::ModelLoadOptions SkeletalAnimationWithIK::GetMaterialsForCharacter(const std::string &character)
 	{
-		SceneHelper::ModelLoadOptions    loadOptions;
+		SceneHelper::ModelLoadOptions loadOptions;
 		SceneHelper::MATERIALS_FOR_ACTOR materials;
 		if (character == "player")
 		{
@@ -121,7 +119,7 @@ namespace Eklavya
 		return loadOptions;
 	}
 
-	std::vector<std::string> SkeletalAnimationWithIK::AnimationsToLoad(const std::string& character)
+	std::vector<std::string> SkeletalAnimationWithIK::AnimationsToLoad(const std::string &character)
 	{
 		std::vector<std::string> animationsToLoad;
 
@@ -168,20 +166,21 @@ namespace Eklavya
 	void SkeletalAnimationWithIK::InstantiateCharacters()
 	{
 		float xOff = 100.0f;
-		int   i = 1;
-		int   modelID = 0;
-		for (std::string& character : mCharacters)
+		int i = 1;
+		int modelID = 0;
+		for (std::string &character: mCharacters)
 		{
 			SceneHelper::ModelLoadOptions materials = GetMaterialsForCharacter(character);
 
 			std::vector<std::string> animationsToLoad = AnimationsToLoad(character);
 
-			UniqueActor         uniqueActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
-			AnimationComponent* animator = uniqueActor->EmplaceComponent<AnimationComponent>(modelID);
+			UniqueActor uniqueActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
+			AnimationComponent *animator = uniqueActor->EmplaceComponent<AnimationComponent>(modelID);
 
-			for (const std::string& animation : animationsToLoad)
+			for (const std::string &animation: animationsToLoad)
 			{
-				SHARED_ANIMATION animAsset = AssetManager::GetInstance().GetAsset<Asset::Animation>(AnimationName(character, animation));
+				SHARED_ANIMATION animAsset = AssetManager::GetInstance().GetAsset<Asset::Animation>(
+					AnimationName(character, animation));
 				mAnimations[character].push_back(animAsset);
 			}
 			animator->PlayAnimation(mAnimations[character][0]);
@@ -204,16 +203,17 @@ namespace Eklavya
 		float floorScaleY = 30.0f;
 		CreateCube(glm::vec3(0.0f), glm::vec3(areaAxtent, floorScaleY, areaAxtent), glm::vec3(), FLT_MAX, info, 0);
 
-		ikFloor = CreateCube(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f), glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
+		ikFloor = CreateCube(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f),
+		                     glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
 	}
 
 	void SkeletalAnimationWithIK::SetupPlayer()
 	{
 		std::string character = "swat";
-		int         modelID = 0;
+		int modelID = 0;
 
 		SceneHelper::ModelLoadOptions materials = GetMaterialsForCharacter(character);
-		std::vector<std::string>      animationsToLoad = AnimationsToLoad(character);
+		std::vector<std::string> animationsToLoad = AnimationsToLoad(character);
 
 		MaterialInfo info;
 		info.mBaseColor = glm::vec3(0.7f);
@@ -222,13 +222,14 @@ namespace Eklavya
 
 		glm::vec3 scale(1.0f);
 
-		UniqueActor         playerActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
-		AnimationComponent* animator = playerActor->EmplaceComponent<AnimationComponent>(modelID);
+		UniqueActor playerActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
+		AnimationComponent *animator = playerActor->EmplaceComponent<AnimationComponent>(modelID);
 		playerActor->EmplaceComponent<AnimationIKSolver>(*this);
 
-		for (const std::string& animation : animationsToLoad)
+		for (const std::string &animation: animationsToLoad)
 		{
-			SHARED_ANIMATION animAsset = AssetManager::GetInstance().GetAsset<Asset::Animation>(AnimationName(character, animation));
+			SHARED_ANIMATION animAsset = AssetManager::GetInstance().GetAsset<Asset::Animation>(
+				AnimationName(character, animation));
 			mAnimations[character].push_back(animAsset);
 		}
 
@@ -244,7 +245,8 @@ namespace Eklavya
 		AddActor(playerActor);
 	}
 
-	SkeletalAnimationWithIK::SkeletalAnimationWithIK(Director* pDirector) : MainEntryScene(pDirector)
+	SkeletalAnimationWithIK::SkeletalAnimationWithIK(Director &pDirector) :
+		MainEntryScene(pDirector)
 	{
 		mCharacters.push_back("swat");
 		PreloadTextures();
@@ -252,11 +254,11 @@ namespace Eklavya
 		CreateStage();
 		SetupPlayer();
 
-				mFollowCamera = std::make_shared<SpringFollowCamera>(DefaulCameraParams());
-				mFollowCamera->SetTarget(&mPlayer->Transform());
-				mFollowCamera->SetTargetOffset(glm::vec3(0.0f, 0.0f, 50.0f));
-				mFollowCamera->SetArmsLength(glm::vec3(0.0f, 200.0f, -300.0f));
-				OverrideCamera(mFollowCamera);
+		mFollowCamera = std::make_shared<SpringFollowCamera>(DefaulCameraParams());
+		mFollowCamera->SetTarget(&mPlayer->Transform());
+		mFollowCamera->SetTargetOffset(glm::vec3(0.0f, 0.0f, 50.0f));
+		mFollowCamera->SetArmsLength(glm::vec3(0.0f, 200.0f, -300.0f));
+		OverrideCamera(mFollowCamera);
 	}
 
 	void SkeletalAnimationWithIK::Tick(float dt)
@@ -277,10 +279,7 @@ namespace Eklavya
 		printf("\n angle %.3f", floorAngle);
 	}
 
-	SkeletalAnimationWithIK::~SkeletalAnimationWithIK()
-	{
-	}
-
+	SkeletalAnimationWithIK::~SkeletalAnimationWithIK() {}
 
 
 #ifdef EKDEBUG
@@ -290,11 +289,11 @@ namespace Eklavya
 		MainEntryScene::ImGuiProc();
 		mPlayerController->ImGuiProc();
 	}
-	void SkeletalAnimationWithIK::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+
+	void SkeletalAnimationWithIK::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 		mPlayerController->DebugDraw(debugRenderer);
 	}
 #endif
-
 } // namespace Eklavya

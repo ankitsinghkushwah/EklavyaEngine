@@ -27,7 +27,8 @@ using namespace Eklavya::Asset;
 
 namespace Eklavya
 {
-	SceneDebugger::SceneDebugger(EkScene& scene) : UserInputListener(), mScene(scene)
+	SceneDebugger::SceneDebugger(EkScene &scene) :
+		UserInputListener(), mScene(scene)
 	{
 		for (int i = 0; i < ESceneDebugFlags::MAX; i++)
 		{
@@ -38,50 +39,52 @@ namespace Eklavya
 		mBoundColor = glm::vec4(0.8f, 0.2f, 0.4f, 0.6f);
 	}
 
-	void SceneDebugger::TraverseToDebugDraw(const UniqueActor& actor)
+	void SceneDebugger::TraverseToDebugDraw(const UniqueActor &actor)
 	{
 		//		if (actor->mDebugDrawComponents)
 		//		{
-		for (auto& component : actor->Components())
+		for (auto &component: actor->Components())
 		{
 			component->DebugDraw(mScene.mRenderer->GetDebugRenderer());
 		}
 		//}
-		EkBody* body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
+		EkBody *body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 		if (body && body->mShowCollider)
 		{
 			glm::vec3 oiler = glm::eulerAngles(actor->Transform().Rotation());
 
 			if (body->GetCollider()->GetType() == Physics::EColliderType::BOX)
 			{
-				const BoxColliderComponent* collider = static_cast<const BoxColliderComponent*>(body->GetCollider());
-				glm::vec3                   extents = collider->GetHalfSize() * 2.0f;
+				const BoxColliderComponent *collider = static_cast<const BoxColliderComponent *>(body->GetCollider());
+				glm::vec3 extents = collider->GetHalfSize() * 2.0f;
 
 				mScene.mRenderer->GetDebugRenderer().DrawBox(collider->GetPosition(), oiler, extents, mColliderColor);
 			}
 
 			if (body->GetCollider()->GetType() == Physics::EColliderType::SPHERE)
 			{
-				const SphereColliderComponent* collider = static_cast<const SphereColliderComponent*>(body->GetCollider());
-				float                          radius = collider->GetRadius();
+				const SphereColliderComponent *collider = static_cast<const SphereColliderComponent *>(body->
+					GetCollider());
+				float radius = collider->GetRadius();
 
 				mScene.mRenderer->GetDebugRenderer().DrawSphere(collider->GetPosition(), radius, mColliderColor);
 			}
 		}
 
-		RenderComponent* renderComponent = actor->GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID);
+		RenderComponent *renderComponent = actor->GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID);
 		if (renderComponent && renderComponent->mShowBound)
 		{
-			mScene.mRenderer->GetDebugRenderer().DrawBound(actor->Transform().GetWorldMatrix(), renderComponent->mBound, mBoundColor);
+			mScene.mRenderer->GetDebugRenderer().DrawBound(actor->Transform().GetWorldMatrix(), renderComponent->mBound,
+			                                               mBoundColor);
 		}
 
-		for (const UniqueActor& kid : actor->Kids())
+		for (const UniqueActor &kid: actor->Kids())
 			TraverseToDebugDraw(kid);
 	}
 
-	void SceneDebugger::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void SceneDebugger::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
-		for (auto& actor : mScene.mRootActors)
+		for (auto &actor: mScene.mRootActors)
 		{
 			TraverseToDebugDraw(actor);
 		}
@@ -92,7 +95,7 @@ namespace Eklavya
 		if (key == GLFW_KEY_P && action == GLFW_PRESS)
 		{
 			mDebugScene = !mDebugScene;
-			mScene.mDirector->HideMouse(mDebugScene == false);
+			mScene.mDirector.HideMouse(mDebugScene == false);
 			mScene.mFreeLookCamera->SetEnabled(mDebugScene == false);
 		}
 
@@ -107,17 +110,20 @@ namespace Eklavya
 		}
 	}
 
-	bool SceneDebugger::CanTraverse(const UniqueActor& actor)
+	bool SceneDebugger::CanTraverse(const UniqueActor &actor)
 	{
-		if (mFilterFlags[ESceneDebugFlags::RENDERABLE] && actor->GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID) != nullptr)
+		if (mFilterFlags[ESceneDebugFlags::RENDERABLE] && actor->GetComponent<RenderComponent>(
+			    CoreComponentIds::RENDER_COMPONENT_ID) != nullptr)
 		{
 			return true;
 		}
-		if (mFilterFlags[ESceneDebugFlags::EKBODY] && actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID) != nullptr)
+		if (mFilterFlags[ESceneDebugFlags::EKBODY] && actor->GetComponent<EkBody>(
+			    CoreComponentIds::RIGIDBODY_COMPONENT_ID) != nullptr)
 		{
 			return true;
 		}
-		if (mFilterFlags[ESceneDebugFlags::ANIMATED] && actor->GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID) != nullptr)
+		if (mFilterFlags[ESceneDebugFlags::ANIMATED] && actor->GetComponent<AnimationComponent>(
+			    CoreComponentIds::ANIMATION_COMPONENT_ID) != nullptr)
 		{
 			return true;
 		}
@@ -155,8 +161,8 @@ namespace Eklavya
 
 		for (int i = 0; i < ESceneDebugFlags::MAX; i++)
 		{
-			bool        enabled = mFilterFlags[i];
-			std::string flagName = GetDebugFlagString((ESceneDebugFlags)i);
+			bool enabled = mFilterFlags[i];
+			std::string flagName = GetDebugFlagString((ESceneDebugFlags) i);
 			if (ImGui::Checkbox(flagName.c_str(), &enabled))
 			{
 				mFilterFlags[i] = enabled;
@@ -166,7 +172,7 @@ namespace Eklavya
 		// Scene Tree
 		if (ImGui::TreeNode("SceneRoot"))
 		{
-			for (auto& rootActor : mScene.mRootActors)
+			for (auto &rootActor: mScene.mRootActors)
 			{
 				ImGui::PushID(std::to_string(rootActor->ID()).c_str());
 				Traverse(rootActor);
@@ -178,7 +184,7 @@ namespace Eklavya
 		ImGui::End();
 	}
 
-	void SceneDebugger::Traverse(const UniqueActor& actor)
+	void SceneDebugger::Traverse(const UniqueActor &actor)
 	{
 		bool canTraverse = CanTraverse(actor);
 
@@ -201,7 +207,7 @@ namespace Eklavya
 					DebugAnimationComponent(actor);
 				}
 
-				for (auto& kid : actor->Kids())
+				for (auto &kid: actor->Kids())
 				{
 					ImGui::PushID(std::to_string(kid->ID()).c_str());
 					Traverse(kid);
@@ -210,10 +216,9 @@ namespace Eklavya
 
 				ImGui::TreePop();
 			}
-		}
-		else
+		} else
 		{
-			for (auto& kid : actor->Kids())
+			for (auto &kid: actor->Kids())
 			{
 				ImGui::PushID(std::to_string(kid->ID()).c_str());
 				Traverse(kid);
@@ -222,14 +227,14 @@ namespace Eklavya
 		}
 	}
 
-	void SceneDebugger::DebugTransform(const UniqueActor& actor)
+	void SceneDebugger::DebugTransform(const UniqueActor &actor)
 	{
 		if (ImGui::TreeNode(("General")))
 		{
-			EkBody*             ekBody = actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
-			TransformComponent& transform = actor->Transform();
-			glm::vec3           position = transform.Position();
-			glm::vec3           eulers = glm::eulerAngles(transform.Rotation());
+			EkBody *ekBody = actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
+			TransformComponent &transform = actor->Transform();
+			glm::vec3 position = transform.Position();
+			glm::vec3 eulers = glm::eulerAngles(transform.Rotation());
 
 			if (ImGui::InputFloat3("Position", &position[0]))
 			{
@@ -268,11 +273,11 @@ namespace Eklavya
 		}
 	}
 
-	void SceneDebugger::DebugPhysics(const UniqueActor& actor)
+	void SceneDebugger::DebugPhysics(const UniqueActor &actor)
 	{
 		if (ImGui::TreeNode(("Rigidbody")))
 		{
-			if (EkBody* body = actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID))
+			if (EkBody *body = actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID))
 			{
 				bool showCollider = body->mShowCollider;
 				if (ImGui::Checkbox("Show Collider", &showCollider))
@@ -284,11 +289,12 @@ namespace Eklavya
 		}
 	}
 
-	void SceneDebugger::DebugRenderComponent(const UniqueActor& actor)
+	void SceneDebugger::DebugRenderComponent(const UniqueActor &actor)
 	{
 		if (ImGui::TreeNode(("Rendering")))
 		{
-			if (RenderComponent* renderComponent = actor->GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID))
+			if (RenderComponent *renderComponent = actor->GetComponent<RenderComponent>(
+				CoreComponentIds::RENDER_COMPONENT_ID))
 			{
 				bool projectShadow = renderComponent->mProjectsShadow;
 				if (ImGui::Checkbox("cast shadow", &projectShadow))
@@ -312,13 +318,15 @@ namespace Eklavya
 		}
 	}
 
-	void SceneDebugger::DebugAnimationComponent(const UniqueActor& actor)
+	void SceneDebugger::DebugAnimationComponent(const UniqueActor &actor)
 	{
-		const AnimationComponent* animationComponent = actor->GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID);
+		const AnimationComponent *animationComponent = actor->GetComponent<AnimationComponent>(
+			CoreComponentIds::ANIMATION_COMPONENT_ID);
 		if (animationComponent == nullptr)
 			return;
-		SHARED_ANIMATION                           currentAnimation = animationComponent->GetCurrentAnimation();
-		std::function<void(const AssimpNodeData*)> DrawChildren = [&currentAnimation, this, &DrawChildren](const AssimpNodeData* node) -> void
+		SHARED_ANIMATION currentAnimation = animationComponent->GetCurrentAnimation();
+		std::function<void(const AssimpNodeData *)> DrawChildren = [&currentAnimation, this, &DrawChildren
+				](const AssimpNodeData *node) -> void
 		{
 			auto boneInfoMap = currentAnimation->GetBoneIDMap();
 
@@ -326,9 +334,9 @@ namespace Eklavya
 			{
 				for (int i = 0; i < node->childrenCount; i++)
 				{
-					const AssimpNodeData* kid = &node->children[i];
+					const AssimpNodeData *kid = &node->children[i];
 
-					for (const AssimpNodeData& node : kid->children)
+					for (const AssimpNodeData &node: kid->children)
 					{
 						ImGui::PushID(node.name.c_str());
 						DrawChildren(&node);
@@ -345,7 +353,6 @@ namespace Eklavya
 			ImGui::TreePop();
 		}
 	}
-
 } // namespace Eklavya
 
 #endif

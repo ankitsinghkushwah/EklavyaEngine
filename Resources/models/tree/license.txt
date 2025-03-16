@@ -1,0 +1,11 @@
+Model Information:
+* title:	Old Tree
+* source:	https://sketchfab.com/3d-models/old-tree-5793911821d04f73926ac4ab1d46727a
+* author:	gelmi.com.br (https://sketchfab.com/rodrigogelmi)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Old Tree" (https://sketchfab.com/3d-models/old-tree-5793911821d04f73926ac4ab1d46727a) by gelmi.com.br (https://sketchfab.com/rodrigogelmi) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
