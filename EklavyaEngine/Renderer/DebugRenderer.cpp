@@ -178,8 +178,8 @@ constexpr glm::vec4 R = RGB(255, 100, 100);
 constexpr glm::vec4 G = RGB(38, 244, 124);
 constexpr glm::vec4 B = RGB(5, 195, 244);
 
-float extend = 3.0f;
-float thickness = 3.0f;
+float extend = 5.0f;
+float thickness = .2f;
 
 void DebugRenderer::DrawTransform(TransformComponent &transform)
 {

@@ -32,7 +32,7 @@ namespace Eklavya
 	{
 		for (int i = 0; i < ESceneDebugFlags::MAX; i++)
 		{
-			mFilterFlags[i] = i == 0 ? false : true;
+			mFilterFlags[i] = true;
 		}
 
 		mColliderColor = glm::vec4(0.2f, 0.6f, 0.0f, 0.6f);
@@ -41,13 +41,15 @@ namespace Eklavya
 
 	void SceneDebugger::TraverseToDebugDraw(const UniqueActor &actor)
 	{
-		//		if (actor->mDebugDrawComponents)
-		//		{
-		for (auto &component: actor->Components())
+		if (actor->mDebugDrawComponents)
 		{
-			component->DebugDraw(mScene.mRenderer->GetDebugRenderer());
+			for (auto &component: actor->Components())
+			{
+				component->DebugDraw(mScene.mRenderer->GetDebugRenderer());
+			}
+
+			DebugRenderer::GetInstance().DrawTransform(actor->Transform());
 		}
-		//}
 		EkBody *body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 		if (body && body->mShowCollider)
 		{
@@ -127,7 +129,7 @@ namespace Eklavya
 		{
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 	std::string SceneDebugger::GetDebugFlagString(ESceneDebugFlags flag)
@@ -216,7 +218,8 @@ namespace Eklavya
 
 				ImGui::TreePop();
 			}
-		} else
+		}
+		else
 		{
 			for (auto &kid: actor->Kids())
 			{
@@ -236,7 +239,8 @@ namespace Eklavya
 			glm::vec3 position = transform.Position();
 			glm::vec3 eulers = glm::eulerAngles(transform.Rotation());
 
-			if (ImGui::InputFloat3("Position", &position[0]))
+			if (ImGui::InputFloat3("Position", &position[0])
+			)
 			{
 				transform.SetPosition(position);
 				if (ekBody)

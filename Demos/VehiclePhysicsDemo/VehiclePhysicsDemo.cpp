@@ -115,6 +115,7 @@ namespace Eklavya
 		glm::vec3 carScale(8, 7, 24);
 		UniqueActor car = SceneHelper::CreateActorFromModel(chassis, 0);
 		car->Transform().SetScale(glm::vec3(3.0f));
+		car->SetName("Chassis");
 
 		auto collider = car->EmplaceComponent<Physics::BoxColliderComponent>();
 		glm::vec3 colliderScale = carScale;
@@ -124,7 +125,7 @@ namespace Eklavya
 		collider->SetOffset(glm::vec3(0.0f, 2.9f, 0.0f));
 
 		mChassisBody = car->EmplaceComponent<Physics::EkBody>();
-		mChassisBody->SetMass(200.0f);
+		mChassisBody->SetMass(500.0f);
 		mChassisBody->SetPosition(glm::vec3(0.0f, 10.0f, 0.0f));
 		mChassisBody->SetRotation(glm::vec3(0.0f));
 		mChassisBody->SetRotation(glm::vec3(1.0f));
@@ -133,6 +134,7 @@ namespace Eklavya
 
 		car->EmplaceComponent<CarComponent>();
 
+
 		// FORWARD-RIGHT SUSPENSION
 		for (int i = 0; i < 4; i++)
 		{
@@ -140,6 +142,7 @@ namespace Eklavya
 			uniqueSuspension->SetName("suspension");
 			EkActor *suspension = uniqueSuspension.get();
 			car->AddKid(uniqueSuspension);
+
 
 			UniqueActor uniqueWheel = SceneHelper::CreateActorFromModel(tire, 1);
 			uniqueWheel->Transform().SetScale(6.0f);

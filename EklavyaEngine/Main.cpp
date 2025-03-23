@@ -72,6 +72,14 @@ int main(int argc, char *argv[])
 	};
 
 	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+	Director director = Director("Eklavya", resolution.width, resolution.height, false);
+
+	VehiclePhysicsDemo stackOfBoxes(director);
+	director.SetScene(stackOfBoxes);
+	director.Start();
+
+	return 0;
+
 	cout << style::bold << rang::fg::cyan << "=================EKLAVYA ENGINE DEMOS ====================\n\n";
 	int idx = 0;
 	for (const std::string &demo: demos)
@@ -88,7 +96,6 @@ int main(int argc, char *argv[])
 
 	cout << style::reset << fg::reset;
 
-	Director director = Director("Eklavya", resolution.width, resolution.height, false);
 
 	switch (user_selection)
 	{

@@ -24,7 +24,7 @@ namespace Eklavya::Physics::CollisionSystem
 		float tMax = FLT_MAX;
 
 		const glm::mat4 &worldMatrix = boxCollider.GetOwner().Transform().GetWorldMatrix();
-		const glm::mat4 invWorldMatrix = glm::transpose(worldMatrix);
+		const glm::vec3 halfExtents = boxCollider.GetHalfSize();
 
 		glm::vec3 center = worldMatrix[3];
 
@@ -34,52 +34,43 @@ namespace Eklavya::Physics::CollisionSystem
 			float t2 = FLT_MAX;
 
 			glm::vec3 normal = glm::column(worldMatrix, i);
+			glm::vec3 delta = center - ray.o;
 			float l = glm::length(normal) * 0.5f;
 			normal = glm::normalize(normal);
 
-			Plane nearPlane;
-			nearPlane.o = center + (normal * l);
-			nearPlane.n = normal;
+			const float min = -l;
+			const float max = l;
 
-			Plane farPlane;
-			farPlane.o = center - (normal * l);
-			farPlane.n = normal;
-
-#ifdef EKDEBUG
-			// float rad = 3.0f;
-			// glm::vec4 col(normal, 1.0f);
-			// float nLen = 10.0f;
-			// Renderer::DebugRenderer::GetInstance().AddSphere(nearPlane.o, rad, col);
-			// Renderer::DebugRenderer::GetInstance().AddLine(nearPlane.o, nearPlane.o + normal * nLen, col, .3f);
-			// Renderer::DebugRenderer::GetInstance().AddSphere(farPlane.o, rad, col);
-			// Renderer::DebugRenderer::GetInstance().AddLine(farPlane.o, farPlane.o + normal * nLen, col, .3f);
-
-#endif
-
-			if (RayVsPlane(ray, nearPlane, t1) == false || RayVsPlane(ray, farPlane, t2) == false)
+			float e = glm::dot(normal, delta);
+			float f = glm::dot(ray.d, normal);
+			if (glm::abs(f) > std::numeric_limits<float>::epsilon())
 			{
-				continue;
-			}
+				float t1 = (e + min) / f;
+				float t2 = (e + max) / f;
 
+				if (t1 > t2)
+				{
+					std::swap(t1, t2);
+				}
 
-			if (t1 > t2)
+				if (t1 > tMin)
+				{
+					tMin = t1;
+				}
+
+				if (t2 < tMax)
+				{
+					tMax = t2;
+				}
+
+				if (tMax < tMin)
+				{
+					return false;
+				}
+			} else
 			{
-				std::swap(t1, t2);
-			}
-
-			if (t1 > tMin)
-			{
-				tMin = t1;
-			}
-
-			if (t2 < tMax)
-			{
-				tMax = t2;
-			}
-
-			if (tMax < tMin)
-			{
-				return false;
+				if (-e + min > 0.0f || -e + max < 0.0f)
+					return false;
 			}
 		}
 

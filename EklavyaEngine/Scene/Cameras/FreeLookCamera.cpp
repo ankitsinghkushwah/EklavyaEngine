@@ -12,7 +12,8 @@
 
 namespace Eklavya
 {
-	FreeLookCamera::FreeLookCamera(CameraParams options) : ICamera(options), mSenstivity(.005), mSpeed(500.0f)
+	FreeLookCamera::FreeLookCamera(CameraParams options) :
+		ICamera(options), mSenstivity(.005), mSpeed(200.0f)
 	{
 		mPosition = glm::vec3(0.0f, 100.0f, 200.0f);
 	}
@@ -25,8 +26,8 @@ namespace Eklavya
 		}
 
 		glm::vec2 dragDelta = InputHandler::GetInstance()->GetMouseDragDelta();
-		float     xOffset = dragDelta.x;
-		float     yOffset = dragDelta.y;
+		float xOffset = dragDelta.x;
+		float yOffset = dragDelta.y;
 
 		xOffset *= mSenstivity;
 		yOffset *= mSenstivity;
@@ -52,9 +53,7 @@ namespace Eklavya
 		mForward = glm::normalize(mForward);
 	}
 
-	FreeLookCamera::~FreeLookCamera()
-	{
-	}
+	FreeLookCamera::~FreeLookCamera() {}
 
 	void FreeLookCamera::Update(float dt)
 	{
@@ -116,10 +115,9 @@ namespace Eklavya
 	}
 
 #ifdef EKDEBUG
-	void FreeLookCamera::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void FreeLookCamera::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		ICamera::DebugDraw(debugRenderer);
 	}
 #endif
-
 } // namespace Eklavya

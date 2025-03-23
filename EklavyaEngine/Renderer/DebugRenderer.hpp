@@ -120,6 +120,14 @@ namespace Eklavya::Renderer
 
 		void DrawAddedShapes();
 
+		void ClearAddedShapes()
+		{
+			mLinesToDraw.clear();
+			mSpheresToDraw.clear();
+			mBoxesToDraw.clear();
+			mPlanesToDraw.clear();
+		}
+
 	private:
 		DebugRenderer();
 

@@ -47,11 +47,11 @@ namespace Eklavya
 		if (key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
 		{
 			mRayDirection = glm::normalize(CurrentCamera()->Forward());
-			mRayStart = CurrentCamera()->Position() + mRayDirection * 150.0f;
+			mRayStart = CurrentCamera()->Position() + mRayDirection * 3.0f;
 
 			mRayRange = 3000.0f;
 
-			mLastCastHitResult = GetPhysics().RayCast(mRayStart, glm::vec3(0.0f, -1.0f, 0.0f), mRayRange, -1);
+			mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
 
 			//mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
 
@@ -97,34 +97,13 @@ namespace Eklavya
 	void StackOfBoxesDemo::CreateStage()
 	{
 		MaterialInfo info;
-		info.mBaseColor = glm::vec4(0.5, 0.0f, 0.0f, 0.6f);
+		info.mBaseColor = glm::vec4(0.5, 0.5f, 0.5f, 0.5f);
 		info.mRoughness = .5f;
 		info.mTiling = 10;
-		info.mBaseColor = glm::vec3(0.0f, 0.6f, 0.2f);
 
-		float area_extent = 2000;
-		float floorScaleY = 10.0f;
 
-		//CreateSphere(glm::vec3(0.0f,-50.0f,0.0f), 100.0f, FLT_MAX, info);
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0); {
-			MaterialInfo info = LoadMaterialInfo("pbr/grid");
-			info.mRoughness = 1.0f;
-			info.mTiling = 40;
-
-			float area_extent = 10000;
-			float floorScaleY = 5.0f;
-			//	CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, STATIC);
-
-			MaterialInfo info2;
-			info2.mBaseColor = glm::vec3(0.5, 0.4, 1.0f);
-			info2.mRoughness = 1.0f;
-			info2.mTiling = 1.0f;
-			CreateCube(glm::vec3(0.0f, 80.0f, 0.0f), glm::vec3(100.0f), glm::vec3(), FLT_MAX, info2, STATIC);
-
-			CreateCube(glm::vec3(-200.0f, 80.0f, 0.0f), glm::vec3(100.0f), glm::vec3(), FLT_MAX, info2, STATIC);
-
-			//	CreateSphere(glm::vec3(0.0f, 0.0f, -100.0f), 40.0f, FLT_MAX, info2, STATIC);
-		}
+		CreateCube(glm::vec3(100.0f), glm::vec3(20.0f),
+		           glm::vec3(30.0f, 45.0f, 0.0f), FLT_MAX, info, STATIC);
 	}
 
 	void StackOfBoxesDemo::OnKeyAction(int key, int action)
@@ -170,7 +149,7 @@ namespace Eklavya
 
 		glm::vec3 endPoint = mLastCastHitResult.success
 			                     ? mLastCastHitResult.position
-			                     : mRayStart + glm::vec3(0.0f, -1.0f, 0.0f) * mRayRange;
+			                     : mRayStart + mRayDirection * mRayRange;
 		debugRenderer.DrawLine(mRayStart,
 		                       endPoint,
 		                       mLastCastHitResult.success
