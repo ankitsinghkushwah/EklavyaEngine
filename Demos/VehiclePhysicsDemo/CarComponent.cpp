@@ -15,7 +15,9 @@
 using namespace Eklavya;
 using namespace Eklavya::Physics;
 
-CarComponent::CarComponent(Eklavya::EkActor& owner) : EkComponent(owner, VehiclePhysicsComponentIds::CAR_COMPONENT_ID), mEngineLoopSound("VehiclePhysicsDemo/car_engine_loop.mp3")
+CarComponent::CarComponent(Eklavya::EkActor &owner) :
+	EkComponent(owner, VehiclePhysicsComponentIds::CAR_COMPONENT_ID),
+	mEngineLoopSound("VehiclePhysicsDemo/car_engine_loop.mp3")
 {
 	mAudio.Load({mEngineLoopSound});
 	mAudio.GetSound().setRelativeToListener(false);
@@ -36,11 +38,11 @@ float remap(float value, float oldMin, float oldMax, float newMin, float newMax)
 
 void CarComponent::Tick(float dt)
 {
-	EkBody* body = GetOwner().GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
+	EkBody *body = GetOwner().GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 	if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_R))
 	{
 		body->Clear();
-		body->SetPosition(glm::vec3(0.0f, 100.0f, -50.0f));
+		body->SetPosition(glm::vec3(0.0f, 100.0f, 0.0f));
 		body->SetRotation(glm::vec3(0.0f));
 	}
 
@@ -54,8 +56,6 @@ void CarComponent::Tick(float dt)
 
 #ifdef EKDEBUG
 
-void CarComponent::DebugDraw(Eklavya::Renderer::DebugRenderer& debugRenderer)
-{
-}
+void CarComponent::DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer) {}
 
 #endif

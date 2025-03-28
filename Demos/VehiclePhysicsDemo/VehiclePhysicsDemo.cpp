@@ -112,28 +112,17 @@ namespace Eklavya
 		info.mRoughness = 0.5f;
 		info.mMetallic = 1.0f;
 
-		glm::vec3 carScale(8, 7, 24);
-		UniqueActor car = SceneHelper::CreateActorFromModel(chassis, 0);
-		car->Transform().SetScale(glm::vec3(3.0f));
+		glm::vec3 carScale(15, 10, 25);
+		//glm::vec3 carScale(30.0f);
+		EkActor *car = CreateCube(glm::vec3(0.0f, 100.0f, 0.0f), carScale, glm::vec3(0.0f, 0.0f, 0.0f), 100,
+		                          info, 1);
 		car->SetName("Chassis");
 
-		auto collider = car->EmplaceComponent<Physics::BoxColliderComponent>();
-		glm::vec3 colliderScale = carScale;
-		colliderScale.z *= 0.8f;
-		collider->SetHalfSize(carScale);
-		collider->SetGroupIndex(1);
-		collider->SetOffset(glm::vec3(0.0f, 2.9f, 0.0f));
-
-		mChassisBody = car->EmplaceComponent<Physics::EkBody>();
-		mChassisBody->SetMass(500.0f);
-		mChassisBody->SetPosition(glm::vec3(0.0f, 10.0f, 0.0f));
-		mChassisBody->SetRotation(glm::vec3(0.0f));
-		mChassisBody->SetRotation(glm::vec3(1.0f));
+		mChassisBody = car->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 		mChassisBody->SetLinearDamping(0.99);
 		mChassisBody->SetAngularDamping(0.99);
 
 		car->EmplaceComponent<CarComponent>();
-
 
 		// FORWARD-RIGHT SUSPENSION
 		for (int i = 0; i < 4; i++)
@@ -149,35 +138,31 @@ namespace Eklavya
 			EkActor *wheel = uniqueWheel.get();
 			AddActor(uniqueWheel);
 
-			float offX = -0.5;
-			float offZ = -3.5;
-			float xOff = ((carScale.x) * 0.25) + offX;
-			float zOff = ((carScale.z) * 0.25) + offZ;
-			float yOff = -0.7f;
+			float xOffset = 0.5f;
+			float y = 0.0f;
+			float zOffset = 0.5f;
+
 			if (i == 0)
-				suspension->Transform().SetPosition(xOff, yOff, zOff - 0.2f);
+				suspension->Transform().SetPosition(xOffset, y, zOffset);
 			else if (i == 1)
-				suspension->Transform().SetPosition(-xOff, yOff, zOff - 0.2f);
+				suspension->Transform().SetPosition(-xOffset, y, zOffset);
 			else if (i == 2)
-				suspension->Transform().SetPosition(xOff, yOff, -zOff);
+				suspension->Transform().SetPosition(xOffset, y, -zOffset);
 			else if (i == 3)
-				suspension->Transform().SetPosition(-xOff, yOff, -zOff);
+				suspension->Transform().SetPosition(-xOffset, y, -zOffset);
 
 			mSuspensions[i] = suspension->EmplaceComponent<CarSuspension>(this, i);
 			mSuspensions[i]->mWheel = wheel;
 		}
 
-		car->Transform().SetPosition(0, 100, 0);
 
-		std::shared_ptr<SpringFollowCamera> followCamera = std::make_shared<SpringFollowCamera>(mDefaultCameraParams);
-
-		followCamera->SetTarget(&car->Transform());
-		followCamera->SetArmsLength(glm::vec3(0.0f, 20.0f, 70.0f));
-		followCamera->SetTargetOffset(glm::vec3(0.0f, 0.0f, -400.0f));
-
-		this->OverrideCamera(followCamera);
-
-		AddActor(car);
+		// std::shared_ptr<SpringFollowCamera> followCamera = std::make_shared<SpringFollowCamera>(mDefaultCameraParams);
+		//
+		// followCamera->SetTarget(&car->Transform());
+		// followCamera->SetArmsLength(glm::vec3(0.0f, 20.0f, 70.0f));
+		// followCamera->SetTargetOffset(glm::vec3(0.0f, 0.0f, -400.0f));
+		//
+		// this->OverrideCamera(followCamera);
 	}
 
 	void VehiclePhysicsDemo::LoadMesh()
@@ -246,6 +231,19 @@ namespace Eklavya
 	void VehiclePhysicsDemo::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
+
+		ImGui::Begin("Vehicle Physics Demo");
+
+		glm::vec3 chassisVel = mChassisBody->GetVelocity();
+		ImGui::Text("Chassis Vel : %.2f, %.2f, %.2f", chassisVel.x, chassisVel.y, chassisVel.z);
+		for (int i = 0; i < 4; i++)
+		{
+			auto &suspension = mSuspensions[i];
+			glm::vec3 vel = mChassisBody->GetVelocityAtPoint(suspension->GetOwner().Transform().Position());
+			ImGui::Text("Tire %d Vel : %.2f, %.2f, %.2f", i + 1, vel.x, vel.y, vel.z);
+		}
+
+		ImGui::End();
 	}
 
 	void VehiclePhysicsDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)

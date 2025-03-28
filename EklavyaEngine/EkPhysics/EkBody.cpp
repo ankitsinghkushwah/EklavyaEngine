@@ -14,41 +14,38 @@
 
 namespace Eklavya::Physics
 {
+	EkBody::EkBody(EkActor &owner)
+		:
+		EkComponent(owner, CoreComponentIds::RIGIDBODY_COMPONENT_ID)
+		, mInvMass(0.0f)
+		, mMass(FLT_MAX)
+		, mF(0.0f, 0.0f, 0.0f)
+		, mTau(0.0f, 0.0f, 0.0f)
+		,
+		// Linear
+		mP(0.0f, 0.0f, 0.0f)
+		, mV(0.0f, 0.0f, 0.0f)
+		, mLinearDamping(.99f)
+		,
+		// angular
+		mThetaA(0.0f)
+		, mTheta(glm::vec3(0.0f))
+		, mThetaV(0.0f)
+		, mAngDamping(.99f)
+		,
+		// matrices
+		mI(FLT_MAX)
+		, mInvI(0.0f)
+		, mE(0.0f)
 
-	EkBody::EkBody(EkActor& owner)
-	    : EkComponent(owner, CoreComponentIds::RIGIDBODY_COMPONENT_ID)
-	    , mInvMass(0.0f)
-	    , mMass(FLT_MAX)
-	    , mF(0.0f, 0.0f, 0.0f)
-	    , mTau(0.0f, 0.0f, 0.0f)
-	    ,
-	    // Linear
-	    mP(0.0f, 0.0f, 0.0f)
-	    , mV(0.0f, 0.0f, 0.0f)
-	    , mLinearDamping(.99f)
-	    ,
-	    // angular
-	    mThetaA(0.0f)
-	    , mTheta(glm::vec3(0.0f))
-	    , mThetaV(0.0f)
-	    , mAngDamping(.99f)
-	    ,
-	    // matrices
-	    mI(FLT_MAX)
-	    , mInvI(0.0f)
-	    , mE(0.0f)
+		, mFreezePositionFlags(1.0f) {}
 
-	    , mFreezePositionFlags(1.0f)
+	EkBody::~EkBody() {}
+
+	const BaseColliderComponent *EkBody::GetCollider() const
 	{
-	}
-
-	EkBody::~EkBody()
-	{
-	}
-
-	const BaseColliderComponent* EkBody::GetCollider() const
-	{
-		const BaseColliderComponent* collider = GetOwner().GetComponent<BaseColliderComponent>(CoreComponentIds::COLLIDER_COMPONENT_ID);
+		const BaseColliderComponent *collider = GetOwner().GetComponent<BaseColliderComponent>(
+			CoreComponentIds::COLLIDER_COMPONENT_ID);
 		return collider;
 	}
 
@@ -56,7 +53,8 @@ namespace Eklavya::Physics
 	{
 		mTheta = glm::normalize(mTheta);
 
-		if (BaseColliderComponent* collider = GetOwner().GetComponent<BaseColliderComponent>(CoreComponentIds::COLLIDER_COMPONENT_ID))
+		if (BaseColliderComponent *collider = GetOwner().GetComponent<BaseColliderComponent>(
+			CoreComponentIds::COLLIDER_COMPONENT_ID))
 		{
 			collider->UpdateTransform(mP, mTheta);
 		}
@@ -86,15 +84,14 @@ namespace Eklavya::Physics
 		// update position
 		glm::vec3 acc = mInvMass * mF;
 		mV += acc * delta;
-		glm::vec3 angularAcc = 1.0f * mTau;
-		mThetaV += angularAcc * delta;
 		mV *= pow(mLinearDamping, delta);
-		mThetaV *= pow(mAngDamping, delta);
 		mP += (mV * delta);
 
 		if (mDisableRotation == false)
 		{
-			// update rotation
+			glm::vec3 angularAcc = 1.0f * mTau;
+			mThetaV += angularAcc * delta;
+			mThetaV *= pow(mAngDamping, delta);
 			glm::quat w(mThetaV * delta);
 			w.w = 0.0f;
 			w *= mTheta;
@@ -115,18 +112,19 @@ namespace Eklavya::Physics
 
 		if (mass < FLT_MAX)
 		{
-			BaseColliderComponent* colliderComponent = GetOwner().GetComponent<BaseColliderComponent>(CoreComponentIds::COLLIDER_COMPONENT_ID);
+			BaseColliderComponent *colliderComponent = GetOwner().GetComponent<BaseColliderComponent>(
+				CoreComponentIds::COLLIDER_COMPONENT_ID);
 
 			glm::vec3 dim;
 			if (colliderComponent->GetType() == EColliderType::BOX)
-				dim = static_cast<BoxColliderComponent*>(colliderComponent)->GetHalfSize();
+				dim = static_cast<BoxColliderComponent *>(colliderComponent)->GetHalfSize();
 			else
 			{
-				float radii = static_cast<SphereColliderComponent*>(colliderComponent)->GetRadius();
+				float radii = static_cast<SphereColliderComponent *>(colliderComponent)->GetRadius();
 				dim = glm::vec3(radii);
 			}
 
-			mInvMass = ((float)1.0f) / mass;
+			mInvMass = ((float) 1.0f) / mass;
 			mI = mass * (dim.x * dim.x + dim.y * dim.y + dim.z * dim.z) / 12.0f;
 			mInvI = 1.0f / mI;
 		}
