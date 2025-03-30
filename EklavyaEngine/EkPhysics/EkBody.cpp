@@ -53,6 +53,11 @@ namespace Eklavya::Physics
 	{
 		mTheta = glm::normalize(mTheta);
 
+		// Update world inertia tensor
+		glm::mat3 R = glm::toMat3(mTheta); // Rotation matrix
+		mIWorld = R * mI * glm::transpose(R);
+		mInvIWorld = R * mInvI * glm::transpose(R);
+
 		if (BaseColliderComponent *collider = GetOwner().GetComponent<BaseColliderComponent>(
 			CoreComponentIds::COLLIDER_COMPONENT_ID))
 		{
@@ -81,7 +86,7 @@ namespace Eklavya::Physics
 			return;
 		}
 
-		// update position
+		// Linear motion (unchanged)
 		glm::vec3 acc = mInvMass * mF;
 		mV += acc * delta;
 		mV *= pow(mLinearDamping, delta);
@@ -89,9 +94,11 @@ namespace Eklavya::Physics
 
 		if (mDisableRotation == false)
 		{
-			glm::vec3 angularAcc = 1.0f * mTau;
+			// Angular motion - now using world inertia tensor
+			glm::vec3 angularAcc = mInvIWorld * mTau; // Matrix-vector multiply
 			mThetaV += angularAcc * delta;
 			mThetaV *= pow(mAngDamping, delta);
+
 			glm::quat w(mThetaV * delta);
 			w.w = 0.0f;
 			w *= mTheta;
@@ -107,7 +114,6 @@ namespace Eklavya::Physics
 	void EkBody::SetMass(float mass)
 	{
 		assert(static_cast<int>(mass) != 0);
-
 		mMass = mass;
 
 		if (mass < FLT_MAX)
@@ -115,24 +121,39 @@ namespace Eklavya::Physics
 			BaseColliderComponent *colliderComponent = GetOwner().GetComponent<BaseColliderComponent>(
 				CoreComponentIds::COLLIDER_COMPONENT_ID);
 
-			glm::vec3 dim;
 			if (colliderComponent->GetType() == EColliderType::BOX)
-				dim = static_cast<BoxColliderComponent *>(colliderComponent)->GetHalfSize();
-			else
 			{
-				float radii = static_cast<SphereColliderComponent *>(colliderComponent)->GetRadius();
-				dim = glm::vec3(radii);
+				glm::vec3 halfSize = static_cast<BoxColliderComponent *>(colliderComponent)->GetHalfSize();
+				float hx = halfSize.x, hy = halfSize.y, hz = halfSize.z;
+
+				// Box inertia tensor
+				mI = glm::mat3(0.0f);
+				mI[0][0] = (mass / 12.0f) * (hy * hy + hz * hz); // Ixx
+				mI[1][1] = (mass / 12.0f) * (hx * hx + hz * hz); // Iyy
+				mI[2][2] = (mass / 12.0f) * (hx * hx + hy * hy); // Izz
+
+				mInvI = glm::inverse(mI);
+			}
+			else // Sphere
+			{
+				float r = static_cast<SphereColliderComponent *>(colliderComponent)->GetRadius();
+				float I = (2.0f / 5.0f) * mass * r * r;
+
+				mI = glm::mat3(I);
+				mInvI = glm::mat3(1.0f / I);
 			}
 
-			mInvMass = ((float) 1.0f) / mass;
-			mI = mass * (dim.x * dim.x + dim.y * dim.y + dim.z * dim.z) / 12.0f;
-			mInvI = 1.0f / mI;
+			mInvMass = 1.0f / mass;
 		}
 		else
 		{
+			mI = glm::mat3(FLT_MAX);
+			mInvI = glm::mat3(0.0f);
 			mInvMass = 0.0f;
-			mI = FLT_MAX;
-			mInvI = 0.0f;
 		}
+
+		// Initialize world inertia (will be updated in UpdateTransform)
+		mIWorld = mI;
+		mInvIWorld = mInvI;
 	}
 } // namespace Eklavya::Physics

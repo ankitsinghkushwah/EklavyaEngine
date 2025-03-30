@@ -51,14 +51,14 @@ namespace Eklavya
 
 			mRayRange = 3000.0f;
 
+
 			mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
 
-			//mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
-
-			//			if (mLastCastHitResult.success)
-			//			{
-			//				mLastCastHitResult.body->ApplyImpulseAtPoint(glm::normalize(CurrentCamera()->Forward()) * 1000.0f, mLastCastHitResult.position);
-			//			}
+			if (mLastCastHitResult.success)
+			{
+				mLastCastHitResult.body->ApplyImpulseAtPoint(glm::normalize(CurrentCamera()->Forward()) * 1000.0f,
+				                                             mLastCastHitResult.position);
+			}
 		}
 	}
 
@@ -96,14 +96,13 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStage()
 	{
-		MaterialInfo info;
-		info.mBaseColor = glm::vec4(0.5, 0.5f, 0.5f, 0.5f);
+		MaterialInfo info = LoadMaterialInfo("grid");
 		info.mRoughness = .5f;
 		info.mTiling = 10;
 
 
-		CreateCube(glm::vec3(100.0f), glm::vec3(20.0f),
-		           glm::vec3(30.0f, 45.0f, 0.0f), FLT_MAX, info, STATIC);
+		CreateCube(glm::vec3(0.0f), glm::vec3(1000.0f, 30.0f, 1000.0f),
+		           glm::vec3(0.0f), FLT_MAX, info, STATIC);
 	}
 
 	void StackOfBoxesDemo::OnKeyAction(int key, int action)
@@ -115,8 +114,8 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStackOfBoxes()
 	{
-		int rows = 5;
-		int cols = 6;
+		int rows = 3;
+		int cols = 3;
 		float startY = 50.0f;
 		float boxDim = 20.0f;
 		float offsetX = ((cols - 1) / 2.0f) * boxDim;

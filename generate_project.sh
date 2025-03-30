@@ -3,6 +3,11 @@
 # Function to generate Xcode project for macOS (supports all configurations)
 generate_xcode_project() {
     local build_dir="xcode_proj"
+    # Delete existing directory if it exists
+    if [ -d "$build_dir" ]; then
+        echo "Removing existing Xcode project directory..."
+        rm -rf "$build_dir"
+    fi
     echo "Generating Xcode project for macOS in $build_dir..."
     mkdir -p "$build_dir"
     cmake -G "Xcode" -B "$build_dir" "$@"
@@ -13,6 +18,11 @@ generate_xcode_project() {
 # Function to generate Visual Studio project for Windows (supports all configurations)
 generate_vs_project() {
     local build_dir="vs_proj"
+    # Delete existing directory if it exists
+    if [ -d "$build_dir" ]; then
+        echo "Removing existing Visual Studio project directory..."
+        rm -rf "$build_dir"
+    fi
     echo "Generating Visual Studio project for Windows in $build_dir..."
     mkdir -p "$build_dir"
     cmake -G "Visual Studio 17 2022" -A Win32 -B "$build_dir" "$@"

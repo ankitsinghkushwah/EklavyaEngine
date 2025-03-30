@@ -24,10 +24,6 @@ namespace Eklavya
 
 	SceneTemplate::~SceneTemplate() {}
 
-	void SceneTemplate::OnMouseAction(int key, int action)
-	{
-		MainEntryScene::OnMouseAction(key, action);
-	}
 
 	void SceneTemplate::PreloadTextures()
 	{
@@ -63,11 +59,8 @@ namespace Eklavya
 
 	void SceneTemplate::CreateStage()
 	{
-		MaterialInfo info;
-		info.mBaseColor = glm::vec4(0.5, 0.0f, 0.0f, 0.6f);
-		info.mRoughness = .5f;
-		info.mTiling = 10;
-		info.mBaseColor = glm::vec3(0.0f, 0.6f, 0.2f);
+		MaterialInfo info = LoadMaterialInfo("grid");
+
 
 		float area_extent = 2000;
 		float floorScaleY = 10.0f;
@@ -78,6 +71,11 @@ namespace Eklavya
 	void SceneTemplate::OnKeyAction(int key, int action)
 	{
 		MainEntryScene::OnKeyAction(key, action);
+	}
+
+	void SceneTemplate::OnMouseAction(int key, int action)
+	{
+		MainEntryScene::OnMouseAction(key, action);
 	}
 
 

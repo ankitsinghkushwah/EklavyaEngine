@@ -50,7 +50,7 @@ namespace Eklavya::Physics
 
     bool HasFiniteMass() const { return mInvMass > 0.0f; }
 
-    float I() { return mInvI; }
+    glm::mat3 I() { return mInvI; }
 
     void SetPosition(const glm::vec3 &pPosition) { mP = pPosition; }
 
@@ -99,13 +99,13 @@ namespace Eklavya::Physics
     {
       glm::vec3 r = point - mP;
       mV += J * mInvMass;
-      mThetaV += glm::cross(r, J) * mInvI;
+      mThetaV += mInvIWorld * glm::cross(r, J); // Matrix-vector multiply
     }
 
     void ApplyImpulse(const glm::vec3 &J, const glm::vec3 &r)
     {
       mV += J * mInvMass;
-      mThetaV += glm::cross(r, J) * mInvI;
+      mThetaV += mInvIWorld * glm::cross(r, J); // Matrix-vector multiply
     }
 
     void AddAngularVelocity(glm::vec3 value) { mThetaV += value; }
@@ -126,7 +126,7 @@ namespace Eklavya::Physics
     {
       if (mMass < FLT_MAX)
       {
-        mF += mMass * glm::vec3(0.0f, -98.0f * mGravityScale, 0.0f);
+        mF += mMass * glm::vec3(0.0f, -9.8f * mGravityScale, 0.0f);
       }
     }
 
@@ -147,8 +147,12 @@ namespace Eklavya::Physics
     float mInvMass = 1.0f;
     float mMass = 1.0f;
     float mE = 0.0f;
-    float mI = 0.0f;
-    float mInvI = 0.0f;
+
+    glm::mat3 mI; // Local inertia tensor
+    glm::mat3 mInvI; // Inverse of local inertia tensor
+    glm::mat3 mIWorld; // World-space inertia tensor
+    glm::mat3 mInvIWorld; // Inverse of world-space inertia tensor
+
     float mGravityScale = 1.0f;
 
     // linear motion
