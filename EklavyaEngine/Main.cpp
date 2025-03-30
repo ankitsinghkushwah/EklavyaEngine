@@ -14,6 +14,8 @@
 #include <StackOfBoxes/StackOfBoxesDemo.hpp>
 #include <vector>
 #include <filesystem>
+
+#include "InertiaTensorTorqueTest/InertiaTensorTorqueTestDemo.h"
 #include "SkeletalAnimation/SkeletalAnimationDemo.hpp"
 
 
@@ -52,7 +54,8 @@ void SetWorkingDirectoryToExecutablePath(char *argv[])
 	{
 		std::filesystem::current_path(executableDir);
 		std::cout << "Working directory set to: " << executableDir << std::endl;
-	} else
+	}
+	else
 	{
 		std::cerr << "Failed to set working directory!" << std::endl;
 	}
@@ -74,7 +77,7 @@ int main(int argc, char *argv[])
 	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
 	Director director = Director("Eklavya", resolution.width, resolution.height, false);
 
-	VehiclePhysicsDemo stackOfBoxes(director);
+	InertiaTensorTorqueTestDemo stackOfBoxes(director);
 	director.SetScene(stackOfBoxes);
 	director.Start();
 

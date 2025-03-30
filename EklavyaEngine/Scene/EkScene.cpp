@@ -142,6 +142,37 @@ namespace Eklavya
 		mRenderer->Render(*this);
 	}
 
+	void EkScene::RemoveActor(EkActorID id, bool removeImmediately)
+	{
+		if (removeImmediately == false)
+		{
+			mActorsToBeRemoved.push_back(id);
+			return;
+		}
+
+		auto iter = std::find_if(mRootActors.begin(), mRootActors.end(), [id](const UniqueActor &actor)
+		{
+			return actor->ID() == id;
+		});
+
+		if (iter != mRootActors.end())
+		{
+			UniqueActor &actor = *iter;
+			if (EkBody *body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID))
+			{
+				mPhysicsWorld->RemoveBody(body);
+			}
+
+			if (AnimationComponent *animator = actor->GetComponent<AnimationComponent>(
+				CoreComponentIds::ANIMATION_COMPONENT_ID))
+			{
+				mAnimators.erase(animator->GetModelID());
+			}
+			iter->reset();
+			mRootActors.erase(iter);
+		}
+	}
+
 	void EkScene::Cleanup()
 	{
 		for (EkActorID deadActorId: mActorsToBeRemoved)

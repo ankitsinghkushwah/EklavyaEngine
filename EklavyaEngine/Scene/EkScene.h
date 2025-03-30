@@ -54,7 +54,7 @@ namespace Eklavya
 
     void AddActor(UniqueActor &actor);
 
-    void RemoveActor(EkActorID id) { mActorsToBeRemoved.push_back(id); }
+    void RemoveActor(EkActorID id, bool removeImmediately = false);
 
     const Physics::World &GetPhysics() const { return *mPhysicsWorld.get(); }
 
