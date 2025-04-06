@@ -107,7 +107,7 @@ namespace Eklavya
 		AssetManager::GetInstance().LoadModel("characters/swat/swat", ".dae", 0);
 		AssetManager::GetInstance().LoadAnimation("characters/swat/animations/standing_jog_forward", ".dae", 0);
 
-		//CreateStage();
+		CreateStage();
 
 		LoadMesh();
 	}
