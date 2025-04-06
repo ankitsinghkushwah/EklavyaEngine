@@ -7,9 +7,8 @@
 #include <SFML/Audio.hpp>
 #include <Scene/EkActor.h>
 #include <UserInputListener.h>
-#include <glm/glm.hpp>
-#include <memory>
-#include <string>
+#include <Renderer/GLRenderer.h>
+#include <EkPhysics/PhysicsWorld.h>
 #include <vector>
 
 #ifdef EKDEBUG
@@ -56,9 +55,9 @@ namespace Eklavya
 
     void RemoveActor(EkActorID id) { mActorsToBeRemoved.push_back(id); }
 
-    const Physics::World &GetPhysics() const { return *mPhysicsWorld.get(); }
+    const Physics::World &GetPhysics() const { return mPhysicsWorld; }
 
-    const Renderer::GLRenderer &GetRenderer() const { return *mRenderer.get(); }
+    const Renderer::GLRenderer &GetRenderer() const { return mRenderer; }
 
     CameraParams DefaulCameraParams() const { return mDefaultCameraParams; }
 
@@ -105,8 +104,8 @@ namespace Eklavya
     std::shared_ptr<FreeLookCamera> mFreeLookCamera;
     std::vector<UniqueActor> mRootActors;
     std::vector<EkActorID> mActorsToBeRemoved;
-    std::unique_ptr<Renderer::GLRenderer> mRenderer;
-    std::unique_ptr<Physics::World> mPhysicsWorld;
+    Renderer::GLRenderer mRenderer;
+    Physics::World mPhysicsWorld;
     Director &mDirector;
     std::unordered_map<ModelID, AnimationComponent *> mAnimators;
 

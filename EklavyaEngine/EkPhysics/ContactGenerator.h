@@ -10,29 +10,17 @@
 
 #include <EkPhysics/Constraints/ContactConstraint.h>
 
-namespace Eklavya::Physics {
-class SphereColliderComponent;
-class BoxColliderComponent;
-class EkBody;
+namespace Eklavya::Physics
+{
+    class EkBody;
 
-namespace ContactGenerator {
+    namespace ContactGenerator
+    {
+        bool GetNearestContactToSphere(const std::vector<EkBody *> &bodies, glm::vec3 sphereCenter,
+                                       float sphereRadius, glm::vec3 &nearestContact);
 
-// Contact Generations
-bool SphereAndSphere(const SphereColliderComponent &sphereOne,
-                     const SphereColliderComponent &sphereTwo,
-                     CollisionPointInfo &newContact);
-bool SphereAndBox(const BoxColliderComponent &box,
-                  const SphereColliderComponent &sphere,
-                  CollisionPointInfo &newContact);
-
-bool BoxAndBox(const BoxColliderComponent &box1,
-               const BoxColliderComponent &box2,
-               std::vector<glm::vec3> &collisionPoints, float &penetration,
-               glm::vec3 &collisionNormal);
-
-std::vector<ContactConstraint> CreateConstraints(std::vector<EkBody *> &bodies);
-
-} // namespace ContactGenerator
+        std::vector<ContactConstraint> CreateConstraints(const std::vector<EkBody *> &bodies);
+    } // namespace ContactGenerator
 } // namespace Eklavya::Physics
 
 #endif /* ContactGenerator_h */

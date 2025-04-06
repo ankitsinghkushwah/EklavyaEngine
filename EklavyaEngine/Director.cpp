@@ -52,6 +52,7 @@ namespace Eklavya
 
 		InputHandler::GetInstance()->Update(frameTime);
 
+
 		if (mCurrentScene != nullptr)
 		{
 			mCurrentScene->Tick(frameTime * mTimeScale);

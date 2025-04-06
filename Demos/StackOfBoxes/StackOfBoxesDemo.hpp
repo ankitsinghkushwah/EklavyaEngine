@@ -37,6 +37,8 @@ namespace Eklavya
 
 		void OnKeyAction(int key, int action) override;
 
+		void Tick(float deltaTime) override;
+
 #ifdef EKDEBUG
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 
@@ -50,7 +52,7 @@ namespace Eklavya
 		Physics::CastHitResult mLastCastHitResult;
 		Eklavya::Audio mAudio;
 		std::string mEngineLoopSound;
-		class EkActor *mCube = nullptr;
+		Physics::EkBody *mFloor = nullptr;
 	};
 } // namespace Eklavya
 

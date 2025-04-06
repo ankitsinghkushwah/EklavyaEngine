@@ -11,15 +11,13 @@
 #include <Timer.h>
 
 // GLWindowContext
-GLWindowContext::GLWindowContext() : m_Window(nullptr)
-{
-}
+GLWindowContext::GLWindowContext() :
+	m_Window(nullptr) {}
 
-GLWindowContext::~GLWindowContext()
-{
-}
+GLWindowContext::~GLWindowContext() {}
 
-bool GLWindowContext::Create(const std::string& name, int majorVersion, int minorVersion, int width, int height, bool fullScreen)
+bool GLWindowContext::Create(const std::string &name, int majorVersion, int minorVersion, int width, int height,
+                             bool fullScreen)
 {
 	m_Name = name;
 	m_X = m_Y = 0;
@@ -72,23 +70,21 @@ void GLWindowContext::SwapBuffers()
 	glfwSwapBuffers(m_Window);
 }
 
-GLFWGame::GLFWGame()
-{
-}
+GLFWGame::GLFWGame() {}
 
 // GLFWGame
 bool GLFWGame::InitImGUI()
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	(void)io;
+	ImGuiIO &io = ImGui::GetIO();
+	(void) io;
 	ImGui::StyleColorsDark();
 
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;   // Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport
 
-	ImGuiStyle& style = ImGui::GetStyle();
+	ImGuiStyle &style = ImGui::GetStyle();
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		style.WindowRounding = 0.0f;
@@ -106,14 +102,9 @@ bool GLFWGame::InitImGUI()
 	return true;
 }
 
-void GLFWGame::ImGuiProc()
-{
-	ImGui::Begin("STATS"); // Create a window called "Hello, world!" and append into it.
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::End();
-}
+void GLFWGame::ImGuiProc() {}
 
-bool GLFWGame::Initialize(const std::string& pName, int pWndWidth, int pWndHeight, bool pFullScreen)
+bool GLFWGame::Initialize(const std::string &pName, int pWndWidth, int pWndHeight, bool pFullScreen)
 {
 	if (!glfwInit())
 	{
@@ -129,7 +120,7 @@ bool GLFWGame::Initialize(const std::string& pName, int pWndWidth, int pWndHeigh
 
 	CallbackManager::SetCallbacks(this);
 
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
 	{
 		fprintf(stderr, "Glad : Failed to load glLoader");
 		return false;
@@ -154,9 +145,7 @@ void GLFWGame::Destroy()
 	glfwTerminate();
 }
 
-GLFWGame::~GLFWGame()
-{
-}
+GLFWGame::~GLFWGame() {}
 
 void GLFWGame::HideMouse(bool hide)
 {
@@ -195,7 +184,7 @@ void GLFWGame::GameLoop()
 
 			if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 			{
-				GLFWwindow* backup_current_context = glfwGetCurrentContext();
+				GLFWwindow *backup_current_context = glfwGetCurrentContext();
 				ImGui::UpdatePlatformWindows();
 				ImGui::RenderPlatformWindowsDefault();
 				glfwMakeContextCurrent(backup_current_context);
@@ -208,10 +197,10 @@ void GLFWGame::GameLoop()
 	}
 }
 
-void CallbackManager::SetCallbacks(GLFWGame* pApp)
+void CallbackManager::SetCallbacks(GLFWGame *pApp)
 {
 	mApp = pApp;
-	GLFWwindow* window = mApp->GetCurrentContext()->GetWindow();
+	GLFWwindow *window = mApp->GetCurrentContext()->GetWindow();
 	glfwSetKeyCallback(window, KeyCallback);
 	glfwSetFramebufferSizeCallback(window, WindowResizeCallback);
 	glfwSetMouseButtonCallback(window, MouseButtonCallback);
@@ -220,31 +209,31 @@ void CallbackManager::SetCallbacks(GLFWGame* pApp)
 	glfwSetJoystickCallback(JoystickCallback);
 }
 
-void CallbackManager::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void CallbackManager::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
 	if (mApp)
 		mApp->OnKeyAction(key, action);
 }
 
-void CallbackManager::ErrorCallback(int error, const char* desc)
+void CallbackManager::ErrorCallback(int error, const char *desc)
 {
 	if (mApp)
 		mApp->OnError(error, desc);
 }
 
-void CallbackManager::WindowResizeCallback(GLFWwindow* window, int width, int height)
+void CallbackManager::WindowResizeCallback(GLFWwindow *window, int width, int height)
 {
 	if (mApp)
 		mApp->OnResize(width, height);
 }
 
-void CallbackManager::MouseButtonCallback(GLFWwindow* window, int key, int action, int mods)
+void CallbackManager::MouseButtonCallback(GLFWwindow *window, int key, int action, int mods)
 {
 	if (mApp)
 		mApp->OnMouseAction(key, action);
 }
 
-void CallbackManager::CursorPositionCallback(GLFWwindow* window, double xPos, double yPos)
+void CallbackManager::CursorPositionCallback(GLFWwindow *window, double xPos, double yPos)
 {
 	if (mApp)
 		mApp->OnCursorMoved(xPos, yPos);
@@ -256,4 +245,4 @@ void CallbackManager::JoystickCallback(int jid, int event)
 		mApp->OnJoystickStateChange(jid, event);
 }
 
-GLFWGame* CallbackManager::mApp = nullptr;
+GLFWGame *CallbackManager::mApp = nullptr;

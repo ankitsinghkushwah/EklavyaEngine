@@ -13,6 +13,8 @@
 #include <glm/glm.hpp>
 #include <EkPhysics/PhysicsWorld.h>
 #include <Scene/EkActor.h>
+
+#include "CarComponent.hpp"
 #include "EkAudio.hpp"
 
 namespace Eklavya::Physics
@@ -39,7 +41,7 @@ namespace Eklavya
 
 struct TrackData
 {
-  float     elapsedTime;
+  float elapsedTime;
   glm::vec3 dir;
   glm::vec3 pos;
 };
@@ -48,34 +50,48 @@ struct CarSuspension : public Eklavya::EkComponent
 {
   CarSuspension(Eklavya::EkActor &owner, const Eklavya::EkScene *scene, int tireIdx);
 
+  ~CarSuspension() {}
+
   void FixedTick(float fixedDeltaTime) override;
+
   void Tick(float deltaTime) override;
 
 #ifdef EKDEBUG
   void DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer) override;
 #endif
 
-  Eklavya::Physics::EkBody*         mChassisBody;
-  Eklavya::Physics::CastHitResult         hitResult;
-  Eklavya::EkActor*                   mWheel;
-  const Eklavya::EkScene                 *mScene;
+  void UpdateSteering(float dt);
+
+  void ApplyFrictionForces(float dt);
+
+  Eklavya::Physics::EkBody *mChassisBody;
+  Eklavya::Physics::CastHitResult hitResult;
+  Eklavya::EkActor *mWheel;
+  const Eklavya::EkScene *mScene;
 
   std::array<glm::vec3, MAX_WHEEL_FORCES> mForces;
   std::array<glm::vec4, MAX_WHEEL_FORCES> mForcesColours;
 
-  std::vector<TrackData>                  mTracks;
-  float                                   mTracksDelay = 10.0f;
-  float                                   mTracksLength = 4.0f;
+  std::vector<TrackData> mTracks;
+  float mTracksDelay = 10.0f;
+  float mTracksLength = 4.0f;
 
-  float                                   mSpringLength = 0.0f;
-  float                                   mSpringStrength = 0.0f;
-  float                                   mSpringDamping = 0.0f;
-  float                                   mTireSpeed = 0.0f;
+  float mSpringLength = 8.0f;
+  float mSpringStrength = 260.0f;
+  float mSpringDamping = 20.0f;
+  float mTireSpeed = 250.0f;
 
-  float                                   mWheelAngle = 0.0f;
-  float                                   mWheelRadius = 0.0f;
+  float mTireMass = 20.0f;
 
-  int                                     mID = -1;
+  float mWheelAngle = 0.0f;
+  float mWheelRadius = 2.7f;
+
+  int mSkipSkipCounter = 0;
+
+
+  CarComponent *mCarComponent = nullptr;
+
+  int mID = -1;
 };
 
 #endif

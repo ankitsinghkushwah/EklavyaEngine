@@ -12,6 +12,7 @@
 #include <Scene/EkActor.h>
 #include <UserInputListener.h>
 #include "imgui/imgui.h"
+
 namespace Eklavya::Renderer
 {
 	class DebugRenderer;
@@ -34,27 +35,40 @@ namespace Eklavya
 	{
 	public:
 		std::string GetDebugFlagString(ESceneDebugFlags flag);
-		bool        CanTraverse(const UniqueActor& actor);
-		void        TraverseToDebugDraw(const UniqueActor& actor);
-		SceneDebugger(EkScene& scene);
-		void     DebugDraw(Renderer::DebugRenderer& debugRenderer);
-		void     OnKeyAction(int key, int action);
-		void     ImGuiProc();
-		void     Traverse(const UniqueActor& actor);
-		void     DebugTransform(const UniqueActor& actor);
-		void     DebugPhysics(const UniqueActor& actor);
-		void     DebugRenderComponent(const UniqueActor& actor);
-		void     DebugAnimationComponent(const UniqueActor& actor);
-		bool     mDebugScene = false;
-		bool     mDebugPhysics = false;
-		EkScene& mScene;
+
+		bool CanTraverse(const UniqueActor &actor);
+
+		void TraverseToDebugDraw(const UniqueActor &actor);
+
+		SceneDebugger(EkScene &scene);
+
+		void DebugDraw(Renderer::DebugRenderer &debugRenderer);
+
+		void OnKeyAction(int key, int action);
+
+		void ImGuiProc();
+
+		void Traverse(const UniqueActor &actor);
+
+		void DebugTransform(const UniqueActor &actor);
+
+		void DebugPhysics(const UniqueActor &actor);
+
+		void DebugRenderComponent(const UniqueActor &actor);
+
+		void DebugAnimationComponent(const UniqueActor &actor);
+
+		bool mDebugScene = false;
+		bool mDebugPhysics = false;
+		EkScene &mScene;
 
 		std::array<bool, ESceneDebugFlags::MAX> mFilterFlags;
-		glm::vec4                               mColliderColor;
-		glm::vec4                               mBoundColor;
+		glm::vec4 mColliderColor;
+		glm::vec4 mBoundColor;
 
-		bool   mMenuBarActive = false;
+		bool mMenuBarActive = false;
 		ImVec2 mTreeWindowSize;
+		bool mDebugPhysicsWorld = false;
 	};
 } // namespace Eklavya
 

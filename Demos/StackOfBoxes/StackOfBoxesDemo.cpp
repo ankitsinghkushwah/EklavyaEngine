@@ -53,12 +53,11 @@ namespace Eklavya
 
 			mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
 
-			//mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
-
-			//			if (mLastCastHitResult.success)
-			//			{
-			//				mLastCastHitResult.body->ApplyImpulseAtPoint(glm::normalize(CurrentCamera()->Forward()) * 1000.0f, mLastCastHitResult.position);
-			//			}
+			if (mLastCastHitResult.success)
+			{
+				mLastCastHitResult.body->ApplyImpulseAtPoint(glm::normalize(CurrentCamera()->Forward()) * 1000.0f,
+				                                             mLastCastHitResult.position);
+			}
 		}
 	}
 
@@ -96,14 +95,12 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::CreateStage()
 	{
-		MaterialInfo info;
-		info.mBaseColor = glm::vec4(0.5, 0.5f, 0.5f, 0.5f);
-		info.mRoughness = .5f;
-		info.mTiling = 10;
+		MaterialInfo info = LoadMaterialInfo("grid");
 
+		auto actor = CreateCube(glm::vec3(0.0f),
+		                        glm::vec3(1000.0f, 30.0f, 1000.0f), glm::vec3(0.0f), FLT_MAX, info, STATIC);
 
-		CreateCube(glm::vec3(100.0f), glm::vec3(20.0f),
-		           glm::vec3(30.0f, 45.0f, 0.0f), FLT_MAX, info, STATIC);
+		mFloor = actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 	}
 
 	void StackOfBoxesDemo::OnKeyAction(int key, int action)
@@ -111,6 +108,33 @@ namespace Eklavya
 		MainEntryScene::OnKeyAction(key, action);
 		if (key == GLFW_KEY_H && action == GLFW_PRESS)
 			CreateStackOfBoxes();
+	}
+
+	void StackOfBoxesDemo::Tick(float deltaTime)
+	{
+		MainEntryScene::Tick(deltaTime);
+		float rotSpeed = glm::radians(10.0f);
+		glm::vec3 eulers = glm::eulerAngles(mFloor->GetOwner().Transform().Rotation());
+		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_LEFT))
+		{
+			eulers.x += rotSpeed * deltaTime;
+			mFloor->SetRotation(eulers);
+		}
+		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_RIGHT))
+		{
+			eulers.x -= rotSpeed * deltaTime;
+			mFloor->SetRotation(eulers);
+		}
+		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_UP))
+		{
+			eulers.y += rotSpeed * deltaTime;
+			mFloor->SetRotation(eulers);
+		}
+		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_DOWN))
+		{
+			eulers.y -= rotSpeed * deltaTime;
+			mFloor->SetRotation(eulers);
+		}
 	}
 
 	void StackOfBoxesDemo::CreateStackOfBoxes()
@@ -136,8 +160,6 @@ namespace Eklavya
 				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
 				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 30.0f,
 				           info, 0);
-
-				//CreateSphere(glm::vec3(x, y, z), boxDim, 20.0f, info);
 			}
 		}
 	}
@@ -157,13 +179,17 @@ namespace Eklavya
 			                       : glm::vec4(0.0f, 0.0f, 0.0f, .7f),
 		                       mLastCastHitResult.success ? 0.5f : .3f);
 		debugRenderer.DrawSphere(endPoint, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
-
-		// mLastCastHitResult.success = false;
 	}
 
 	void StackOfBoxesDemo::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
+
+		ImGui::Begin("Stack Of Boxes");
+		ImGui::Text("Press H to generate Stack Of Boxes");
+		ImGui::Text("Press UP/DOWN/LEFT/RIGHT to rotate the floor");
+		ImGui::Text("Left Mouse click to cast a ray");
+		ImGui::End();
 	}
 #endif
 } // namespace Eklavya

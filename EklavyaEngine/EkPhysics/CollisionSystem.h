@@ -9,7 +9,7 @@
 #define CollisionSystem_hpp
 
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_access.hpp>
+#include <EkPhysics/Constraints/ContactConstraint.h>
 
 namespace Eklavya::Renderer
 {
@@ -20,9 +20,36 @@ namespace Eklavya::Physics
 {
   class EkBody;
   class BoxColliderComponent;
-  class SpheereColliderComponent;
+  class SphereColliderComponent;
 
   enum EPhysicsGroupFlag { STATIC, OTHER_COLLIDABLES };
+
+  struct OBB
+  {
+    glm::vec3 center;
+    glm::vec3 halfExtents;
+    glm::mat3 rotation;
+    glm::mat4 worldTransform;
+
+    glm::vec3 GetPointInLocalSpace(const glm::vec3 &worldPoint) const
+    {
+      glm::mat4 invWorld = glm::inverse(worldTransform);
+      return invWorld * glm::vec4(worldPoint, 1.0f);
+    }
+
+    glm::vec3 GetPointInWorldSpace(const glm::vec3 &localPoint) const
+    {
+      return worldTransform * glm::vec4(localPoint, 1.0f);
+    }
+
+    glm::mat3 GetRotationMatrix() const { return rotation; }
+  };
+
+  struct Sphere
+  {
+    glm::vec3 center;
+    float radius;
+  };
 
   struct Ray
   {
@@ -73,6 +100,20 @@ namespace Eklavya::Physics
 
     bool RayVsSphere(Ray ray, glm::vec3 sphereCenter, float radius,
                      glm::vec2 &points);
+
+
+    bool SphereAndSphere(const Sphere &sphereOne,
+                         const Sphere &sphereTwo,
+                         CollisionPointInfo &newContact);
+
+    bool SphereAndBox(const OBB &box,
+                      const Sphere &sphere,
+                      CollisionPointInfo &newContact);
+
+    bool BoxAndBox(const OBB &box1,
+                   const OBB &box2,
+                   std::vector<glm::vec3> &collisionPoints, float &penetration,
+                   glm::vec3 &collisionNormal);
   } // namespace CollisionSystem
 } // namespace Eklavya::Physics
 

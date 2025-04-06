@@ -19,6 +19,7 @@ namespace Eklavya
 		:
 		UserInputListener()
 		, mDirector(director)
+		, mRenderer(*director.GetCurrentContext())
 #ifdef EKDEBUG
 		, mSceneDebugger(*this)
 #endif
@@ -30,27 +31,31 @@ namespace Eklavya
 		mFreeLookCamera = std::make_shared<FreeLookCamera>(camParams);
 		mCameraStack.push_back(mFreeLookCamera);
 
-		mRenderer = std::make_unique<GLRenderer>(context);
-		mRenderer->Init();
-		mPhysicsWorld = std::make_unique<Physics::World>();
+
 		sf::Listener::setGlobalVolume(50.f);
+
+		mRenderer.Init();
 	}
 
 	EkScene::~EkScene() {}
 
 	void EkScene::FixedTick(float fixedDeltaTime)
 	{
+#ifdef EKDEBUG
+		if (mSceneDebugger.mDebugPhysics == false)
+		{
+			for (const UniqueActor &actor: mRootActors)
+			{
+				TraverseToFixedUpdateComponents(actor, fixedDeltaTime);
+			}
+			mPhysicsWorld.Step(fixedDeltaTime);
+		}
+#else
+		mPhysicsWorld.Step(fixedDeltaTime);
 		for (const UniqueActor &actor: mRootActors)
 		{
 			TraverseToFixedUpdateComponents(actor, fixedDeltaTime);
 		}
-#ifdef EKDEBUG
-		if (mSceneDebugger.mDebugPhysics == false)
-		{
-			mPhysicsWorld->Step(fixedDeltaTime);
-		}
-#else
-		mPhysicsWorld->Step(fixedDeltaTime);
 #endif
 	}
 
@@ -102,14 +107,12 @@ namespace Eklavya
 		{
 			renderComponent->mWorldMatrix = actor->Transform().GetWorldMatrix();
 			const Bound &bound = renderComponent->mBound;
-#ifndef EKDEBUG
 			renderComponent->mInsideFrustum = CurrentCamera()->GetFrustum().Test(renderComponent->mWorldMatrix, bound);
-#endif
 			if (renderComponent->mHasBones)
 			{
 				renderComponent->boneTransforms = mAnimators[renderComponent->mModelID]->GetPoseTransforms();
 			}
-			mRenderer->AddActor(*renderComponent);
+			mRenderer.AddActor(*renderComponent);
 		}
 
 		for (const UniqueActor &kid: actor->Kids())
@@ -127,7 +130,7 @@ namespace Eklavya
 
 		if (EkBody *body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID))
 		{
-			mPhysicsWorld->AddBody(body);
+			mPhysicsWorld.AddBody(body);
 		}
 
 		if (AnimationComponent *animator = actor->GetComponent<AnimationComponent>(
@@ -139,7 +142,7 @@ namespace Eklavya
 
 	void EkScene::Draw()
 	{
-		mRenderer->Render(*this);
+		mRenderer.Render(*this);
 	}
 
 	void EkScene::Cleanup()
@@ -156,7 +159,7 @@ namespace Eklavya
 				UniqueActor &actor = *iter;
 				if (EkBody *body = actor->GetComponent<Physics::EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID))
 				{
-					mPhysicsWorld->RemoveBody(body);
+					mPhysicsWorld.RemoveBody(body);
 				}
 
 				if (AnimationComponent *animator = actor->GetComponent<AnimationComponent>(
@@ -174,7 +177,7 @@ namespace Eklavya
 
 	void EkScene::OnKeyAction(int key, int action)
 	{
-		if (key == GLFW_KEY_PAGE_DOWN && action == GLFW_PRESS)
+		if (key == GLFW_KEY_C && action == GLFW_PRESS)
 		{
 			mCurrentCameraIdx = (mCurrentCameraIdx + 1) % mCameraStack.size();
 		}
@@ -184,12 +187,11 @@ namespace Eklavya
 	void EkScene::ImGuiProc()
 	{
 		mSceneDebugger.ImGuiProc();
-		mPhysicsWorld->ImGuiProc();
+		mPhysicsWorld.ImGuiProc();
 	}
 
 	void EkScene::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
-		mPhysicsWorld->OnDebugDraw(debugRenderer);
 		mSceneDebugger.DebugDraw(debugRenderer);
 		CurrentCamera()->DebugDraw(debugRenderer);
 	}

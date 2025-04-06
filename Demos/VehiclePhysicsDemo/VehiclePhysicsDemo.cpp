@@ -76,7 +76,7 @@ namespace Eklavya
 
 	void VehiclePhysicsDemo::CreateStage()
 	{
-		MaterialInfo info;
+		MaterialInfo info = LoadMaterialInfo("grid");
 		info.mRoughness = 1.0f;
 		info.mTiling = 40;
 		info.mBaseColor = glm::vec3(0.0f, 0.6f, 0.2f);
@@ -85,25 +85,27 @@ namespace Eklavya
 		float floorScaleY = 10.0f;
 		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
 
-		MaterialInfo infoGrass = LoadMaterialInfo("crate");
-		infoGrass.mTiling = 2;
+		MaterialInfo crate = LoadMaterialInfo("crate");
+		crate.mTiling = 2;
 
-		float scaleY = 1.0f;
-		float pos = floorScaleY / 2 + scaleY / 2;
+
+		float scaleY = 2.0f;
+		float pos = floorScaleY / 2 + (scaleY / 2.0f);
 
 		for (int z = 0; z < 5; z++)
 		{
-			CreateCube(glm::vec3(0.0, pos, 10 + z * 10.0f), glm::vec3(30.0f, 2.0f, scaleY + 2),
-			           glm::vec3(0.0f, 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
+			CreateCube(glm::vec3(0.0, pos, 10 + z * 20.0f), glm::vec3(30.0f, scaleY, 5.0f),
+			           glm::vec3(0.0f, 0.0f, 0.0f), FLT_MAX, crate, 0);
 		}
 
 		//
-		CreateCube(glm::vec3(0.0, 17, -100.0f), glm::vec3(100.0f, 7.0f, 120),
-		           glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
+		CreateCube(glm::vec3(0.0, 17, -300.0f), glm::vec3(100.0f, 7.0f, 120),
+		           glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, crate, 0);
 		//
-		CreateCube(glm::vec3(0.0, 15, -300.0f), glm::vec3(100.0f, 7.0f, 120),
-		           glm::vec3(glm::radians(-15.0f), 0.0f, 0.0f), FLT_MAX, infoGrass, 0);
+		CreateCube(glm::vec3(0.0, 15, -460.0f), glm::vec3(100.0f, 7.0f, 120),
+		           glm::vec3(glm::radians(-15.0f), 0.0f, 0.0f), FLT_MAX, crate, 0);
 	}
+
 
 	void VehiclePhysicsDemo::CreateCar()
 	{
@@ -118,21 +120,13 @@ namespace Eklavya
 		car->SetName("Chassis");
 
 		auto collider = car->EmplaceComponent<Physics::BoxColliderComponent>();
-		glm::vec3 colliderScale = carScale;
-		colliderScale.z *= 0.8f;
 		collider->SetHalfSize(carScale);
 		collider->SetGroupIndex(1);
-		collider->SetOffset(glm::vec3(0.0f, 2.9f, 0.0f));
 
 		mChassisBody = car->EmplaceComponent<Physics::EkBody>();
 		mChassisBody->SetMass(500.0f);
-		mChassisBody->SetPosition(glm::vec3(0.0f, 10.0f, 0.0f));
-		mChassisBody->SetRotation(glm::vec3(0.0f));
-		mChassisBody->SetRotation(glm::vec3(1.0f));
 		mChassisBody->SetLinearDamping(0.99);
 		mChassisBody->SetAngularDamping(0.99);
-
-		car->EmplaceComponent<CarComponent>();
 
 
 		// FORWARD-RIGHT SUSPENSION
@@ -153,7 +147,7 @@ namespace Eklavya
 			float offZ = -3.5;
 			float xOff = ((carScale.x) * 0.25) + offX;
 			float zOff = ((carScale.z) * 0.25) + offZ;
-			float yOff = -0.7f;
+			float yOff = 0.0f;
 			if (i == 0)
 				suspension->Transform().SetPosition(xOff, yOff, zOff - 0.2f);
 			else if (i == 1)
@@ -167,7 +161,11 @@ namespace Eklavya
 			mSuspensions[i]->mWheel = wheel;
 		}
 
-		car->Transform().SetPosition(0, 100, 0);
+		CarComponent *carComponent = car->EmplaceComponent<CarComponent>();
+
+		for (CarSuspension *suspension: mSuspensions)
+			suspension->mCarComponent = carComponent;
+
 
 		std::shared_ptr<SpringFollowCamera> followCamera = std::make_shared<SpringFollowCamera>(mDefaultCameraParams);
 
@@ -177,8 +175,18 @@ namespace Eklavya
 
 		this->OverrideCamera(followCamera);
 
+		mChassisBody->SetPosition(glm::vec3(0.0f, 60.0f, 0.0f));
 		AddActor(car);
 	}
+
+
+	void VehiclePhysicsDemo::Tick(float deltaTime)
+	{
+		MainEntryScene::Tick(deltaTime);
+		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_SPACE))
+			mChassisBody->Clear();
+	}
+
 
 	void VehiclePhysicsDemo::LoadMesh()
 	{
@@ -208,35 +216,24 @@ namespace Eklavya
 	void VehiclePhysicsDemo::OnKeyAction(int key, int action)
 	{
 		MainEntryScene::OnKeyAction(key, action);
-		if (key == GLFW_KEY_H && action == GLFW_PRESS)
-			CreateCubeStack();
 	}
 
-	void VehiclePhysicsDemo::CreateCubeStack()
+	void VehiclePhysicsDemo::OnMouseAction(int key, int action)
 	{
-		int rows = 5;
-		int cols = 6;
-		float startY = 50.0f;
-		float boxDim = 10.0f;
-		float offsetX = ((cols - 1) / 2.0f) * boxDim;
+		MainEntryScene::OnMouseAction(key, action);
 
-		for (int r = 0; r < rows; ++r)
+		if (key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
 		{
-			for (int c = 0; c < cols; ++c)
+			mRayDirection = glm::normalize(CurrentCamera()->Forward());
+			mRayStart = CurrentCamera()->Position() + mRayDirection * 3.0f;
+
+			mRayRange = 3000.0f;
+			mLastCastHitResult = GetPhysics().RayCast(mRayStart, mRayDirection, mRayRange, -1);
+
+			if (mLastCastHitResult.success)
 			{
-				float x = (c * boxDim) - offsetX;
-				float y = startY + r * boxDim;
-				float z = 0.0f;
-
-				MaterialInfo info = LoadMaterialInfo("crate");
-				info.mRoughness = 1.0f;
-				info.mMetallic = 0.0f;
-				info.mTiling = 1;
-				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 5.0f, info,
-				           0);
-
-				//CreateSphere(glm::vec3(x, y, z), boxDim, 20.0f, info);
+				mLastCastHitResult.body->ApplyImpulseAtPoint(glm::normalize(CurrentCamera()->Forward()) * mImpulse,
+				                                             mLastCastHitResult.position);
 			}
 		}
 	}
@@ -246,6 +243,13 @@ namespace Eklavya
 	void VehiclePhysicsDemo::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
+
+		ImGui::Begin("Vehicle Physics Demo");
+		ImGui::Text("Press R to Respawn Vehicle");
+		ImGui::Text("LEFT/RIGHT key for Steering");
+		ImGui::Text("UP key for accelerating");
+		ImGui::Text("C to switch bw different Cameras");
+		ImGui::End();
 	}
 
 	void VehiclePhysicsDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)

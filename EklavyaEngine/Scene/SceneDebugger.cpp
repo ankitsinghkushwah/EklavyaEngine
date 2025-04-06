@@ -45,7 +45,7 @@ namespace Eklavya
 		{
 			for (auto &component: actor->Components())
 			{
-				component->DebugDraw(mScene.mRenderer->GetDebugRenderer());
+				component->DebugDraw(mScene.mRenderer.GetDebugRenderer());
 			}
 
 			DebugRenderer::GetInstance().DrawTransform(actor->Transform());
@@ -60,7 +60,7 @@ namespace Eklavya
 				const BoxColliderComponent *collider = static_cast<const BoxColliderComponent *>(body->GetCollider());
 				glm::vec3 extents = collider->GetHalfSize() * 2.0f;
 
-				mScene.mRenderer->GetDebugRenderer().DrawBox(collider->GetPosition(), oiler, extents, mColliderColor);
+				mScene.mRenderer.GetDebugRenderer().DrawBox(collider->GetPosition(), oiler, extents, mColliderColor);
 			}
 
 			if (body->GetCollider()->GetType() == Physics::EColliderType::SPHERE)
@@ -69,15 +69,15 @@ namespace Eklavya
 					GetCollider());
 				float radius = collider->GetRadius();
 
-				mScene.mRenderer->GetDebugRenderer().DrawSphere(collider->GetPosition(), radius, mColliderColor);
+				mScene.mRenderer.GetDebugRenderer().DrawSphere(collider->GetPosition(), radius, mColliderColor);
 			}
 		}
 
 		RenderComponent *renderComponent = actor->GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID);
 		if (renderComponent && renderComponent->mShowBound)
 		{
-			mScene.mRenderer->GetDebugRenderer().DrawBound(actor->Transform().GetWorldMatrix(), renderComponent->mBound,
-			                                               mBoundColor);
+			mScene.mRenderer.GetDebugRenderer().DrawBound(actor->Transform().GetWorldMatrix(), renderComponent->mBound,
+			                                              mBoundColor);
 		}
 
 		for (const UniqueActor &kid: actor->Kids())
@@ -90,6 +90,9 @@ namespace Eklavya
 		{
 			TraverseToDebugDraw(actor);
 		}
+
+		if (mDebugPhysicsWorld)
+			mScene.mPhysicsWorld.OnDebugDraw(debugRenderer);
 	}
 
 	void SceneDebugger::OnKeyAction(int key, int action)
@@ -108,7 +111,13 @@ namespace Eklavya
 
 		if (mDebugPhysics && key == GLFW_KEY_RIGHT)
 		{
-			mScene.mPhysicsWorld->Step(1 / 30.0f);
+			float fixedTickRate = 1.0f / 30.0f;
+			mScene.mPhysicsWorld.Step(fixedTickRate);
+
+			for (const UniqueActor &actor: mScene.mRootActors)
+			{
+				mScene.TraverseToFixedUpdateComponents(actor, fixedTickRate);
+			}
 		}
 	}
 
@@ -160,6 +169,7 @@ namespace Eklavya
 			return;
 
 		ImGui::Begin("SceneDebugger");
+		ImGui::Checkbox("Debug Physics World", &mDebugPhysicsWorld);
 
 		for (int i = 0; i < ESceneDebugFlags::MAX; i++)
 		{

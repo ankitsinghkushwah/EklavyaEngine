@@ -59,11 +59,10 @@ namespace Eklavya::Physics
 		Ray ray{o, d, maxRange};
 		CastHitResult result;
 
-
 		float t = 0.0f;
 		int index = -1;
 		float shortestT = maxRange;
-		const BaseColliderComponent *hitCollider = nullptr;
+
 
 		for (int i = 0; i < mBodies.size(); i++)
 		{
@@ -80,7 +79,8 @@ namespace Eklavya::Physics
 					GetCollider());
 
 				success = CollisionSystem::RayVsOBB(ray, *boxCollider, t);
-			} else if (collider->GetType() == EColliderType::SPHERE)
+			}
+			else if (collider->GetType() == EColliderType::SPHERE)
 			{
 				const SphereColliderComponent *sphereCollider = static_cast<const SphereColliderComponent *>(mBodies[i]
 					->GetCollider());
@@ -97,7 +97,6 @@ namespace Eklavya::Physics
 			{
 				shortestT = t;
 				index = i;
-				hitCollider = collider;
 			}
 		}
 
@@ -107,9 +106,28 @@ namespace Eklavya::Physics
 			result.success = true;
 			result.position = o + d * shortestT;
 			result.body = mBodies[index];
-		} else
+		}
+		else
 		{
 			result.position = o + d * maxRange;
+		}
+
+		return result;
+	}
+
+	CastHitResult World::SphereCast(glm::vec3 o, glm::vec3 direction, float radius, float range,
+	                                int ignoreGroupFlag) const
+	{
+		direction = glm::normalize(direction);
+		CastHitResult result = RayCast(o, direction, range, ignoreGroupFlag);
+
+
+		if (result.success)
+		{
+			Renderer::DebugRenderer::GetInstance().ClearAddedShapes();
+			glm::vec3 sphereCenter = result.position - (direction * radius);
+			ContactGenerator::GetNearestContactToSphere(mBodies, sphereCenter, radius, result.position);
+			//Renderer::DebugRenderer::GetInstance().AddSphere(sphereCenter, radius, glm::vec4(.5f, 3.0f, 1.0f, .4f));
 		}
 
 		return result;
@@ -131,12 +149,7 @@ namespace Eklavya::Physics
 		}
 	}
 
-	void World::ImGuiProc()
-	{
-		//		ImGui::Begin("Physics");
-		//		ImGui::Checkbox("gravity ", &genablegravity);
-		//		ImGui::End();
-	}
+	void World::ImGuiProc() {}
 
 #endif
 } // namespace Eklavya::Physics

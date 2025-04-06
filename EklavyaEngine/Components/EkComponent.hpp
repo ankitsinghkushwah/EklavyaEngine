@@ -29,40 +29,35 @@ namespace Eklavya
 
 	class EkComponent
 	{
-	  public:
-		EkComponent(EkActor& owner, const EkComponentID id);
+	public:
+		EkComponent(EkActor &owner, EkComponentID id);
 
-		virtual void FixedTick(float fixedDeltaTime)
-		{
-		}
+		virtual void FixedTick(float fixedDeltaTime) {}
 
-		virtual void Tick(float deltaTime)
-		{
-		}
+		virtual void Tick(float deltaTime) {}
 
-		const EkActor& GetOwner() const
+		const EkActor &GetOwner() const
 		{
 			return mOwner;
 		}
-		EkActor& GetOwner()
+
+		EkActor &GetOwner()
 		{
 			return mOwner;
 		}
 
 #ifdef EKDEBUG
-		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer)
-		{
-		}
+		virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer) {}
 #endif
 
-		bool operator==(const EkComponent& rhs) const;
-		bool operator==(const EkComponentID& uid) const;
+		bool operator==(const EkComponent &rhs) const;
 
-	  private:
-		EkActor&      mOwner;
+		bool operator==(const EkComponentID &uid) const;
+
+	private:
+		EkActor &mOwner;
 		EkComponentID mComponentID;
 	};
-
 } // namespace Eklavya
 
 #endif /* EkComponent_hpp */

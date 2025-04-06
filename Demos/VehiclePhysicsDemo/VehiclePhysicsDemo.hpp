@@ -24,11 +24,13 @@ namespace Eklavya
 
 		~VehiclePhysicsDemo() override;
 
+		void Tick(float deltaTime) override;
+
 		void OnKeyAction(int key, int action) override;
 
-	private:
-		void CreateCubeStack();
+		void OnMouseAction(int key, int action) override;
 
+	private:
 		std::array<CarSuspension *, 4> mSuspensions;
 
 		Physics::EkBody *mChassisBody = nullptr;
@@ -48,6 +50,13 @@ namespace Eklavya
 
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 #endif
+
+		glm::vec3 mRayStart;
+		glm::vec3 mRayDirection;
+		float mRayRange = 0.0f;
+		Physics::CastHitResult mLastCastHitResult;
+
+		float mImpulse = 100.0f;
 	};
 } // namespace Eklavya
 
