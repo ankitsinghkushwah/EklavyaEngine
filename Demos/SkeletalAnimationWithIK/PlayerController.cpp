@@ -18,12 +18,13 @@ using namespace Eklavya::Asset;
 using namespace Eklavya::Renderer;
 using namespace Eklavya::Physics;
 
-PlayerController::PlayerController(EkActor& owner, Eklavya::EkScene& scene)
-    : UserInputListener()
-    , EkComponent(owner, ThirdPersonDemoComponentIds::PLAYER_CONTROLLER_ID)
-    , mScene(scene)
-    , mStandingMovementColliderSize(40.0f, 100, 40.0f)
-    , mCurrGravityDir(0.0f, 1.0f, 0.0f)
+PlayerController::PlayerController(EkActor &owner, Eklavya::EkScene &scene)
+	:
+	UserInputListener()
+	, EkComponent(owner, ThirdPersonDemoComponentIds::PLAYER_CONTROLLER_ID)
+	, mScene(scene)
+	, mStandingMovementColliderSize(40.0f, 100, 40.0f)
+	, mCurrGravityDir(0.0f, 1.0f, 0.0f)
 	, mDirection(EMovementDirection::MD_IDLE)
 	, mStance(EPlayerStance::STANDING_MOVEMENT)
 {
@@ -75,7 +76,7 @@ void PlayerController::LoadAnimations()
 		{
 			std::string directionName = "";
 
-			directionName = GetDirectionString((EPlayerStance)movement_type, (EMovementDirection)direction);
+			directionName = GetDirectionString((EPlayerStance) movement_type, (EMovementDirection) direction);
 
 			std::string animationName = "characters/swat/animations/" + prefix + directionName;
 
@@ -105,6 +106,10 @@ void PlayerController::SetStance(EPlayerStance stance)
 
 void PlayerController::OnKeyAction(int key, int action)
 {
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+	{
+		mPosition = glm::vec3(0.0f, 100.0f, 0.0f);
+	}
 	if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
 	{
 		SetStance(EPlayerStance::CROUCH_MOVEMENT);
@@ -144,12 +149,11 @@ void PlayerController::OnKeyAction(int key, int action)
 
 void PlayerController::Tick(float dt)
 {
-	glm::vec3 rayPos = GetOwner().Transform().Position();
+	glm::vec3 rayPos = mPosition + glm::vec3(0.0f, 20.0f, 0.0f);
 
 	mCastResult = mScene.GetPhysics().RayCast(rayPos, glm::vec3(0.0f, -1.0f, 0.0f), mCastRange, 1);
 	if (mCastResult.success)
 	{
-		mCurrGravityDir = mCastResult.body->GetOwner().Transform().up();
 		mPosition.y = mCastResult.position.y;
 		GetOwner().Transform().SetPosition(mPosition);
 	}
@@ -209,29 +213,23 @@ void PlayerController::TurnUpdate(float dt)
 	}
 }
 
-#ifdef EKDEBUG
 
-void PlayerController::ImGuiProc()
-{
-}
+void PlayerController::ImGuiProc() {}
 
-void PlayerController::DebugDraw(Eklavya::Renderer::DebugRenderer& debugRenderer)
+void PlayerController::DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer)
 {
 	if (mCastResult.success)
 	{
-		debugRenderer.DrawLine(GetOwner().Transform().Position(), mCastResult.position, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), 2.0f);
+		debugRenderer.DrawLine(mPosition + glm::vec3(0.0f, 20.0f, 0.0f), mCastResult.position,
+		                       glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), 2.0f);
 		debugRenderer.DrawSphere(mCastResult.position, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 	else
 	{
 		debugRenderer.DrawLine(GetOwner().Transform().Position(),
 		                       GetOwner().Transform().Position() + glm::vec3(0.0f, -mCastRange, 0.0f),
-		                       glm::vec4(1.0f, 1.0f, 0.0f, 1.0f),
-		                       5.0f);
+		                       glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
+		                       1.0f);
 	}
-
-	glm::vec3 c = GetOwner().Transform().Position() + glm::vec3(0.0f, 30.0f, 0.0f);
-	debugRenderer.DrawLine(c, c + mCurrGravityDir * 20.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 3.0f);
-	mCastResult.success = false;
 }
-#endif
+

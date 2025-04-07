@@ -81,7 +81,6 @@ namespace Eklavya
 	}
 
 
-#ifdef EKDEBUG
 	void SceneTemplate::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
@@ -91,5 +90,4 @@ namespace Eklavya
 	{
 		MainEntryScene::ImGuiProc();
 	}
-#endif
 } // namespace Eklavya

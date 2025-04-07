@@ -30,11 +30,9 @@ namespace Eklavya
 
         void OnKeyAction(int key, int action) override;
 
-#ifdef EKDEBUG
         void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 
         void ImGuiProc() override;
-#endif
     };
 } // namespace Eklavya
 

@@ -240,6 +240,7 @@ namespace Eklavya
 
 		playerActor->SetName("TPS Character");
 
+		playerActor->Transform().SetPosition(0.0f, 200.0f, 0.0f);
 		mPlayerController = playerActor->EmplaceComponent<PlayerController>(*this);
 		mPlayerController->Init();
 		mPlayer = playerActor.get();
