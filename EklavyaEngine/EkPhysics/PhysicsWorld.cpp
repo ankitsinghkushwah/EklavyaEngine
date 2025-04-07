@@ -124,7 +124,7 @@ namespace Eklavya::Physics
 
 		if (result.success)
 		{
-			Renderer::DebugRenderer::GetInstance().ClearAddedShapes();
+			//Renderer::DebugRenderer::GetInstance().ClearAddedShapes();
 			glm::vec3 sphereCenter = result.position - (direction * radius);
 			ContactGenerator::GetNearestContactToSphere(mBodies, sphereCenter, radius, result.position);
 			//Renderer::DebugRenderer::GetInstance().AddSphere(sphereCenter, radius, glm::vec4(.5f, 3.0f, 1.0f, .4f));

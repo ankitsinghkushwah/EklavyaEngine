@@ -238,19 +238,20 @@ namespace Eklavya
 		}
 	}
 
-#ifdef EKDEBUG
-
 	void VehiclePhysicsDemo::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
 
-		ImGui::Begin("Vehicle Physics Demo");
-		ImGui::Text("Press R to Respawn Vehicle");
-		ImGui::Text("LEFT/RIGHT key for Steering");
-		ImGui::Text("UP key for accelerating");
-		ImGui::Text("C to switch bw different Cameras");
-		ImGui::End();
+		if (ImGui::Begin("Arcade Vehicle with Suspension", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("Press R to Respawn Vehicle");
+			ImGui::Text("LEFT/RIGHT key for Steering");
+			ImGui::Text("UP key for accelerating");
+			ImGui::Text("C to switch bw different Cameras");
+			ImGui::End();
+		}
 	}
+#ifdef EKDEBUG
 
 	void VehiclePhysicsDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{

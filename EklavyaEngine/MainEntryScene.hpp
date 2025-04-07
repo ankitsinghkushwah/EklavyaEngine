@@ -36,10 +36,12 @@ namespace Eklavya
 		EkActor *CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
 		                      uint32_t groupFlag = Physics::OTHER_COLLIDABLES, bool kid = false);
 
+		void ImGuiProc() override;
+
 #ifdef EKDEBUG
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 
-		void ImGuiProc() override;
+
 #endif
 	};
 } // namespace Eklavya

@@ -183,12 +183,16 @@ namespace Eklavya
 		}
 	}
 
-#ifdef EKDEBUG
 	void EkScene::ImGuiProc()
 	{
+#ifdef EKDEBUG
 		mSceneDebugger.ImGuiProc();
 		mPhysicsWorld.ImGuiProc();
+#endif
 	}
+
+#ifdef EKDEBUG
+
 
 	void EkScene::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{

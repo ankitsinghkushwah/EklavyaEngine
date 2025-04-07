@@ -106,15 +106,17 @@ namespace Eklavya
 
 	MainEntryScene::~MainEntryScene() {}
 
+	void MainEntryScene::ImGuiProc()
+	{
+		EkScene::ImGuiProc();
+	}
+
 #ifdef EKDEBUG
 	void MainEntryScene::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		EkScene::DebugDraw(debugRenderer);
 	}
 
-	void MainEntryScene::ImGuiProc()
-	{
-		EkScene::ImGuiProc();
-	}
+
 #endif
 } // namespace Eklavya

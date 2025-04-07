@@ -57,7 +57,7 @@ namespace Eklavya::Physics
     glm::vec3 d;
     float range;
 
-    constexpr glm::vec3 GetPoint(float t) const { return o + d * t; }
+    glm::vec3 GetPoint(float t) const { return o + d * t; }
   };
 
   struct Plane
@@ -68,33 +68,18 @@ namespace Eklavya::Physics
 
   struct CastHitResult
   {
-    float t;
+    float t = 0.0f;
     EkBody *body = nullptr;
     glm::vec3 normal;
     glm::vec3 position;
     bool success = false;
 
     CastHitResult() :
-      t(0.0f), normal(0.0f), position(0.0f) {}
+      normal(0.0f), position(0.0f) {}
   };
 
   namespace CollisionSystem
   {
-    inline bool RayVsPlane(Ray ray, Plane plane, float &t)
-    {
-      float denom = glm::dot(plane.n, ray.d);
-      // ray is parallel to plan?
-      if (glm::abs(denom) > 0.0f)
-      {
-        float num = glm::dot(plane.n, (plane.o - ray.o));
-        t = num / denom;
-        if (t > 0.0f)
-          return true;
-      }
-      return false;
-    }
-
-
     bool RayVsOBB(Ray ray, const BoxColliderComponent &boxCollider, float &t);
 
 

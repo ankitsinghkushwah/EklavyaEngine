@@ -45,8 +45,9 @@ namespace Eklavya
 
 		void LoadMesh();
 
-#ifdef EKDEBUG
 		void ImGuiProc() override;
+#ifdef EKDEBUG
+
 
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 #endif

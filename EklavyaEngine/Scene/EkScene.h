@@ -89,11 +89,12 @@ namespace Eklavya
 
     CameraParams mDefaultCameraParams;
 
-#ifdef EKDEBUG
-
   public:
     virtual void ImGuiProc();
 
+#ifdef EKDEBUG
+
+  public:
     virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer);
 
   protected:

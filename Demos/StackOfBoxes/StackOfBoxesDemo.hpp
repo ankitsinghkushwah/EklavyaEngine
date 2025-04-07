@@ -39,10 +39,9 @@ namespace Eklavya
 
 		void Tick(float deltaTime) override;
 
+		void ImGuiProc() override;
 #ifdef EKDEBUG
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
-
-		void ImGuiProc() override;
 #endif
 
 	private:

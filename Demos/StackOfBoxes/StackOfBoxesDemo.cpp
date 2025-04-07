@@ -164,6 +164,19 @@ namespace Eklavya
 		}
 	}
 
+	void StackOfBoxesDemo::ImGuiProc()
+	{
+		MainEntryScene::ImGuiProc();
+
+		if (ImGui::Begin("Stack Of Boxes", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("Press H to generate Stack Of Boxes");
+			ImGui::Text("Press UP/DOWN/LEFT/RIGHT to rotate the floor");
+			ImGui::Text("Left Mouse click to cast a ray");
+			ImGui::End();
+		}
+	}
+
 #ifdef EKDEBUG
 	void StackOfBoxesDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
@@ -181,15 +194,6 @@ namespace Eklavya
 		debugRenderer.DrawSphere(endPoint, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 0.5f));
 	}
 
-	void StackOfBoxesDemo::ImGuiProc()
-	{
-		MainEntryScene::ImGuiProc();
 
-		ImGui::Begin("Stack Of Boxes");
-		ImGui::Text("Press H to generate Stack Of Boxes");
-		ImGui::Text("Press UP/DOWN/LEFT/RIGHT to rotate the floor");
-		ImGui::Text("Left Mouse click to cast a ray");
-		ImGui::End();
-	}
 #endif
 } // namespace Eklavya

@@ -65,13 +65,12 @@ namespace Eklavya
 	void Director::ImGuiProc()
 	{
 		GLFWGame::ImGuiProc();
-#ifdef EKDEBUG
+
 		InputHandler::GetInstance()->ImGuiProc();
 		if (mCurrentScene)
 		{
 			mCurrentScene->ImGuiProc();
 		}
-#endif
 	}
 
 	void Director::OnKeyAction(int pKey, int pAction)

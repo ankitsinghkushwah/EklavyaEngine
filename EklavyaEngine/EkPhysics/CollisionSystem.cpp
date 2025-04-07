@@ -26,7 +26,6 @@ namespace Eklavya::Physics::CollisionSystem
         float tMax = FLT_MAX;
 
         const glm::mat4 &worldMatrix = boxCollider.GetOwner().Transform().GetWorldMatrix();
-        const glm::vec3 halfExtents = boxCollider.GetHalfSize();
 
         glm::vec3 center = worldMatrix[3];
 
