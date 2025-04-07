@@ -21,14 +21,14 @@ namespace Eklavya
 	class SkeletalAnimationWithIK final : public MainEntryScene
 	{
 	public:
-		SkeletalAnimationWithIK(class Director& pDirector);
+		SkeletalAnimationWithIK(class Director &pDirector);
 
 		~SkeletalAnimationWithIK() override;
 
 	private:
 		void PreloadTextures();
 
-		Asset::MaterialInfo LoadMaterialInfo(const std::string& file, std::string ext = "png");
+		Asset::MaterialInfo LoadMaterialInfo(const std::string &file, std::string ext = "png");
 
 		void LoadLevel(std::string name);
 
@@ -42,18 +42,18 @@ namespace Eklavya
 
 		void InstantiateCharacters();
 
-		SceneHelper::ModelLoadOptions GetMaterialsForCharacter(const std::string& character);
+		SceneHelper::ModelLoadOptions GetMaterialsForCharacter(const std::string &character);
 
-		std::string GetExtension(const std::string& character);
+		std::string GetExtension(const std::string &character);
 
-		std::vector<std::string> AnimationsToLoad(const std::string& animations);
+		std::vector<std::string> AnimationsToLoad(const std::string &animations);
 
-		std::string ModelName(const std::string& character)
+		std::string ModelName(const std::string &character)
 		{
 			return "characters/" + character + "/" + character;
 		}
 
-		std::string AnimationName(const std::string& character, const std::string& animation)
+		std::string AnimationName(const std::string &character, const std::string &animation)
 		{
 			return "characters/" + character + "/" + animation;
 		}
@@ -61,12 +61,12 @@ namespace Eklavya
 #ifdef EKDEBUG
 		void ImGuiProc() override;
 
-		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
+		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
 #endif
 
 	private:
-		EkActor* mPlayer = nullptr;
-		PlayerController* mPlayerController = nullptr;
+		EkActor *mPlayer = nullptr;
+		PlayerController *mPlayerController = nullptr;
 
 		std::shared_ptr<Eklavya::SpringFollowCamera> mFollowCamera = nullptr;
 
@@ -74,7 +74,7 @@ namespace Eklavya
 		std::unordered_map<std::string, std::vector<SHARED_ANIMATION> > mAnimations;
 
 		float floorAngle = 30.0f;
-		UniqueActor ikFloor = nullptr;
+		EkActor *ikFloor = nullptr;
 
 		glm::vec3 ikTarget;
 	};

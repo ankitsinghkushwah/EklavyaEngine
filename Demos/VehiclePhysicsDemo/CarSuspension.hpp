@@ -56,9 +56,8 @@ struct CarSuspension : public Eklavya::EkComponent
 
   void Tick(float deltaTime) override;
 
-#ifdef EKDEBUG
+
   void DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer) override;
-#endif
 
   void UpdateSteering(float dt);
 

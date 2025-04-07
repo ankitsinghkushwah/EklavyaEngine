@@ -6,20 +6,22 @@ namespace Eklavya
 {
 	EkActorID EkActor::s_IdCounter = 0;
 
-	EkActor::EkActor() : mID(++s_IdCounter)
+	EkActor::EkActor() :
+		mID(++s_IdCounter)
 	{
 		mTransform = EmplaceComponent<TransformComponent>();
 	}
 
-	EkActor::~EkActor()
-	{
-	}
+	EkActor::~EkActor() {}
 
-	EkActor* EkActor::GetChild(const std::string& name)
+	EkActor *EkActor::GetChild(const std::string &name)
 	{
-		EkActor* foundActor = nullptr;
+		EkActor *foundActor = nullptr;
 
-		auto iter = std::find_if(mKids.begin(), mKids.end(), [&](const UniqueActor& actor) { return actor->mName == name; });
+		auto iter = std::find_if(mKids.begin(), mKids.end(), [&](const UniqueActor &actor)
+		{
+			return actor->mName == name;
+		});
 
 		if (iter != mKids.end())
 		{
@@ -28,7 +30,7 @@ namespace Eklavya
 			return foundActor;
 		}
 
-		for (const UniqueActor& kid : mKids)
+		for (const UniqueActor &kid: mKids)
 		{
 			foundActor = kid->GetChild(name);
 			if (foundActor != nullptr)
@@ -40,17 +42,24 @@ namespace Eklavya
 		return foundActor;
 	}
 
-	void EkActor::SetBound(const glm::vec3& halfExtents)
+	void EkActor::SetBound(const glm::vec3 &halfExtents)
 	{
-		if (RenderComponent* renderComponent = GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID))
+		if (RenderComponent *renderComponent = GetComponent<RenderComponent>(CoreComponentIds::RENDER_COMPONENT_ID))
 		{
 			renderComponent->UpdateBounds(-halfExtents, halfExtents);
 		}
 	}
 
-	void EkActor::AddKid(UniqueActor& kid)
+	void EkActor::AddKid(UniqueActor &kid)
 	{
 		kid->SetParent(this);
 		mKids.push_back(std::move(kid));
+	}
+
+	void EkActor::AddKid(EkActor &kid)
+	{
+		kid.SetParent(this);
+		UniqueActor uniqueKid(&kid);
+		mKids.push_back(std::move(uniqueKid));
 	}
 } // namespace Eklavya

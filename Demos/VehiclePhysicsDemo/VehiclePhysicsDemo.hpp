@@ -46,11 +46,10 @@ namespace Eklavya
 		void LoadMesh();
 
 		void ImGuiProc() override;
-#ifdef EKDEBUG
 
 
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
-#endif
+
 
 		glm::vec3 mRayStart;
 		glm::vec3 mRayDirection;

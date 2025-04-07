@@ -34,8 +34,8 @@ namespace Eklavya
 		PLASTIC
 	};
 
-	UniqueActor MainEntryScene::CreateCube(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate, float mass,
-	                                       Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
+	EkActor *MainEntryScene::CreateCube(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate, float mass,
+	                                    Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
 	{
 		UniqueActor floor = std::make_unique<EkActor>();
 		floor->Transform().SetScale(scale);
@@ -44,6 +44,7 @@ namespace Eklavya
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
 		render->GetMesh().mMaterialInfo = matInfo;
 
+		EkActor *actor = floor.get();
 		if (!kid)
 		{
 			auto collider = floor->EmplaceComponent<Physics::BoxColliderComponent>();
@@ -59,11 +60,11 @@ namespace Eklavya
 			AddActor(floor);
 		}
 
-		return floor;
+		return actor;
 	}
 
-	UniqueActor MainEntryScene::CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
-	                                         uint32_t flag, bool kid)
+	EkActor *MainEntryScene::CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
+	                                      uint32_t flag, bool kid)
 	{
 		UniqueActor sphere = std::make_unique<EkActor>();
 		sphere->Transform().SetScale(radius);
@@ -72,7 +73,7 @@ namespace Eklavya
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
 		render->GetMesh().mMaterialInfo = matInfo;
 
-
+		EkActor *actor = sphere.get();
 		if (!kid)
 		{
 			auto collider = sphere->EmplaceComponent<Physics::SphereColliderComponent>();
@@ -87,7 +88,7 @@ namespace Eklavya
 			AddActor(sphere);
 		}
 
-		return sphere;
+		return actor;
 	}
 
 	MainEntryScene::MainEntryScene(Director &pDirector) :

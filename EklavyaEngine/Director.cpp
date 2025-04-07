@@ -39,9 +39,7 @@ namespace Eklavya
 		AssetManager::GetInstance().LoadShader("shadow_map");
 		AssetManager::GetInstance().LoadShader("anim_model");
 
-#ifdef EKDEBUG
 		SHARED_SHADER program = AssetManager::GetInstance().LoadShader("unlit_solids");
-#endif
 	}
 
 	void Director::Tick()

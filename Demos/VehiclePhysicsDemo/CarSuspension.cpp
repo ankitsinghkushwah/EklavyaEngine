@@ -194,8 +194,6 @@ void CarSuspension::UpdateSteering(float dt)
   }
 }
 
-#ifdef EKDEBUG
-
 
 void CarSuspension::DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer)
 {
@@ -207,4 +205,3 @@ void CarSuspension::DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer)
   }
 }
 
-#endif

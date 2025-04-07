@@ -23,6 +23,11 @@ namespace Eklavya::Renderer
 
 namespace Eklavya
 {
+	namespace Renderer
+	{
+		class DebugRenderer;
+	}
+
 	class EkActor;
 
 	using EkComponentID = std::uint32_t;
@@ -46,9 +51,8 @@ namespace Eklavya
 			return mOwner;
 		}
 
-#ifdef EKDEBUG
+
 		virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer) {}
-#endif
 
 		bool operator==(const EkComponent &rhs) const;
 

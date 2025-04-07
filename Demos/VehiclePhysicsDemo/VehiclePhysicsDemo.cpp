@@ -251,7 +251,6 @@ namespace Eklavya
 			ImGui::End();
 		}
 	}
-#ifdef EKDEBUG
 
 	void VehiclePhysicsDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
@@ -261,5 +260,4 @@ namespace Eklavya
 			mSuspensions[i]->DebugDraw(debugRenderer);
 		}
 	}
-#endif
 } // namespace Eklavya

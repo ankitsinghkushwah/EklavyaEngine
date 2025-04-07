@@ -90,8 +90,8 @@ namespace Eklavya
 			info.mMetallic = 0.0f;
 			info.mTiling = 1;
 			info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-			UniqueActor actor = CreateCube(pos, scale, rotation, 30.0f, info, 0, true);
-			xzRotationParent->AddKid(actor);
+			EkActor *actor = CreateCube(pos, scale, rotation, 30.0f, info, 0, true);
+			xzRotationParent->AddKid(*actor);
 		}
 
 		mXZRotationParent = xzRotationParent.get();
@@ -112,8 +112,8 @@ namespace Eklavya
 			info.mMetallic = 0.0f;
 			info.mTiling = 1;
 			info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-			UniqueActor actor = CreateCube(pos, scale, rotation, 30.0f, info, 0, true);
-			yzRotationParent->AddKid(actor);
+			EkActor *actor = CreateCube(pos, scale, rotation, 30.0f, info, 0, true);
+			yzRotationParent->AddKid(*actor);
 		}
 
 		mYXRotationParent = yzRotationParent.get();
