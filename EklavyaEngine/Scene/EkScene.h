@@ -101,7 +101,7 @@ namespace Eklavya
     SceneDebugger mSceneDebugger;
 #endif
 
-  private:
+  protected:
     std::shared_ptr<FreeLookCamera> mFreeLookCamera;
     std::vector<UniqueActor> mRootActors;
     std::vector<EkActorID> mActorsToBeRemoved;

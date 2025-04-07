@@ -45,9 +45,6 @@ namespace Eklavya
 #endif
 
 	private:
-		glm::vec3 mRayStart;
-		glm::vec3 mRayDirection;
-		float mRayRange = 0.0f;
 		Physics::CastHitResult mLastCastHitResult;
 		Eklavya::Audio mAudio;
 		std::string mEngineLoopSound;
