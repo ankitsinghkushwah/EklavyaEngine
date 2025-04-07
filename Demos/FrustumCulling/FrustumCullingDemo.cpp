@@ -7,6 +7,7 @@
 #include "EkPhysics/Collider.h"
 #include "FrustumCullingDemo.h"
 #include "Random.h"
+#include "imgui/imgui.h"
 
 
 using namespace Eklavya::Asset;
@@ -15,7 +16,7 @@ using namespace Eklavya::Physics;
 
 namespace Eklavya
 {
-	FrustumCullingDemo::FrustumCullingDemo(Director& pDirector) :
+	FrustumCullingDemo::FrustumCullingDemo(Director &pDirector) :
 		MainEntryScene(pDirector)
 	{
 		PreloadTextures();
@@ -33,9 +34,9 @@ namespace Eklavya
 	{
 		std::string ext = "png";
 
-		std::vector<std::string> texturesList = { "grid", "crate", "grass", "floor" };
+		std::vector<std::string> texturesList = {"grid", "crate", "grass", "floor"};
 
-		for (auto& name : texturesList)
+		for (auto &name: texturesList)
 		{
 			std::string folder = "pbr/" + name + "/";
 
@@ -47,7 +48,7 @@ namespace Eklavya
 		}
 	}
 
-	MaterialInfo FrustumCullingDemo::LoadMaterialInfo(const std::string& file, std::string ext)
+	MaterialInfo FrustumCullingDemo::LoadMaterialInfo(const std::string &file, std::string ext)
 	{
 		MaterialInfo info;
 
@@ -70,7 +71,8 @@ namespace Eklavya
 
 		float area_extent = 10000;
 		float floorScaleY = 10.0f;
-		CreateCube(glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
+		CreateCube(glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(),
+		           FLT_MAX, info, 0);
 
 		auto xzRotationParent = std::make_unique<EkActor>();
 
@@ -121,8 +123,6 @@ namespace Eklavya
 	void FrustumCullingDemo::OnKeyAction(int key, int action)
 	{
 		MainEntryScene::OnKeyAction(key, action);
-
-
 	}
 
 	void FrustumCullingDemo::Tick(float deltaTime)
@@ -149,9 +149,8 @@ namespace Eklavya
 		}
 	}
 
-	void FrustumCullingDemo::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void FrustumCullingDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 	}
-
 } // namespace Eklavya

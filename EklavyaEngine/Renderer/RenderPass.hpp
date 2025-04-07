@@ -28,7 +28,7 @@ namespace Eklavya
 namespace Eklavya::Renderer
 {
 	class GLRenderer;
-	class DebugRenderer;
+
 
 	using ACTORS_MAP = std::array<std::vector<const RenderComponent *>, ERenderGroup::RG_MAX>;
 

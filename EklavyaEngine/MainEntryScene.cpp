@@ -35,12 +35,12 @@ namespace Eklavya
 	};
 
 	UniqueActor MainEntryScene::CreateCube(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate, float mass,
-		Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
+	                                       Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
 	{
 		UniqueActor floor = std::make_unique<EkActor>();
 		floor->Transform().SetScale(scale);
 		floor->Transform().SetPosition(pos);
-		RenderComponent* render = floor->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
+		RenderComponent *render = floor->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
 		render->GetMesh().mMaterialInfo = matInfo;
 
@@ -63,7 +63,7 @@ namespace Eklavya
 	}
 
 	UniqueActor MainEntryScene::CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
-		uint32_t flag, bool kid)
+	                                         uint32_t flag, bool kid)
 	{
 		UniqueActor sphere = std::make_unique<EkActor>();
 		sphere->Transform().SetScale(radius);
@@ -90,14 +90,14 @@ namespace Eklavya
 		return sphere;
 	}
 
-	MainEntryScene::MainEntryScene(Director& pDirector) :
+	MainEntryScene::MainEntryScene(Director &pDirector) :
 		EkScene(pDirector)
 	{
 		GetRenderer().GetMaterialForGroup<SkyboxMaterial>(Renderer::ERenderGroup::SKYBOX)->mCubemap =
-			AssetManager::GetInstance().LoadCubemap("Day", "png");
+				AssetManager::GetInstance().LoadCubemap("Day", "png");
 
 		UniqueActor sky = std::make_unique<EkActor>();
-		RenderComponent* render = sky->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
+		RenderComponent *render = sky->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
 		render->mProjectsShadow = false;
 		render->mRenderGroup = Renderer::ERenderGroup::SKYBOX;
 		AddActor(sky);
@@ -110,12 +110,9 @@ namespace Eklavya
 		EkScene::ImGuiProc();
 	}
 
-#ifdef EKDEBUG
-	void MainEntryScene::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+
+	void MainEntryScene::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		EkScene::DebugDraw(debugRenderer);
 	}
-
-
-#endif
 } // namespace Eklavya

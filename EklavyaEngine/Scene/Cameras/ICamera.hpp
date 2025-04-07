@@ -12,10 +12,10 @@
 #include "Frustum.h"
 #include <UserInputListener.h>
 
-#ifdef EKDEBUG
+#include "Renderer/GLRenderer.h"
+
 #include <Renderer/DebugRenderer.hpp>
 
-#endif
 
 namespace Eklavya
 {
@@ -29,8 +29,9 @@ namespace Eklavya
 
 	class ICamera : public UserInputListener
 	{
-	  public:
+	public:
 		ICamera(CameraParams options);
+
 		ICamera();
 
 		virtual void Update(float deltaTime);
@@ -50,7 +51,7 @@ namespace Eklavya
 			return mProjection * mView;
 		}
 
-		const Frustum& GetFrustum() const
+		const Frustum &GetFrustum() const
 		{
 			return mFrustum;
 		}
@@ -68,20 +69,18 @@ namespace Eklavya
 		//inputs
 		void OnKeyAction(int key, int action) override;
 
-	  protected:
+	protected:
 		glm::mat4 mView;
 		glm::mat4 mProjection;
-		Frustum   mFrustum;
+		Frustum mFrustum;
 		glm::vec3 mForward;
 		glm::vec3 mPosition;
 
-	  private:
+	private:
 		bool mDebug = false;
 
-#ifdef EKDEBUG
-	  public:
-		virtual void DebugDraw(Renderer::DebugRenderer& debugRenderer);
-#endif
+	public:
+		virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer);
 	};
 } // namespace Eklavya
 

@@ -23,6 +23,8 @@ namespace Eklavya::Renderer
 {
   using GROUP_MATERIALS = std::array<SHARED_MATERIAL, ERenderGroup::RG_MAX>;
 
+  class DebugRenderer;
+
   class GLRenderer
   {
     friend MainPass;
@@ -70,8 +72,6 @@ namespace Eklavya::Renderer
     glm::mat4 mOutputProjection;
     glm::mat4 mOutputModel;
 
-#ifdef EKDEBUG
-
   public:
     DebugRenderer &GetDebugRenderer() { return mDebugRenderer; }
 
@@ -79,7 +79,6 @@ namespace Eklavya::Renderer
     void DebugDraw(EkScene &scene);
 
     DebugRenderer &mDebugRenderer;
-#endif
   };
 } // namespace Eklavya::Renderer
 

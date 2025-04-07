@@ -5,7 +5,6 @@
 //  Created by Ankit Singh Kushwah on 25/06/2023.
 //
 
-#ifdef EKDEBUG
 #ifndef DebugHelper_hpp
 #define DebugHelper_hpp
 
@@ -152,4 +151,4 @@ namespace Eklavya::Renderer
 
 #endif /* DebugHelper_hpp */
 
-#endif
+

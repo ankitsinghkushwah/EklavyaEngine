@@ -22,9 +22,9 @@ namespace Eklavya
 		glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
 
 		glm::vec3 nc = forward * fNear; // assuming camera is at (0,0,0)
-		glm::vec3 fc = forward * fFar;  // assuming camera is at (0,0,0)
+		glm::vec3 fc = forward * fFar; // assuming camera is at (0,0,0)
 
-#ifdef EKDEBUG
+
 		mPoints[NEAR_CENTER] = nc;
 		mPoints[FAR_CENTER] = fc;
 		mPoints[NEAR_TOP_LEFT] = nc + (up * (mNearHeight / 2.0f)) - (right * (mNearWidth / 2.0f));
@@ -36,24 +36,20 @@ namespace Eklavya
 		mPoints[FAR_TOP_RIGHT] = mPoints[FAR_TOP_LEFT] + (right * mFarWidth);
 		mPoints[FAR_BOTTOM_LEFT] = mPoints[FAR_TOP_LEFT] - (up * mFarHeight);
 		mPoints[FAR_BOTTOM_RIGHT] = mPoints[FAR_BOTTOM_LEFT] + (right * mFarWidth);
-#endif
 	}
 
-	Frustum::~Frustum()
-	{
-	}
+	Frustum::~Frustum() {}
 
-#ifdef EKDEBUG
-	void Frustum::OnDebugUpdate(const glm::mat4& view)
+
+	void Frustum::OnDebugUpdate(const glm::mat4 &view)
 	{
 		for (int i = 0; i < 10; i++)
 		{
 			mWorldPoints[i] = glm::inverse(view) * glm::vec4(mPoints[i], 1.0f);
 		}
 	}
-#endif
 
-	void Frustum::UpdatePlanes(const glm::mat4& projection, const glm::mat4& view)
+	void Frustum::UpdatePlanes(const glm::mat4 &projection, const glm::mat4 &view)
 	{
 		glm::vec4 row1 = glm::row(projection, 0);
 		glm::vec4 row2 = glm::row(projection, 1);
@@ -68,11 +64,11 @@ namespace Eklavya
 		mPlanes[EPlane::FAR_PLANE] = glm::normalize(row4 - row3) * view;
 	}
 
-	bool Frustum::Test(const glm::mat4& transform, const Bound& box) const
+	bool Frustum::Test(const glm::mat4 &transform, const Bound &box) const
 	{
-		int             insidePlaneCounter = 0;
+		int insidePlaneCounter = 0;
 		const glm::vec3 extents = box.Extents();
-		for (auto plane : mPlanes)
+		for (auto plane: mPlanes)
 		{
 			for (int i = 0; i < 8; ++i)
 			{

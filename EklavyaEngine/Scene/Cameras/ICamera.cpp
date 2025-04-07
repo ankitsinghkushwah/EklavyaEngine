@@ -10,9 +10,13 @@
 #include <cstdio>
 #include <GLFW/glfw3.h>
 
+#include <Renderer/DebugRenderer.hpp>
+
+
 namespace Eklavya
 {
-	ICamera::ICamera(CameraParams options) : UserInputListener(), mPosition(0.0f), mForward(0.0f, 0.0f, -1.0f), mView(1.0f), mProjection(1.0f)
+	ICamera::ICamera(CameraParams options) :
+		UserInputListener(), mPosition(0.0f), mForward(0.0f, 0.0f, -1.0f), mView(1.0f), mProjection(1.0f)
 	{
 		mProjection = glm::perspective(options.fov, options.ratio, options.near, options.far);
 		mFrustum.Init(options.fov, options.ratio, options.near, options.far);
@@ -31,16 +35,14 @@ namespace Eklavya
 		if (key == GLFW_KEY_G && action == GLFW_PRESS)
 		{
 			mDebug = !mDebug;
-#ifdef EKDEBUG
+
 			mFrustum.OnDebugUpdate(mView);
-#endif
 		}
 	}
 
-#ifdef EKDEBUG
-	void ICamera::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void ICamera::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
-		debugRenderer.DrawFrustum(mFrustum);
+		if (mDebug)
+			debugRenderer.DrawFrustum(mFrustum);
 	}
-#endif
 } // namespace Eklavya

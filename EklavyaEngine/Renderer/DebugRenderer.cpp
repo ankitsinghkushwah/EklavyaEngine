@@ -5,7 +5,6 @@
 //  Created by Ankit Singh Kushwah on 25/06/2023.
 //
 
-#ifdef EKDEBUG
 #include <Renderer/DebugRenderer.hpp>
 #include <AssetManager/ShaderProgram.h>
 #include <glm/gtc/quaternion.hpp>
@@ -257,4 +256,3 @@ void DebugRenderer::DrawAddedShapes()
 		DrawPlane(plane);
 }
 
-#endif

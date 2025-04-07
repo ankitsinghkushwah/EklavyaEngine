@@ -191,13 +191,12 @@ namespace Eklavya
 #endif
 	}
 
-#ifdef EKDEBUG
-
 
 	void EkScene::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
+#ifdef EKDEBUG
 		mSceneDebugger.DebugDraw(debugRenderer);
+#endif
 		CurrentCamera()->DebugDraw(debugRenderer);
 	}
-#endif
 } // namespace Eklavya

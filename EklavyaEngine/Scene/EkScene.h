@@ -92,12 +92,11 @@ namespace Eklavya
   public:
     virtual void ImGuiProc();
 
-#ifdef EKDEBUG
-
   public:
     virtual void DebugDraw(Renderer::DebugRenderer &debugRenderer);
 
   protected:
+#ifdef EKDEBUG
     SceneDebugger mSceneDebugger;
 #endif
 

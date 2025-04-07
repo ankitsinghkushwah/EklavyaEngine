@@ -8,6 +8,7 @@
 #include <CoreUtils/Singleton.h>
 #include <AssetManager/GLMesh.hpp>
 #include "imgui/imgui.h"
+#include "DebugRenderer.hpp"
 using namespace Eklavya::Asset;
 
 namespace Eklavya::Renderer
@@ -16,9 +17,7 @@ namespace Eklavya::Renderer
 		:
 		mContext(context)
 		, mOutputModel(1.0f)
-#ifdef EKDEBUG
 		, mDebugRenderer(DebugRenderer::GetInstance())
-#endif
 	{
 		for (int rp = 0; rp < mRenderPasses.size(); ++rp)
 		{
@@ -116,7 +115,8 @@ namespace Eklavya::Renderer
 				std::string n = "gBones[" + std::to_string(i) + "]";
 				shader->SetMat4(n.c_str(), transforms[i]);
 			}
-		} else { shader->SetInt("bApplyAnimation", 0); }
+		}
+		else { shader->SetInt("bApplyAnimation", 0); }
 	}
 
 	void GLRenderer::RenderInternal(const std::vector<const RenderComponent *> &actors, SHARED_SHADER &shader,
@@ -146,15 +146,14 @@ namespace Eklavya::Renderer
 		{
 			pass->PreRun();
 			pass->Run(*this, scene);
-#ifdef EKDEBUG
+
 			if (pass->GetType() == MAIN_PASS) { DebugDraw(scene); }
-#endif
 			pass->PostRun();
 		}
 		PostPassesResult();
 	}
 
-#ifdef EKDEBUG
+
 	void GLRenderer::DebugDraw(EkScene &scene)
 	{
 		glm::mat4 projection = scene.CurrentCamera()->GetProjection();
@@ -163,7 +162,6 @@ namespace Eklavya::Renderer
 		scene.DebugDraw(mDebugRenderer);
 		mDebugRenderer.DrawAddedShapes();
 	}
-#endif
 
 	void GLRenderer::ImGuiProc() {}
 } // namespace Eklavya::Renderer
