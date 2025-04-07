@@ -51,15 +51,15 @@ bool ShaderProgram::AddAndCompile(const std::string& shaderPath, EShaderType typ
 	GLenum shaderType;
 	switch (type)
 	{
-		case EShaderType::VERTEX:
-			shaderType = GL_VERTEX_SHADER;
-			break;
-		case EShaderType::FRAGMENT:
-			shaderType = GL_FRAGMENT_SHADER;
-			break;
-		default:
+	case EShaderType::VERTEX:
+		shaderType = GL_VERTEX_SHADER;
+		break;
+	case EShaderType::FRAGMENT:
+		shaderType = GL_FRAGMENT_SHADER;
+		break;
+	default:
 
-			break;
+		break;
 	}
 
 	const char* code = shaderCode.c_str();
@@ -101,17 +101,32 @@ bool ShaderProgram::Build()
 bool ShaderProgram::ErrorOccured(GLuint id, bool linking)
 {
 	GLint success;
-	glGetProgramiv(id, linking ? GL_LINK_STATUS : GL_COMPILE_STATUS, &success);
-	if (!success)
+
+	if (linking)
 	{
-		GLchar  errInfo[512];
-		GLsizei charWritten;
-		glGetProgramInfoLog(m_ID, 512, &charWritten, errInfo);
-		std::string prefix = linking ? "Linking" : "Compilation";
-		m_ErrorInfo = prefix + " " + m_Name + " :: Error :: " + std::string(errInfo);
-		printf(m_ErrorInfo.c_str());
-		printf("\n");
-		return true;
+		glGetProgramiv(id, GL_LINK_STATUS, &success);
+		if (!success)
+		{
+			GLchar errInfo[512];
+			GLsizei charWritten;
+			glGetProgramInfoLog(id, 512, &charWritten, errInfo);
+			m_ErrorInfo = "Linking " + m_Name + " :: Error :: " + std::string(errInfo);
+			printf("%s\n", m_ErrorInfo.c_str());
+			return true;
+		}
+	}
+	else
+	{
+		glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			GLchar errInfo[512];
+			GLsizei charWritten;
+			glGetShaderInfoLog(id, 512, &charWritten, errInfo);
+			m_ErrorInfo = "Compilation " + m_Name + " :: Error :: " + std::string(errInfo);
+			printf("%s\n", m_ErrorInfo.c_str());
+			return true;
+		}
 	}
 
 	return false;
