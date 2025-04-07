@@ -80,7 +80,8 @@ namespace Eklavya
 		if (character == "player")
 		{
 			return ".fbx";
-		} else if (character == "swat")
+		}
+		else if (character == "swat")
 		{
 			return ".dae";
 		}
@@ -201,10 +202,10 @@ namespace Eklavya
 
 		float areaAxtent = 10000;
 		float floorScaleY = 30.0f;
-		CreateCube(glm::vec3(0.0f), glm::vec3(areaAxtent, floorScaleY, areaAxtent), glm::vec3(), FLT_MAX, info, 0);
+		AddBox(glm::vec3(0.0f), glm::vec3(areaAxtent, floorScaleY, areaAxtent), glm::vec3(), FLT_MAX, info, 0);
 
-		ikFloor = CreateCube(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f),
-		                     glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
+		ikFloor = AddBox(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f),
+		                 glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
 	}
 
 	void SkeletalAnimationWithIK::SetupPlayer()

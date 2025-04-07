@@ -72,7 +72,7 @@ namespace Eklavya
 		float area_extent = 2000;
 		float floorScaleY = 10.0f;
 
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
+		AddBox(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
 	}
 
 	void SceneTemplate::OnKeyAction(int key, int action)

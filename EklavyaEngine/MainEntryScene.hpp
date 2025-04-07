@@ -25,16 +25,24 @@ namespace Eklavya
 
 		void CreateStage();
 
-		EkActor *CreateCube(glm::vec3 pos,
-		                    glm::vec3 scale,
-		                    glm::vec3 rotate,
-		                    float mass,
-		                    Asset::MaterialInfo matInfo,
-		                    uint32_t groupFlag = Physics::OTHER_COLLIDABLES,
-		                    bool kid = false);
+		UniqueActor CreateBox(glm::vec3 pos,
+		                      glm::vec3 scale,
+		                      glm::vec3 rotate,
+		                      Asset::MaterialInfo matInfo);
 
-		EkActor *CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
-		                      uint32_t groupFlag = Physics::OTHER_COLLIDABLES, bool kid = false);
+		UniqueActor CreateSphere(glm::vec3 pos,
+		                         float radius,
+		                         Asset::MaterialInfo matInfo);
+
+		EkActor *AddBox(glm::vec3 pos,
+		                glm::vec3 scale,
+		                glm::vec3 rotate,
+		                float mass,
+		                Asset::MaterialInfo matInfo,
+		                uint32_t groupFlag = Physics::OTHER_COLLIDABLES);
+
+		EkActor *AddSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
+		                   uint32_t groupFlag = Physics::OTHER_COLLIDABLES);
 
 		void ImGuiProc() override;
 

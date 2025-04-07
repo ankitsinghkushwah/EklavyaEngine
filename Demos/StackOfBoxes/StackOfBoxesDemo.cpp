@@ -78,8 +78,8 @@ namespace Eklavya
 	{
 		MaterialInfo info = LoadMaterialInfo("grid");
 
-		auto actor = CreateCube(glm::vec3(0.0f),
-		                        glm::vec3(1000.0f, 30.0f, 1000.0f), glm::vec3(0.0f), FLT_MAX, info, STATIC);
+		auto actor = AddBox(glm::vec3(0.0f),
+		                    glm::vec3(1000.0f, 30.0f, 1000.0f), glm::vec3(0.0f), FLT_MAX, info, STATIC);
 
 		mFloor = actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 	}
@@ -114,7 +114,7 @@ namespace Eklavya
 			info.mMetallic = 0.0f;
 
 			info.mBaseColor = glm::vec4((Random::GetInstance()->GetPointOnUnitSphere() * .1f) + glm::vec3(.1), 1.0f);
-			EkActor *sphere = CreateSphere(pos, Random::GetInstance()->Real(0.4, 2.0f) * 15.0f, 60.0f, info, -1);
+			EkActor *sphere = AddSphere(pos, Random::GetInstance()->Real(0.4, 2.0f) * 15.0f, 60.0f, info, -1);
 			EkBody *sphereBody = sphere->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 			sphereBody->SetVelocity(CurrentCamera()->Forward() * 300.0f);
 
@@ -171,8 +171,8 @@ namespace Eklavya
 				info.mMetallic = 0.0f;
 				info.mTiling = 1;
 				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 30.0f,
-				           info, 0);
+				AddBox(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 30.0f,
+				       info, 0);
 			}
 		}
 	}

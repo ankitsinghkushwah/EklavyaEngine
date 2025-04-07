@@ -34,8 +34,8 @@ namespace Eklavya
 		PLASTIC
 	};
 
-	EkActor *MainEntryScene::CreateCube(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate, float mass,
-	                                    Asset::MaterialInfo matInfo, uint32_t flag, bool kid)
+	UniqueActor MainEntryScene::CreateBox(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate,
+	                                      Asset::MaterialInfo matInfo)
 	{
 		UniqueActor floor = std::make_unique<EkActor>();
 		floor->Transform().SetScale(scale);
@@ -44,27 +44,10 @@ namespace Eklavya
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
 		render->GetMesh().mMaterialInfo = matInfo;
 
-		EkActor *actor = floor.get();
-		if (!kid)
-		{
-			auto collider = floor->EmplaceComponent<Physics::BoxColliderComponent>();
-
-			collider->SetHalfSize(floor->Transform().GetScale());
-			collider->SetGroupIndex(flag);
-
-			auto body = floor->EmplaceComponent<Physics::EkBody>();
-			body->SetMass(mass);
-			body->SetPosition(pos);
-			body->SetRotation(rotate);
-
-			AddActor(floor);
-		}
-
-		return actor;
+		return floor;
 	}
 
-	EkActor *MainEntryScene::CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
-	                                      uint32_t flag, bool kid)
+	UniqueActor MainEntryScene::CreateSphere(glm::vec3 pos, float radius, Asset::MaterialInfo matInfo)
 	{
 		UniqueActor sphere = std::make_unique<EkActor>();
 		sphere->Transform().SetScale(radius);
@@ -73,20 +56,58 @@ namespace Eklavya
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
 		render->GetMesh().mMaterialInfo = matInfo;
 
+		return sphere;
+	}
+
+	EkActor *MainEntryScene::AddBox(glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate, float mass,
+	                                Asset::MaterialInfo matInfo, uint32_t flag)
+	{
+		UniqueActor floor = std::make_unique<EkActor>();
+		floor->Transform().SetScale(scale);
+		floor->Transform().SetPosition(pos);
+		RenderComponent *render = floor->EmplaceComponent<RenderComponent>(EMeshType::CUBE);
+		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
+		render->GetMesh().mMaterialInfo = matInfo;
+
+		auto collider = floor->EmplaceComponent<Physics::BoxColliderComponent>();
+
+		collider->SetHalfSize(floor->Transform().GetScale());
+		collider->SetGroupIndex(flag);
+
+		auto body = floor->EmplaceComponent<Physics::EkBody>();
+		body->SetMass(mass);
+		body->SetPosition(pos);
+		body->SetRotation(rotate);
+
+		EkActor *actor = floor.get();
+		AddActor(floor);
+
+		return actor;
+	}
+
+	EkActor *MainEntryScene::AddSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
+	                                   uint32_t flag)
+	{
+		UniqueActor sphere = std::make_unique<EkActor>();
+		sphere->Transform().SetScale(radius);
+		sphere->Transform().SetPosition(pos);
+		auto render = sphere->EmplaceComponent<RenderComponent>(EMeshType::SPHERE);
+		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
+		render->GetMesh().mMaterialInfo = matInfo;
+
+
+		auto collider = sphere->EmplaceComponent<Physics::SphereColliderComponent>();
+		collider->SetRadius(radius);
+		collider->SetGroupIndex(flag);
+
+		auto body = sphere->EmplaceComponent<Physics::EkBody>();
+		body->SetMass(mass);
+		body->SetPosition(pos);
+		body->SetRestitution(.4f);
+
 		EkActor *actor = sphere.get();
-		if (!kid)
-		{
-			auto collider = sphere->EmplaceComponent<Physics::SphereColliderComponent>();
-			collider->SetRadius(radius);
-			collider->SetGroupIndex(flag);
 
-			auto body = sphere->EmplaceComponent<Physics::EkBody>();
-			body->SetMass(mass);
-			body->SetPosition(pos);
-			body->SetRestitution(.4f);
-
-			AddActor(sphere);
-		}
+		AddActor(sphere);
 
 		return actor;
 	}

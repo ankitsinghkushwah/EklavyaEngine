@@ -83,7 +83,7 @@ namespace Eklavya
 
 		float area_extent = 10000;
 		float floorScaleY = 10.0f;
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
+		AddBox(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info, 0);
 
 		MaterialInfo crate = LoadMaterialInfo("crate");
 		crate.mTiling = 2;
@@ -94,16 +94,16 @@ namespace Eklavya
 
 		for (int z = 0; z < 5; z++)
 		{
-			CreateCube(glm::vec3(0.0, pos, 10 + z * 20.0f), glm::vec3(30.0f, scaleY, 5.0f),
-			           glm::vec3(0.0f, 0.0f, 0.0f), FLT_MAX, crate, 0);
+			AddBox(glm::vec3(0.0, pos, 10 + z * 20.0f), glm::vec3(30.0f, scaleY, 5.0f),
+			       glm::vec3(0.0f, 0.0f, 0.0f), FLT_MAX, crate, 0);
 		}
 
 		//
-		CreateCube(glm::vec3(0.0, 17, -300.0f), glm::vec3(100.0f, 7.0f, 120),
-		           glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, crate, 0);
+		AddBox(glm::vec3(0.0, 17, -300.0f), glm::vec3(100.0f, 7.0f, 120),
+		       glm::vec3(glm::radians(15.0f), 0.0f, 0.0f), FLT_MAX, crate, 0);
 		//
-		CreateCube(glm::vec3(0.0, 15, -460.0f), glm::vec3(100.0f, 7.0f, 120),
-		           glm::vec3(glm::radians(-15.0f), 0.0f, 0.0f), FLT_MAX, crate, 0);
+		AddBox(glm::vec3(0.0, 15, -460.0f), glm::vec3(100.0f, 7.0f, 120),
+		       glm::vec3(glm::radians(-15.0f), 0.0f, 0.0f), FLT_MAX, crate, 0);
 	}
 
 

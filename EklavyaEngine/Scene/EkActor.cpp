@@ -55,11 +55,4 @@ namespace Eklavya
 		kid->SetParent(this);
 		mKids.push_back(std::move(kid));
 	}
-
-	void EkActor::AddKid(EkActor &kid)
-	{
-		kid.SetParent(this);
-		UniqueActor uniqueKid(&kid);
-		mKids.push_back(std::move(uniqueKid));
-	}
 } // namespace Eklavya

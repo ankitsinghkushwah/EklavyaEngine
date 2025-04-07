@@ -94,8 +94,6 @@ namespace Eklavya
 
     void AddKid(UniqueActor &actor);
 
-    void AddKid(EkActor &actor);
-
     const std::vector<UniqueActor> &Kids() const { return mKids; }
 
     std::vector<UniqueActor> &Kids() { return mKids; }

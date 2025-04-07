@@ -71,8 +71,8 @@ namespace Eklavya
 
 		float area_extent = 10000;
 		float floorScaleY = 10.0f;
-		CreateCube(glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(),
-		           FLT_MAX, info, 0);
+		AddBox(glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(),
+		       FLT_MAX, info, 0);
 
 		auto xzRotationParent = std::make_unique<EkActor>();
 
@@ -90,8 +90,8 @@ namespace Eklavya
 			info.mMetallic = 0.0f;
 			info.mTiling = 1;
 			info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-			EkActor *actor = CreateCube(pos, scale, rotation, 30.0f, info, 0, true);
-			xzRotationParent->AddKid(*actor);
+			UniqueActor actor = CreateBox(pos, scale, rotation, info);
+			xzRotationParent->AddKid(actor);
 		}
 
 		mXZRotationParent = xzRotationParent.get();
@@ -112,8 +112,8 @@ namespace Eklavya
 			info.mMetallic = 0.0f;
 			info.mTiling = 1;
 			info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
-			EkActor *actor = CreateCube(pos, scale, rotation, 30.0f, info, 0, true);
-			yzRotationParent->AddKid(*actor);
+			UniqueActor actor = CreateBox(pos, scale, rotation, info);
+			yzRotationParent->AddKid(actor);
 		}
 
 		mYXRotationParent = yzRotationParent.get();

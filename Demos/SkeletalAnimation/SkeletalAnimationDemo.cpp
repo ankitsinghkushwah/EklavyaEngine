@@ -79,7 +79,7 @@ namespace Eklavya
 
 		float area_extent = 10000;
 		float floorScaleY = 5.0f;
-		CreateCube(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info,
+		AddBox(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info,
 		           STATIC);
 	}
 
@@ -135,7 +135,7 @@ namespace Eklavya
 			{
 				float x = xOffset + (col * radius);
 				float y = yOffset + (row * radius + offset);
-				CreateSphere(glm::vec3(x, y, -400.0f), 30.0f, 3.0f, info);
+				AddSphere(glm::vec3(x, y, -400.0f), 30.0f, 3.0f, info);
 			}
 		}
 	}
