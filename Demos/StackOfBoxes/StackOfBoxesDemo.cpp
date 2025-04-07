@@ -5,18 +5,18 @@
 //  Created by Ankit Singh Kushwah on 19/09/22.
 //
 
-#include "StackOfBoxesDemo.hpp"
-#include <InputHandler.h>
-#include "Components/RenderComponent.hpp"
-#include <Scene/EkActor.h>
 #include "AssetManager/AssetManager.h"
-#include <Renderer/Material.h>
+#include "Components/RenderComponent.hpp"
+#include "EkPhysics/Collider.h"
+#include "EkPhysics/EkBody.h"
 #include "imgui/imgui.h"
 #include "Random.h"
-#include "EkPhysics/EkBody.h"
-#include "EkPhysics/Collider.h"
-#include <memory>
 #include "Scene/Cameras/FreeLookCamera.h"
+#include "StackOfBoxesDemo.hpp"
+#include <InputHandler.h>
+#include <memory>
+#include <Renderer/Material.h>
+#include <Scene/EkActor.h>
 
 #include "glfw/glfw3.h"
 
@@ -26,13 +26,13 @@ using namespace Eklavya::Physics;
 
 namespace Eklavya
 {
-	StackOfBoxesDemo::StackOfBoxesDemo(Director &pDirector) :
+	StackOfBoxesDemo::StackOfBoxesDemo(Director& pDirector) :
 		MainEntryScene(pDirector), mEngineLoopSound("shotgun.wav")
 	{
 		PreloadTextures();
 
 		CreateStage();
-		mAudio.Load({mEngineLoopSound});
+		mAudio.Load({ mEngineLoopSound });
 		mAudio.GetSound().setRelativeToListener(false);
 		mAudio.GetSound().setVolume(100.0f);
 		mAudio.GetSound().setMinDistance(400.0f);
@@ -46,9 +46,9 @@ namespace Eklavya
 	{
 		std::string ext = "png";
 
-		std::vector<std::string> texturesList = {"grid", "crate", "grass", "floor"};
+		std::vector<std::string> texturesList = { "grid", "crate", "grass", "floor" };
 
-		for (auto &name: texturesList)
+		for (auto& name : texturesList)
 		{
 			std::string folder = "pbr/" + name + "/";
 
@@ -60,7 +60,7 @@ namespace Eklavya
 		}
 	}
 
-	MaterialInfo StackOfBoxesDemo::LoadMaterialInfo(const std::string &file, std::string ext)
+	MaterialInfo StackOfBoxesDemo::LoadMaterialInfo(const std::string& file, std::string ext)
 	{
 		MaterialInfo info;
 
@@ -79,7 +79,7 @@ namespace Eklavya
 		MaterialInfo info = LoadMaterialInfo("grid");
 
 		auto actor = CreateCube(glm::vec3(0.0f),
-		                        glm::vec3(1000.0f, 30.0f, 1000.0f), glm::vec3(0.0f), FLT_MAX, info, STATIC);
+			glm::vec3(1000.0f, 30.0f, 1000.0f), glm::vec3(0.0f), FLT_MAX, info, STATIC);
 
 		mFloor = actor->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 	}
@@ -92,7 +92,7 @@ namespace Eklavya
 		if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
 		{
 			int objectsToSkip = 0; //skybox & floor
-			for (UniqueActor &actor: mRootActors)
+			for (UniqueActor& actor : mRootActors)
 			{
 				objectsToSkip++;
 				if (objectsToSkip < 2) continue;
@@ -114,8 +114,8 @@ namespace Eklavya
 			info.mMetallic = 0.0f;
 
 			info.mBaseColor = glm::vec4((Random::GetInstance()->GetPointOnUnitSphere() * .1f) + glm::vec3(.1), 1.0f);
-			EkActor *sphere = CreateSphere(pos, Random::GetInstance()->Real(0.4, 2.0f) * 15.0f, 60.0f, info, -1);
-			EkBody *sphereBody = sphere->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
+			UniqueActor sphere = CreateSphere(pos, Random::GetInstance()->Real(0.4, 2.0f) * 15.0f, 60.0f, info, -1);
+			EkBody* sphereBody = sphere->GetComponent<EkBody>(CoreComponentIds::RIGIDBODY_COMPONENT_ID);
 			sphereBody->SetVelocity(CurrentCamera()->Forward() * 300.0f);
 		}
 	}
@@ -151,7 +151,7 @@ namespace Eklavya
 	void StackOfBoxesDemo::CreateStackOfBoxes()
 	{
 		int rows = 5;
-		int cols = 6;
+		int cols = 5;
 		float startY = 50.0f;
 		float boxDim = 20.0f;
 		float offsetX = ((cols - 1) / 2.0f) * boxDim;
@@ -170,7 +170,7 @@ namespace Eklavya
 				info.mTiling = 1;
 				info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
 				CreateCube(glm::vec3(x, y, z), glm::vec3(boxDim), glm::vec3(glm::radians(0.0f), 0.0f, 0.0f), 30.0f,
-				           info, 0);
+					info, 0);
 			}
 		}
 	}
@@ -190,7 +190,7 @@ namespace Eklavya
 	}
 
 #ifdef EKDEBUG
-	void StackOfBoxesDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
+	void StackOfBoxesDemo::DebugDraw(Renderer::DebugRenderer& debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 	}

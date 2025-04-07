@@ -7,10 +7,10 @@
 #ifndef BaseDemoScene_h
 #define BaseDemoScene_h
 
-#include <Scene/EkScene.h>
-#include <Renderer/Material.h>
 #include <AssetManager/MaterialInfo.h>
 #include <EkPhysics/PhysicsWorld.h>
+#include <Renderer/Material.h>
+#include <Scene/EkScene.h>
 
 namespace Eklavya
 {
@@ -19,27 +19,27 @@ namespace Eklavya
 	class MainEntryScene : public EkScene
 	{
 	public:
-		MainEntryScene(Director &pDirector);
+		MainEntryScene(Director& pDirector);
 
 		~MainEntryScene() override;
 
 		void CreateStage();
 
-		EkActor *CreateCube(glm::vec3 pos,
-		                    glm::vec3 scale,
-		                    glm::vec3 rotate,
-		                    float mass,
-		                    Asset::MaterialInfo matInfo,
-		                    uint32_t groupFlag = Physics::OTHER_COLLIDABLES,
-		                    bool kid = false);
+		UniqueActor CreateCube(glm::vec3 pos,
+			glm::vec3 scale,
+			glm::vec3 rotate,
+			float mass,
+			Asset::MaterialInfo matInfo,
+			uint32_t groupFlag = Physics::OTHER_COLLIDABLES,
+			bool kid = false);
 
-		EkActor *CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
-		                      uint32_t groupFlag = Physics::OTHER_COLLIDABLES, bool kid = false);
+		UniqueActor CreateSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
+			uint32_t groupFlag = Physics::OTHER_COLLIDABLES, bool kid = false);
 
 		void ImGuiProc() override;
 
 #ifdef EKDEBUG
-		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
+		void DebugDraw(Renderer::DebugRenderer& debugRenderer) override;
 
 
 #endif

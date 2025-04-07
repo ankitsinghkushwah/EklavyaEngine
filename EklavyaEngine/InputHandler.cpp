@@ -86,20 +86,7 @@ float InputHandler::GetAxis(int axisId)
 
 void InputHandler::ImGuiProc()
 {
-	if (mControllerReady)
-	{
-		ImGui::Begin("Controller");
 
-		int          axesCount;
-		const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
-
-		for (int i = 0; i < axesCount; i++)
-		{
-			ImGui::Text("\n Axis : %.3f", axes[i]);
-		}
-
-		ImGui::End();
-	}
 }
 
 InputHandler::~InputHandler()
