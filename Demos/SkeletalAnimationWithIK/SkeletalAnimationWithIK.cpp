@@ -224,26 +224,22 @@ namespace Eklavya
 		glm::vec3 scale(1.0f);
 
 		UniqueActor playerActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
-		AnimationComponent *animator = playerActor->EmplaceComponent<AnimationComponent>(modelID);
-		playerActor->EmplaceComponent<AnimationIKSolver>(*this);
+		//	playerActor->mDebugDrawComponents = true;
+		//	AnimationComponent *animator = playerActor->EmplaceComponent<AnimationComponent>(modelID);
+		//playerActor->EmplaceComponent<AnimationIKSolver>(*this);
 
-		for (const std::string &animation: animationsToLoad)
-		{
-			SHARED_ANIMATION animAsset = AssetManager::GetInstance().GetAsset<Asset::Animation>(
-				AnimationName(character, animation));
-			mAnimations[character].push_back(animAsset);
-		}
 
-		animator->PlayAnimation(mAnimations[character][0]);
+		//	animator->PlayAnimation(mAnimations[character][0]);
 
 		playerActor->Transform().SetScale(scale);
 
 		playerActor->SetName("TPS Character");
 
-		playerActor->Transform().SetPosition(0.0f, 200.0f, 0.0f);
-		mPlayerController = playerActor->EmplaceComponent<PlayerController>(*this);
-		mPlayerController->Init();
-		mPlayer = playerActor.get();
+		playerActor->Transform().SetPosition(0.0f, 30.0f, 0.0f);
+
+		//mPlayerController = playerActor->EmplaceComponent<PlayerController>(*this);
+		//mPlayerController->Init();
+
 		AddActor(playerActor);
 	}
 
@@ -255,12 +251,6 @@ namespace Eklavya
 		LoadCharactersAndAnimations();
 		CreateStage();
 		SetupPlayer();
-
-		mFollowCamera = std::make_shared<SpringFollowCamera>(DefaulCameraParams());
-		mFollowCamera->SetTarget(&mPlayer->Transform());
-		mFollowCamera->SetTargetOffset(glm::vec3(0.0f, 0.0f, 50.0f));
-		mFollowCamera->SetArmsLength(glm::vec3(0.0f, 200.0f, -300.0f));
-		OverrideCamera(mFollowCamera);
 	}
 
 	void SkeletalAnimationWithIK::Tick(float dt)
@@ -277,7 +267,7 @@ namespace Eklavya
 			floorAngle += s * dt;
 		}
 
-		ikFloor->Transform().SetRotation(glm::vec3(floorAngle, 0.0f, 0.0f));
+		//ikFloor->Transform().SetRotation(glm::vec3(floorAngle, 0.0f, 0.0f));
 		printf("\n angle %.3f", floorAngle);
 	}
 
@@ -289,13 +279,13 @@ namespace Eklavya
 	void SkeletalAnimationWithIK::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
-		mPlayerController->ImGuiProc();
+		//	mPlayerController->ImGuiProc();
 	}
 
 	void SkeletalAnimationWithIK::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
-		mPlayerController->DebugDraw(debugRenderer);
+		//mPlayerController->DebugDraw(debugRenderer);
 	}
 #endif
 } // namespace Eklavya

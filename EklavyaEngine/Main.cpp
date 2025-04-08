@@ -41,7 +41,7 @@ constexpr ResolutionInfo resolutions[] = {
 	{1920, 1080} // FULL HD
 };
 
-void SetWorkingDirectoryToExecutablePath(char* argv[])
+void SetWorkingDirectoryToExecutablePath(char *argv[])
 {
 	// Get the path of the executable
 	std::filesystem::path executablePath = std::filesystem::canonical(std::filesystem::path(argv[0]));
@@ -59,7 +59,7 @@ void SetWorkingDirectoryToExecutablePath(char* argv[])
 	}
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	SetWorkingDirectoryToExecutablePath(argv);
 
@@ -73,11 +73,16 @@ int main(int argc, char* argv[])
 	};
 
 
-
+	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+	Director director = Director("Eklavya", resolution.width, resolution.height, false);
+	SkeletalAnimationWithIK skeletalAnimationWithIk(director);
+	director.SetScene(skeletalAnimationWithIk);
+	director.Start();
+	return 0;
 
 	cout << style::bold << rang::fg::cyan << "=================EKLAVYA ENGINE DEMOS ====================\n\n";
 	int idx = 0;
-	for (const std::string& demo : demos)
+	for (const std::string &demo: demos)
 	{
 		cout << style::bold << rang::fg::green << ++idx << ". " << demo;
 		cout << "\n";
@@ -94,61 +99,61 @@ int main(int argc, char* argv[])
 
 	switch (user_selection)
 	{
-	case 1:
-	{
-		ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-		Director director = Director("Eklavya", resolution.width, resolution.height, false);
-		StackOfBoxesDemo stackOfBoxes(director);
-		director.SetScene(stackOfBoxes);
-		director.Start();
-	}
-	break;
-	case 2:
-	{
-		ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-		Director director = Director("Eklavya", resolution.width, resolution.height, false);
-		VehiclePhysicsDemo vehiclePhysicsDemo(director);
-		director.SetScene(vehiclePhysicsDemo);
-		director.Start();
-	}
-	break;
-	case 3:
-	{
-		ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-		Director director = Director("Eklavya", resolution.width, resolution.height, false);
-		SkeletalAnimationDemo skeletalAnimationDemo(director);
-		director.SetScene(skeletalAnimationDemo);
-		director.Start();
-	}
-	break;
-	case 4:
-	{
-		ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-		Director director = Director("Eklavya", resolution.width, resolution.height, false);
-		SkeletalAnimationWithIK skeletalAnimationWithIk(director);
-		director.SetScene(skeletalAnimationWithIk);
-		director.Start();
-	}
-	break;
+		case 1:
+		{
+			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+			Director director = Director("Eklavya", resolution.width, resolution.height, false);
+			StackOfBoxesDemo stackOfBoxes(director);
+			director.SetScene(stackOfBoxes);
+			director.Start();
+		}
+		break;
+		case 2:
+		{
+			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+			Director director = Director("Eklavya", resolution.width, resolution.height, false);
+			VehiclePhysicsDemo vehiclePhysicsDemo(director);
+			director.SetScene(vehiclePhysicsDemo);
+			director.Start();
+		}
+		break;
+		case 3:
+		{
+			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+			Director director = Director("Eklavya", resolution.width, resolution.height, false);
+			SkeletalAnimationDemo skeletalAnimationDemo(director);
+			director.SetScene(skeletalAnimationDemo);
+			director.Start();
+		}
+		break;
+		case 4:
+		{
+			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+			Director director = Director("Eklavya", resolution.width, resolution.height, false);
+			SkeletalAnimationWithIK skeletalAnimationWithIk(director);
+			director.SetScene(skeletalAnimationWithIk);
+			director.Start();
+		}
+		break;
 
-	case 5:
-	{
-		ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-		Director director = Director("Eklavya", resolution.width, resolution.height, false);
-		ShadowsDemo shadowsDemo(director);
-		director.SetScene(shadowsDemo);
-		director.Start();
-	}
-	break;
-	case 6:
-	{
-		ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-		Director director = Director("Eklavya", resolution.width, resolution.height, false);
-		FrustumCullingDemo frustCullingDemo(director);
-		director.SetScene(frustCullingDemo);
-		director.Start();
-	}
-	break;
+		case 5:
+		{
+			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+			Director director = Director("Eklavya", resolution.width, resolution.height, false);
+			ShadowsDemo shadowsDemo(director);
+			director.SetScene(shadowsDemo);
+			director.Start();
+		}
+		break;
+		case 6:
+		{
+			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+			Director director = Director("Eklavya", resolution.width, resolution.height, false);
+			FrustumCullingDemo frustCullingDemo(director);
+			director.SetScene(frustCullingDemo);
+			director.Start();
+		}
+		break;
 	}
 
 

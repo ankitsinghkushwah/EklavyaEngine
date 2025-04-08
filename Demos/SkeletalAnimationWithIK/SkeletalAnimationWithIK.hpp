@@ -65,7 +65,6 @@ namespace Eklavya
 #endif
 
 	private:
-		EkActor *mPlayer = nullptr;
 		PlayerController *mPlayerController = nullptr;
 
 		std::shared_ptr<Eklavya::SpringFollowCamera> mFollowCamera = nullptr;

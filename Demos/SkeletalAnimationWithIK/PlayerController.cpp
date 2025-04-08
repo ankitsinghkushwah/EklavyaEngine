@@ -29,6 +29,7 @@ PlayerController::PlayerController(EkActor &owner, Eklavya::EkScene &scene)
 	, mStance(EPlayerStance::STANDING_MOVEMENT)
 {
 	mLastDirection = MD_IDLE;
+	mPosition = GetOwner().Transform().Position();
 }
 
 std::string PlayerController::GetDirectionString(EPlayerStance stance, EMovementDirection direction)
@@ -205,9 +206,10 @@ void PlayerController::TurnUpdate(float dt)
 	mRotationTimeElapsed += dt;
 	float scaleFactor = mRotationTimeElapsed / mRotationTime;
 	mRotationAngle = glm::mix(mRotationAngle, mTargetAngle, scaleFactor);
-	GetOwner().Transform().SetRotation(glm::vec3(0.0f, mRotationAngle, 0.0f));
+
 	if (mRotationTimeElapsed >= mRotationTime)
 	{
+		GetOwner().Transform().SetRotation(glm::vec3(0.0f, mRotationAngle, 0.0f));
 		mTurning = false;
 		mLastDirection = mDirection;
 	}

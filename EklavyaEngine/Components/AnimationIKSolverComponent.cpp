@@ -33,15 +33,15 @@ namespace Eklavya
 	{
 		AnimationComponent *animationComponent = GetOwner().GetComponent<AnimationComponent>(
 			CoreComponentIds::ANIMATION_COMPONENT_ID);
-		if (SHARED_ANIMATION currAnimation = animationComponent->GetCurrentAnimation())
-		{
-			mLeftFootWorldPosition = animationComponent->GetBoneTransform(mLeftLegBoneName)[3];
-			mRightFootWorldPosition = animationComponent->GetBoneTransform(mRightLegBoneName)[3];
-
-			const glm::vec3 rayDir(0.0f, -1.0f, 0.0f);
-			mLeftFootRayCastResult = mScene.GetPhysics().RayCast(mLeftFootWorldPosition, rayDir, mRayCastRange, -1);
-			mRightFootRayCastResult = mScene.GetPhysics().RayCast(mRightFootWorldPosition, rayDir, mRayCastRange, -1);
-		}
+		// if (SHARED_ANIMATION currAnimation = animationComponent->GetCurrentAnimation())
+		// {
+		// 	mLeftFootWorldPosition = animationComponent->GetBoneTransform(mLeftLegBoneName)[3];
+		// 	mRightFootWorldPosition = animationComponent->GetBoneTransform(mRightLegBoneName)[3];
+		//
+		// 	const glm::vec3 rayDir(0.0f, -1.0f, 0.0f);
+		// 	mLeftFootRayCastResult = mScene.GetPhysics().RayCast(mLeftFootWorldPosition, rayDir, mRayCastRange, -1);
+		// 	mRightFootRayCastResult = mScene.GetPhysics().RayCast(mRightFootWorldPosition, rayDir, mRayCastRange, -1);
+		// }
 	}
 
 	bool AnimationIKSolver::ContainsJoint(const std::string &name) const
@@ -96,7 +96,8 @@ namespace Eklavya
 					data.sourceLocalTransform = boneLocalTransforms[idx];
 					data.parentTransform = parentTransforms[idx];
 					data.position = data.sourceWorldTransform[3];
-				} else
+				}
+				else
 					assert(false);
 			}
 		}
@@ -122,13 +123,13 @@ namespace Eklavya
 
 	void AnimationIKSolver::SolveForLeg(std::array<JointData, 3> &legJoints, glm::vec3 targetPos, bool leftLeg) {}
 
-#ifdef EKDEBUG
-	void AnimationIKSolver::DebugDraw(Renderer::DebugRenderer& debugRenderer)
+	void AnimationIKSolver::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		bool disableDepthTest = true;
 		if (mLeftFootRayCastResult.success)
 		{
-			debugRenderer.DrawLine(mLeftFootWorldPosition, mLeftFootRayCastResult.position, glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), 2.0f, disableDepthTest);
+			debugRenderer.DrawLine(mLeftFootWorldPosition, mLeftFootRayCastResult.position,
+			                       glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), 2.0f, disableDepthTest);
 			debugRenderer.DrawSphere(mLeftFootRayCastResult.position, 5.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		}
 		else
@@ -142,7 +143,8 @@ namespace Eklavya
 
 		if (mRightFootRayCastResult.success)
 		{
-			debugRenderer.DrawLine(mRightFootWorldPosition, mRightFootRayCastResult.position, glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), 2.0f, disableDepthTest);
+			debugRenderer.DrawLine(mRightFootWorldPosition, mRightFootRayCastResult.position,
+			                       glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), 2.0f, disableDepthTest);
 			debugRenderer.DrawSphere(mRightFootRayCastResult.position, 5.0f, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 		}
 		else
@@ -157,5 +159,4 @@ namespace Eklavya
 		mLeftFootRayCastResult.success = false;
 		mRightFootRayCastResult.success = false;
 	}
-#endif
 } // namespace Eklavya

@@ -108,10 +108,13 @@ namespace Eklavya
 			renderComponent->mWorldMatrix = actor->Transform().GetWorldMatrix();
 			const Bound &bound = renderComponent->mBound;
 			renderComponent->mInsideFrustum = CurrentCamera()->GetFrustum().Test(renderComponent->mWorldMatrix, bound);
+
+			renderComponent->mHasBones = mAnimators.find(renderComponent->mModelID) != mAnimators.end();
 			if (renderComponent->mHasBones)
 			{
 				renderComponent->boneTransforms = mAnimators[renderComponent->mModelID]->GetPoseTransforms();
 			}
+
 			mRenderer.AddActor(*renderComponent);
 		}
 

@@ -36,7 +36,6 @@ namespace Eklavya::SceneHelper
 
 		render->mModelID = modelID;
 		render->mRenderGroup = Renderer::ERenderGroup::ACTOR;
-		render->mHasBones = mesh.mBones.empty() == false;
 
 		return actorWithMesh;
 	};
@@ -65,7 +64,8 @@ namespace Eklavya::SceneHelper
 			if (loadOptions.forceSingleMaterial)
 			{
 				mesh->mMaterialInfo = loadOptions.materials[0];
-			} else
+			}
+			else
 			{
 				std::optional<Asset::MaterialInfo> materialInfo =
 						GetMaterialForMesh(mesh->mName, loadOptions.materials);
