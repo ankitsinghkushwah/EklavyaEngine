@@ -29,7 +29,6 @@ PlayerController::PlayerController(EkActor &owner, Eklavya::EkScene &scene)
 	, mStance(EPlayerStance::STANDING_MOVEMENT)
 {
 	mLastDirection = MD_IDLE;
-	mPosition = GetOwner().Transform().Position();
 }
 
 std::string PlayerController::GetDirectionString(EPlayerStance stance, EMovementDirection direction)
@@ -92,7 +91,6 @@ void PlayerController::Init()
 {
 	LoadAnimations();
 	mAnimator = GetOwner().GetComponent<AnimationComponent>(CoreComponentIds::ANIMATION_COMPONENT_ID);
-	mPosition = GetOwner().Transform().Position();
 	mRotationAngle = glm::eulerAngles(GetOwner().Transform().Rotation()).y;
 	//mRotationTime = mStandingMovementAnims[0][3]->GetRealDuration();
 	SetStance(EPlayerStance::STANDING_MOVEMENT);
@@ -107,9 +105,10 @@ void PlayerController::SetStance(EPlayerStance stance)
 
 void PlayerController::OnKeyAction(int key, int action)
 {
+	glm::vec3 pos = GetOwner().Transform().Position();
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
 	{
-		mPosition = glm::vec3(0.0f, 100.0f, 0.0f);
+		pos = glm::vec3(0.0f, 100.0f, 0.0f);
 	}
 	if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
 	{
@@ -150,18 +149,19 @@ void PlayerController::OnKeyAction(int key, int action)
 
 void PlayerController::Tick(float dt)
 {
-	glm::vec3 rayPos = mPosition + glm::vec3(0.0f, 20.0f, 0.0f);
+	glm::vec3 pos = GetOwner().Transform().Position();
+	glm::vec3 rayPos = pos + glm::vec3(0.0f, 20.0f, 0.0f);
 
 	mCastResult = mScene.GetPhysics().RayCast(rayPos, glm::vec3(0.0f, -1.0f, 0.0f), mCastRange, 1);
 	if (mCastResult.success)
 	{
-		mPosition.y = mCastResult.position.y;
-		GetOwner().Transform().SetPosition(mPosition);
+		pos.y = mCastResult.position.y;
+		GetOwner().Transform().SetPosition(pos);
 	}
 	else
 	{
-		mPosition += mCurrGravityDir * mGravity * dt;
-		GetOwner().Transform().SetPosition(mPosition);
+		pos += mCurrGravityDir * mGravity * dt;
+		GetOwner().Transform().SetPosition(pos);
 	}
 
 	if (mTurning == false)
@@ -176,17 +176,18 @@ void PlayerController::Tick(float dt)
 
 void PlayerController::StanceUpdate(float dt)
 {
+	glm::vec3 pos = GetOwner().Transform().Position();
 	if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_UP))
 	{
 		mDirection = EMovementDirection::MD_FORWARD;
-		mPosition += GetOwner().Transform().forward() * dt * mSpeed;
-		GetOwner().Transform().SetPosition(mPosition);
+		pos += GetOwner().Transform().forward() * dt * mSpeed;
+		GetOwner().Transform().SetPosition(pos);
 	}
 	else if (mStance == EPlayerStance::STANDING_MOVEMENT && InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_DOWN))
 	{
 		mDirection = EMovementDirection::MD_BACKWARD;
-		mPosition += GetOwner().Transform().forward() * dt * -mSpeed;
-		GetOwner().Transform().SetPosition(mPosition);
+		pos += GetOwner().Transform().forward() * dt * -mSpeed;
+		GetOwner().Transform().SetPosition(pos);
 	}
 	else
 	{
@@ -220,18 +221,18 @@ void PlayerController::ImGuiProc() {}
 
 void PlayerController::DebugDraw(Eklavya::Renderer::DebugRenderer &debugRenderer)
 {
-	if (mCastResult.success)
-	{
-		debugRenderer.DrawLine(mPosition + glm::vec3(0.0f, 20.0f, 0.0f), mCastResult.position,
-		                       glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), 2.0f);
-		debugRenderer.DrawSphere(mCastResult.position, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	}
-	else
-	{
-		debugRenderer.DrawLine(GetOwner().Transform().Position(),
-		                       GetOwner().Transform().Position() + glm::vec3(0.0f, -mCastRange, 0.0f),
-		                       glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
-		                       1.0f);
-	}
+	// if (mCastResult.success)
+	// {
+	// 	debugRenderer.DrawLine(mPosition + glm::vec3(0.0f, 20.0f, 0.0f), mCastResult.position,
+	// 	                       glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), 2.0f);
+	// 	debugRenderer.DrawSphere(mCastResult.position, 2.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	// }
+	// else
+	// {
+	// 	debugRenderer.DrawLine(GetOwner().Transform().Position(),
+	// 	                       GetOwner().Transform().Position() + glm::vec3(0.0f, -mCastRange, 0.0f),
+	// 	                       glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
+	// 	                       1.0f);
+	// }
 }
 

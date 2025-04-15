@@ -200,6 +200,9 @@ namespace Eklavya
 	{
 		bool canTraverse = CanTraverse(actor);
 
+		for (auto &component: actor->Components())
+			component->ImGuiProc();
+
 		if (canTraverse)
 		{
 			if (ImGui::TreeNode(actor->Name().c_str()))

@@ -6,24 +6,24 @@
 using namespace std;
 using namespace Eklavya::Asset;
 
-GLModel::GLModel(const std::string& assetName, int modelId) : IAsset(EType::MODEL, assetName), m_ModelID(modelId)
-{
-}
+GLModel::GLModel(const std::string &assetName, int modelId) :
+	IAsset(EType::MODEL, assetName), m_ModelID(modelId) {}
 
 GLModel::~GLModel()
 {
-	for (GLMesh* mesh : mSceneMeshes)
+	for (GLMesh *mesh: mSceneMeshes)
 		delete mesh;
 	mSceneMeshes.clear();
 }
 
-void GLModel::Load(const std::string& path)
+void GLModel::Load(const std::string &path)
 {
 	Assimp::Importer importer;
-	const aiScene*   scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenBoundingBoxes | aiProcess_FlipUVs);
+	const aiScene *scene = importer.ReadFile(
+		path, aiProcess_Triangulate | aiProcess_GenBoundingBoxes | aiProcess_FlipUVs);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) // if is Not Zero
 	{
-		const char* str = importer.GetErrorString();
+		const char *str = importer.GetErrorString();
 		LOG_STRING("ERROR::ASSIMP:: " + std::string(str));
 		return;
 	}
@@ -34,33 +34,35 @@ void GLModel::Load(const std::string& path)
 	if (scene->mRootNode)
 	{
 		glm::mat4 parentTransform = GetGLMMat(scene->mRootNode->mTransformation);
-		mRootNode = ProcessNode(*scene->mRootNode, *scene, parentTransform);
+		mRootNode = ProcessNode(*scene->mRootNode, *scene, GetGLMMat(scene->mRootNode->mTransformation));
 	}
 }
 
-std::shared_ptr<ModelNode> GLModel::ProcessNode(aiNode& parentNode, const aiScene& scene, glm::mat4& parentTransform)
+std::shared_ptr<ModelNode> GLModel::ProcessNode(aiNode &parentNode, const aiScene &scene, glm::mat4 parentTransform)
 {
 	std::shared_ptr<ModelNode> modelNode = std::make_shared<ModelNode>();
 	modelNode->mName = parentNode.mName.C_Str();
-	modelNode->mTransform = parentTransform;
+	modelNode->mTransform = GetGLMMat(parentNode.mTransformation);
+	modelNode->mWorldTransform = parentTransform * modelNode->mTransform;
+
 	for (unsigned int i = 0; i < parentNode.mNumMeshes; i++)
 	{
-		const aiMesh* mesh = scene.mMeshes[parentNode.mMeshes[i]];
-		std::string   name = mesh->mName.C_Str();
+		const aiMesh *mesh = scene.mMeshes[parentNode.mMeshes[i]];
+		std::string name = mesh->mName.C_Str();
 		assert(mesh);
 		modelNode->mMeshes.push_back(ExtractMeshData(*mesh, scene));
 	}
 	for (unsigned int i = 0; i < parentNode.mNumChildren; i++)
 	{
-		aiNode*                    childAssimpNode = parentNode.mChildren[i];
-		glm::mat4                  childTransform = glm::mat4(1.0f);
-		std::shared_ptr<ModelNode> childNode = ProcessNode(*childAssimpNode, scene, childTransform);
+		aiNode *childAssimpNode = parentNode.mChildren[i];
+		std::shared_ptr<ModelNode> childNode = ProcessNode(*childAssimpNode, scene,
+		                                                   modelNode->mWorldTransform);
 		modelNode->mChildren.push_back(childNode);
 	}
 	return modelNode;
 }
 
-GLMesh* GLModel::ExtractMeshData(const aiMesh& mesh, const aiScene& scene)
+GLMesh *GLModel::ExtractMeshData(const aiMesh &mesh, const aiScene &scene)
 {
 	MeshVAOData meshData;
 	for (unsigned int i = 0; i < mesh.mNumVertices; i++)
@@ -94,7 +96,7 @@ GLMesh* GLModel::ExtractMeshData(const aiMesh& mesh, const aiScene& scene)
 
 	std::vector<BoneInfo> meshBones;
 	ExtractBoneWeightForVertices(meshData, meshBones, mesh, scene);
-	GLMesh* glMesh = new GLMesh();
+	GLMesh *glMesh = new GLMesh();
 	glMesh->mName = mesh.mName.C_Str();
 	glMesh->InitVAO(std::move(meshData));
 	glMesh->mMaterialInfo = mMaterials[mesh.mMaterialIndex];
@@ -104,12 +106,12 @@ GLMesh* GLModel::ExtractMeshData(const aiMesh& mesh, const aiScene& scene)
 	return glMesh;
 }
 
-void GLModel::LoadMaterials(const aiScene* pScene)
+void GLModel::LoadMaterials(const aiScene *pScene)
 {
-	auto loadTexture = [&](aiTextureType texType, const aiMaterial* material, bool firstIndex = true) -> SHARED_TEXTURE
+	auto loadTexture = [&](aiTextureType texType, const aiMaterial *material, bool firstIndex = true) -> SHARED_TEXTURE
 	{
 		SHARED_TEXTURE tex = nullptr;
-		aiString       aiPath;
+		aiString aiPath;
 		material->Get(AI_MATKEY_TEXTURE(texType, 0), aiPath);
 		std::string path = aiPath.C_Str();
 
@@ -124,8 +126,8 @@ void GLModel::LoadMaterials(const aiScene* pScene)
 	};
 	for (uint32_t mat_index = 0; mat_index < pScene->mNumMaterials; ++mat_index)
 	{
-		const aiMaterial* material = pScene->mMaterials[mat_index];
-		MaterialInfo      matInfo;
+		const aiMaterial *material = pScene->mMaterials[mat_index];
+		MaterialInfo matInfo;
 		matInfo.mBaseColor = glm::vec3(0.6f);
 		matInfo.mOpacity = 1.0f;
 		matInfo.mMetallic = 0.0f;
@@ -140,7 +142,7 @@ void GLModel::LoadMaterials(const aiScene* pScene)
 	}
 }
 
-void GLModel::SetVertexBoneData(MeshVAOData& meshData, int vertexIdx, int boneID, float weight)
+void GLModel::SetVertexBoneData(MeshVAOData &meshData, int vertexIdx, int boneID, float weight)
 {
 	int boneDataStartIndex = vertexIdx * 4;
 
@@ -157,17 +159,18 @@ void GLModel::SetVertexBoneData(MeshVAOData& meshData, int vertexIdx, int boneID
 	}
 }
 
-void GLModel::ExtractBoneWeightForVertices(MeshVAOData& meshData, std::vector<BoneInfo>& meshBones, const aiMesh& mesh, const aiScene& scene)
+void GLModel::ExtractBoneWeightForVertices(MeshVAOData &meshData, std::vector<BoneInfo> &meshBones, const aiMesh &mesh,
+                                           const aiScene &scene)
 {
-	auto& modelDataMap = ModelsBoneData::s_BonesDataMap[m_ModelID];
-	auto& boneInfoMap = modelDataMap.m_BoneInfoMap;
-	int&  boneCount = modelDataMap.m_BoneCount;
+	auto &modelDataMap = ModelsBoneData::s_BonesDataMap[m_ModelID];
+	auto &boneInfoMap = modelDataMap.m_BoneInfoMap;
+	int &boneCount = modelDataMap.m_BoneCount;
 
 	for (int boneIndex = 0; boneIndex < mesh.mNumBones; ++boneIndex)
 	{
-		auto&       bone = mesh.mBones[boneIndex];
+		auto &bone = mesh.mBones[boneIndex];
 		std::string boneName = bone->mName.C_Str();
-		int         boneID = -1;
+		int boneID = -1;
 		if (boneInfoMap.find(boneName) == boneInfoMap.end())
 		{
 			BoneInfo newBoneInfo;
@@ -184,11 +187,11 @@ void GLModel::ExtractBoneWeightForVertices(MeshVAOData& meshData, std::vector<Bo
 
 		meshBones.push_back(boneInfoMap[boneName]);
 		auto weights = mesh.mBones[boneIndex]->mWeights;
-		int  numWeights = mesh.mBones[boneIndex]->mNumWeights;
+		int numWeights = mesh.mBones[boneIndex]->mNumWeights;
 
 		for (int weightIndex = 0; weightIndex < numWeights; ++weightIndex)
 		{
-			int   vertexId = weights[weightIndex].mVertexId;
+			int vertexId = weights[weightIndex].mVertexId;
 			float weight = weights[weightIndex].mWeight;
 			SetVertexBoneData(meshData, vertexId, boneID, weight);
 		}

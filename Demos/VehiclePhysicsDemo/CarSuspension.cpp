@@ -125,7 +125,6 @@ void CarSuspension::FixedTick(float dt)
 
     ApplyFrictionForces(dt);
 
-
     if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_UP))
     {
       ApplyImpulseAtPoint(*mChassisBody, *mCarComponent, -GetOwner().Transform().forward() * mTireSpeed,

@@ -17,6 +17,11 @@
 
 namespace Eklavya
 {
+  class AnimationIKSolver;
+}
+
+namespace Eklavya
+{
   // forward declarations
 
   class AnimationComponent;
@@ -108,6 +113,7 @@ namespace Eklavya
     Physics::World mPhysicsWorld;
     Director &mDirector;
     std::unordered_map<ModelID, AnimationComponent *> mAnimators;
+    std::unordered_map<ModelID, AnimationIKSolver *> mIKSolvers;
 
     std::vector<std::shared_ptr<ICamera> > mCameraStack;
     int mCurrentCameraIdx = 0;

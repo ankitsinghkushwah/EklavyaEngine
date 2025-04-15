@@ -164,35 +164,6 @@ namespace Eklavya
 		return animationsToLoad;
 	}
 
-	void SkeletalAnimationWithIK::InstantiateCharacters()
-	{
-		float xOff = 100.0f;
-		int i = 1;
-		int modelID = 0;
-		for (std::string &character: mCharacters)
-		{
-			SceneHelper::ModelLoadOptions materials = GetMaterialsForCharacter(character);
-
-			std::vector<std::string> animationsToLoad = AnimationsToLoad(character);
-
-			UniqueActor uniqueActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
-			AnimationComponent *animator = uniqueActor->EmplaceComponent<AnimationComponent>(modelID);
-
-			for (const std::string &animation: animationsToLoad)
-			{
-				SHARED_ANIMATION animAsset = AssetManager::GetInstance().GetAsset<Asset::Animation>(
-					AnimationName(character, animation));
-				mAnimations[character].push_back(animAsset);
-			}
-			animator->PlayAnimation(mAnimations[character][0]);
-			uniqueActor->Transform().SetPosition(i * xOff, 2.0f, 0.0f);
-			uniqueActor->Transform().SetScale(1.0f);
-			AddActor(uniqueActor);
-
-			i++;
-			modelID++;
-		}
-	}
 
 	void SkeletalAnimationWithIK::CreateStage()
 	{
@@ -204,8 +175,9 @@ namespace Eklavya
 		float floorScaleY = 30.0f;
 		AddBox(glm::vec3(0.0f), glm::vec3(areaAxtent, floorScaleY, areaAxtent), glm::vec3(), FLT_MAX, info, 0);
 
-		ikFloor = AddBox(glm::vec3(0.0f, 0.0f, -500.0f), glm::vec3(300.0f, 30.0f, 1000.0f),
-		                 glm::vec3(glm::radians(30.0f), 0.0f, 0.0f), FLT_MAX, info, 0);
+		ikFloor = AddBox(glm::vec3(0.0f, 0.0f, -700.0f), glm::vec3(500.0f, 30.0f, 1000.0f),
+		                 glm::vec3(glm::radians(floorAngle), 0.0f, 0.0f), FLT_MAX, info, 0);
+		ikFloor->mDebugDrawComponents = true;
 	}
 
 	void SkeletalAnimationWithIK::SetupPlayer()
@@ -221,15 +193,12 @@ namespace Eklavya
 		info.mRoughness = 0.5f;
 		info.mMetallic = 1.0f;
 
-		glm::vec3 scale(1.0f);
+		glm::vec3 scale(.5f);
 
 		UniqueActor playerActor = SceneHelper::CreateActorFromModel(ModelName(character), modelID, materials);
-		//	playerActor->mDebugDrawComponents = true;
-		//	AnimationComponent *animator = playerActor->EmplaceComponent<AnimationComponent>(modelID);
-		//playerActor->EmplaceComponent<AnimationIKSolver>(*this);
-
-
-		//	animator->PlayAnimation(mAnimations[character][0]);
+		playerActor->mDebugDrawComponents = true;
+		//playerActor->EmplaceComponent<AnimationComponent>(modelID);
+		playerActor->EmplaceComponent<AnimationIKSolver>(*this);
 
 		playerActor->Transform().SetScale(scale);
 
@@ -237,9 +206,10 @@ namespace Eklavya
 
 		playerActor->Transform().SetPosition(0.0f, 30.0f, 0.0f);
 
-		//mPlayerController = playerActor->EmplaceComponent<PlayerController>(*this);
-		//mPlayerController->Init();
+		// mPlayerController = playerActor->EmplaceComponent<PlayerController>(*this);
+		// mPlayerController->Init();
 
+		this->playerActor = playerActor.get();
 		AddActor(playerActor);
 	}
 
@@ -257,18 +227,20 @@ namespace Eklavya
 	{
 		MainEntryScene::Tick(dt);
 
-		float s = 100.0f;
+
+		float s = 10.0f;
+
+		glm::vec3 pos = this->playerActor->Transform().Position();
 		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_U))
 		{
-			floorAngle -= s * dt;
+			pos.y -= s * dt;
 		}
 		if (InputHandler::GetInstance()->KeyHasPressed(GLFW_KEY_I))
 		{
-			floorAngle += s * dt;
+			pos.y += s * dt;
 		}
 
-		//ikFloor->Transform().SetRotation(glm::vec3(floorAngle, 0.0f, 0.0f));
-		printf("\n angle %.3f", floorAngle);
+		this->playerActor->Transform().SetPosition(pos);
 	}
 
 	SkeletalAnimationWithIK::~SkeletalAnimationWithIK() {}
@@ -279,7 +251,14 @@ namespace Eklavya
 	void SkeletalAnimationWithIK::ImGuiProc()
 	{
 		MainEntryScene::ImGuiProc();
-		//	mPlayerController->ImGuiProc();
+
+		if (ImGui::Begin("Inverse Kinematics Demo", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("Press H & J to move left leg target position UP & Down");
+			ImGui::Text("Press K & L to move left leg target forward and backward");
+			ImGui::Text("Press U & I to move the character UP & Down");
+			ImGui::End();
+		}
 	}
 
 	void SkeletalAnimationWithIK::DebugDraw(Renderer::DebugRenderer &debugRenderer)

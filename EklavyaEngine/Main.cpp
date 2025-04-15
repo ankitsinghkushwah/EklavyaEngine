@@ -68,17 +68,9 @@ int main(int argc, char *argv[])
 
 	std::vector<std::string> demos =
 	{
-		"Stack Of Boxes", "Vehicle Physics", "Skeletal Animation", "Skeletal Aimation IK (inverse kinematics)",
+		"Stack Of Boxes", "Vehicle Physics", "Skeletal Animation", "IK (inverse kinematics)",
 		"Shadows", "Frustum Culling"
 	};
-
-	//
-	// ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-	// Director director = Director("Eklavya", resolution.width, resolution.height, false);
-	// SkeletalAnimationWithIK skeletalAnimationWithIk(director);
-	// director.SetScene(skeletalAnimationWithIk);
-	// director.Start();
-	// return 0;
 
 	cout << style::bold << rang::fg::cyan << "=================EKLAVYA ENGINE DEMOS ====================\n\n";
 	int idx = 0;

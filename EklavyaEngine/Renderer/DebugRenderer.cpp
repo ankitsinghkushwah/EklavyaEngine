@@ -78,6 +78,9 @@ void DebugRenderer::DrawLine(glm::vec3 start, glm::vec3 end, glm::vec4 color, fl
 
 void DebugRenderer::DrawSphere(glm::vec3 center, float radius, glm::vec4 color)
 {
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_ALWAYS);
+
 	glm::vec3 rotation;
 	glm::mat4 model = GetModel(center, glm::quat(rotation), glm::vec3(radius));
 
@@ -90,10 +93,15 @@ void DebugRenderer::DrawSphere(glm::vec3 center, float radius, glm::vec4 color)
 	mSphereVAO.Bind();
 	glDrawElements(GL_TRIANGLES, mSphereVAO.GetIndicesSize(), GL_UNSIGNED_INT, 0);
 	mSphereVAO.Unbind();
+
+	glDepthFunc(GL_LEQUAL);
 }
 
 void DebugRenderer::DrawSphere(glm::vec3 center, glm::vec3 extents, glm::vec4 color)
 {
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_ALWAYS);
+
 	glm::vec3 rotation;
 	glm::mat4 model = GetModel(center, glm::quat(rotation), extents);
 
@@ -106,6 +114,8 @@ void DebugRenderer::DrawSphere(glm::vec3 center, glm::vec3 extents, glm::vec4 co
 	mSphereVAO.Bind();
 	glDrawElements(GL_TRIANGLES, mSphereVAO.GetIndicesSize(), GL_UNSIGNED_INT, 0);
 	mSphereVAO.Unbind();
+
+	glDepthFunc(GL_LEQUAL);
 }
 
 void DebugRenderer::DrawBox(glm::vec3 center, glm::vec3 rotation, glm::vec3 extents, glm::vec4 color)
@@ -247,7 +257,7 @@ void DebugRenderer::AddPlane(glm::vec3 center, glm::vec3 normal, glm::vec2 exten
 void DebugRenderer::DrawAddedShapes()
 {
 	for (DebugLine &l: mLinesToDraw)
-		DrawLine(l.start, l.end, l.color, l.thickness);
+		DrawLine(l.start, l.end, l.color, l.thickness, true);
 	for (DebugSphere &s: mSpheresToDraw)
 		DrawSphere(s.center, s.radius, s.color);
 	for (DebugBox &b: mBoxesToDraw)

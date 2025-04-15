@@ -58,6 +58,8 @@ namespace Eklavya
 
 		bool operator==(const EkComponentID &uid) const;
 
+		virtual void ImGuiProc() {}
+
 	private:
 		EkActor &mOwner;
 		EkComponentID mComponentID;

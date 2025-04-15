@@ -40,7 +40,6 @@ namespace Eklavya
 
 		void LoadCharactersAndAnimations();
 
-		void InstantiateCharacters();
 
 		SceneHelper::ModelLoadOptions GetMaterialsForCharacter(const std::string &character);
 
@@ -74,6 +73,7 @@ namespace Eklavya
 
 		float floorAngle = 30.0f;
 		EkActor *ikFloor = nullptr;
+		EkActor *playerActor = nullptr;
 
 		glm::vec3 ikTarget;
 	};

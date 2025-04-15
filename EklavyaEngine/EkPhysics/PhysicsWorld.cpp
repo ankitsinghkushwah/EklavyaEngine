@@ -8,6 +8,8 @@
 #include "ContactGenerator.h"
 #include <EkPhysics/Constraints/Constraint.h>
 
+#include "glm/gtc/matrix_access.hpp"
+
 namespace Eklavya::Physics
 {
 	World::World() {}
@@ -106,6 +108,8 @@ namespace Eklavya::Physics
 			result.success = true;
 			result.position = o + d * shortestT;
 			result.body = mBodies[index];
+
+			result.normal = glm::normalize(glm::column(result.body->GetOwner().Transform().GetWorldMatrix(), 1));
 		}
 		else
 		{

@@ -112,7 +112,6 @@ private:
 	float mTargetAngle = 0.0f;
 	bool mTurning = false;
 
-	glm::vec3 mPosition;
 	float mGravity = -250.0f;
 	glm::vec3 mCurrGravityDir;
 

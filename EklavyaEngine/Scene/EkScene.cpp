@@ -9,6 +9,7 @@
 #include <Components/AnimationComponent.h>
 #include <Renderer/DebugRenderer.hpp>
 #include "Cameras/FreeLookCamera.h"
+#include "Components/AnimationIKSolverComponent.hpp"
 
 using namespace Eklavya::Physics;
 using namespace Eklavya::Renderer;
@@ -115,6 +116,15 @@ namespace Eklavya
 				renderComponent->boneTransforms = mAnimators[renderComponent->mModelID]->GetPoseTransforms();
 			}
 
+			if (renderComponent->mHasBones == false)
+			{
+				renderComponent->mHasBones = mIKSolvers.find(renderComponent->mModelID) != mIKSolvers.end();
+				if (renderComponent->mHasBones)
+				{
+					renderComponent->boneTransforms = mIKSolvers[renderComponent->mModelID]->GetPoseTransforms();
+				}
+			}
+
 			mRenderer.AddActor(*renderComponent);
 		}
 
@@ -140,6 +150,11 @@ namespace Eklavya
 			CoreComponentIds::ANIMATION_COMPONENT_ID))
 		{
 			mAnimators[animator->GetModelID()] = animator;
+		}
+		if (AnimationIKSolver *solver = actor->GetComponent<AnimationIKSolver>(
+			CoreComponentIds::IK_SOLVER_COMPONENT))
+		{
+			mIKSolvers[solver->mModelID] = solver;
 		}
 	}
 
