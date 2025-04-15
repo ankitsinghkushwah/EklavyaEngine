@@ -13,7 +13,8 @@ A Game Engine written in C++ and OpenGL 4.1.
 ## Project Generation
 
 To generate project files for Visual Studio or Xcode, you need to install **CMake**.
-Download it from [here](https://cmake.org/download/). Once installed, you can run shell file to generate project automatically for your platform (only supported macos and windows currently)
+Download it from [here](https://cmake.org/download/). Once installed, you can run shell file to generate project
+automatically for your platform (only supported macos and windows currently)
 
 ```sh
 cd EklavyaEngine #change directory to root project directory 
@@ -25,7 +26,7 @@ For MacOS, it will generate xcode project in "xcode_proj".
 For Windows, it will generate visual studio project in "vs_proj".
 
 Note : Shell file will only run on windows if you have git bash installed.
-Install it from [here](https://git-scm.com/downloads/). 
+Install it from [here](https://git-scm.com/downloads/).
 
 Alternatively, you can use the CMake GUI if yo don't want to install Git.
 
@@ -49,28 +50,34 @@ For Windows, builds will be generated in vs_proj/debug_build for *debug* and vs_
 ## Features
 
 ### Scene Management
+
 - Scene Graph with Frustum Culling
 
 ### Rendering
+
 - Support for multiple Render Passes
 - Shadows and Post-Processing
 
 ### Animation
+
 - Skeletal Animation with Smooth Transitions
+- Inverse Kinematics
 
 ### Physics Engine
+
 - Custom Physics Engine
-  - **Collision Detection** using Separating Axis Theorem (SAT)
-  - **Motion Integration** using Euler Integration
-  - **Collision Resolution** using Impulse-based Method
-  - Support for Sphere & Oriented Bounding Box (OBB) Collision
-  - Ray Casting & Sphere Casting
+    - **Collision Detection** using Separating Axis Theorem (SAT)
+    - **Motion Integration** using Euler Integration
+    - **Collision Resolution** using Impulse-based Method
+    - Support for Sphere & Oriented Bounding Box (OBB) Collision
+    - Ray Casting & Sphere Casting
 
 ### Asset Management
+
 - Asset Loader supports:
-  - Textures
-  - Models & Animations (via Assimp)
-  - Shader Loading
+    - Textures
+    - Models & Animations (via Assimp)
+    - Shader Loading
 
 ---
 
@@ -79,17 +86,25 @@ For Windows, builds will be generated in vs_proj/debug_build for *debug* and vs_
 Click on the images below to watch demo videos:
 
 ### Vehicle Physics
+
 [![VEHICLE PHYSICS](https://img.youtube.com/vi/z52WxTNrIpg/sddefault.jpg)](https://www.youtube.com/watch?v=z52WxTNrIpg)
 [![VEHICLE PHYSICS](https://img.youtube.com/vi/abnopf9OntY/sddefault.jpg)](https://www.youtube.com/watch?v=abnopf9OntY)
 
+### Inverse Kinematics
+
+[![INVERSE KINEMATICS](https://img.youtube.com/vi/PexURRg1Oeo/sddefault.jpg)](https://www.youtube.com/watch?v=PexURRg1Oeo)
+
 ### Skeletal Animation
+
 [![SKELETAL ANIMATION](https://img.youtube.com/vi/NbSgJ3GrD_0/sddefault.jpg)](https://www.youtube.com/watch?v=NbSgJ3GrD_0)
 [![SKELETAL ANIMATION](https://img.youtube.com/vi/RszWEUHOxoE/sddefault.jpg)](https://www.youtube.com/watch?v=RszWEUHOxoE)
 
 ### Frustum Culling
+
 [![FRUSTUM CULLING](https://img.youtube.com/vi/H0ntyFogFvU/sddefault.jpg)](https://www.youtube.com/watch?v=H0ntyFogFvU)
 
 ---
 
 ## To-Do
+
 - Implement Shader Compilation at Runtime
