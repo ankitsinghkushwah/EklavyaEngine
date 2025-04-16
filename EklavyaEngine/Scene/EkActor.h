@@ -116,9 +116,7 @@ namespace Eklavya
 
     void SetEnabled(bool isEnabled) { mIsEnabled = isEnabled; }
 
-#ifdef EKDEBUG
     bool mDebugDrawComponents = false;
-#endif
 
   private:
     std::string mName;

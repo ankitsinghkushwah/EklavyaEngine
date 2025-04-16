@@ -177,6 +177,7 @@ namespace Eklavya
 
 		ikFloor = AddBox(glm::vec3(0.0f, 0.0f, -700.0f), glm::vec3(500.0f, 30.0f, 1000.0f),
 		                 glm::vec3(glm::radians(floorAngle), 0.0f, 0.0f), FLT_MAX, info, 0);
+
 		ikFloor->mDebugDrawComponents = true;
 	}
 
