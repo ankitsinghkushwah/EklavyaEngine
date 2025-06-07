@@ -17,6 +17,7 @@
 #include "EkPhysics/Collider.h"
 #include <memory>
 #include "Scene/Cameras/FreeLookCamera.h"
+#include "Director.hpp"
 
 #include "glfw/glfw3.h"
 
@@ -29,6 +30,9 @@ namespace Eklavya
 	StackOfBoxesDemo::StackOfBoxesDemo(Director &pDirector) :
 		MainEntryScene(pDirector), mEngineLoopSound("StackOfBoxesDemo/pop.mp3")
 	{
+		mDirector.HideMouse();
+		CurrentCamera()->SetEnabled(true);
+
 		PreloadTextures();
 
 		CreateStage();
@@ -179,14 +183,16 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::ImGuiProc()
 	{
-		MainEntryScene::ImGuiProc();
+		EkScene::ImGuiProc();
 
-		if (ImGui::Begin("Stack Of Boxes", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		if (ImGui::Begin("Stack Of Boxes", nullptr,
+		                 ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::Text("Press H to generate Stack Of Boxes");
 			ImGui::Text("Press UP/DOWN/LEFT/RIGHT to rotate the floor");
 			ImGui::Text("Left Mouse click to shoot a sphere");
 			ImGui::Text("Spacebar to reset the scene");
+			ImGui::Text("PRESS ESCAPE TO GO BACK TO DEMO OPTIONS");
 			ImGui::End();
 		}
 	}

@@ -80,7 +80,7 @@ namespace Eklavya
 		float area_extent = 10000;
 		float floorScaleY = 5.0f;
 		AddBox(glm::vec3(0.0f), glm::vec3(area_extent, floorScaleY, area_extent), glm::vec3(), FLT_MAX, info,
-		           STATIC);
+		       STATIC);
 	}
 
 	void SkeletalAnimationDemo::LoadMesh()
@@ -102,6 +102,9 @@ namespace Eklavya
 		MainEntryScene(pDirector)
 	{
 		// Load assets
+
+		mDirector.HideMouse();
+		CurrentCamera()->SetEnabled(true);
 
 		PreloadTextures();
 		AssetManager::GetInstance().LoadModel("characters/swat/swat", ".dae", 0);
@@ -145,7 +148,11 @@ namespace Eklavya
 
 	void SkeletalAnimationDemo::ImGuiProc()
 	{
-		MainEntryScene::ImGuiProc();
+		EkScene::ImGuiProc();
+
+		ImGui::Begin("Skeletal Animation Demo");
+		ImGui::Text("PRESS ESCAPE TO GO BACK TO DEMO OPTIONS");
+		ImGui::End();
 	}
 
 	void SkeletalAnimationDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)

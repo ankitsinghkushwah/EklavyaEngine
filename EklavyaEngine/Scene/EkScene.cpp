@@ -165,6 +165,11 @@ namespace Eklavya
 
 	void EkScene::Cleanup()
 	{
+		DebugRenderer::GetInstance().ClearAddedShapes();
+	}
+
+	void EkScene::DeleteDeferredDeadActors()
+	{
 		for (EkActorID deadActorId: mActorsToBeRemoved)
 		{
 			auto iter = std::find_if(mRootActors.begin(), mRootActors.end(), [deadActorId](const UniqueActor &actor)

@@ -19,16 +19,24 @@ namespace Eklavya
 
 		LoadAssets();
 
-		mCurrentScene = new MainEntryScene(*this);
-
-		GLFWGame::HideMouse();
+		PushScene(new MainEntryScene(*this));
 	}
 
-	Director::~Director() {}
-
-	void Director::SetScene(MainEntryScene &sceneImpl)
+	Director::~Director()
 	{
-		mCurrentScene = &sceneImpl;
+		while (mSceneStack.empty() == false)
+		{
+			mSceneStack.top()->DeleteDeferredDeadActors();
+			mSceneStack.pop();
+		}
+	}
+
+	void Director::PushScene(MainEntryScene *sceneImpl)
+	{
+		if (mSceneStack.size() < 2)
+		{
+			mSceneStack.push(sceneImpl);
+		}
 	}
 
 	void Director::LoadAssets()
@@ -51,12 +59,12 @@ namespace Eklavya
 		InputHandler::GetInstance()->Update(frameTime);
 
 
-		if (mCurrentScene != nullptr)
+		if (mSceneStack.top() != nullptr)
 		{
-			mCurrentScene->Tick(frameTime * mTimeScale);
-			mCurrentScene->FixedTick(mPhysicsTickRate * mTimeScale);
-			mCurrentScene->Draw();
-			mCurrentScene->Cleanup();
+			mSceneStack.top()->Tick(frameTime * mTimeScale);
+			mSceneStack.top()->FixedTick(mPhysicsTickRate * mTimeScale);
+			mSceneStack.top()->Draw();
+			mSceneStack.top()->DeleteDeferredDeadActors();
 		}
 	}
 
@@ -65,9 +73,9 @@ namespace Eklavya
 		GLFWGame::ImGuiProc();
 
 		InputHandler::GetInstance()->ImGuiProc();
-		if (mCurrentScene)
+		if (mSceneStack.top())
 		{
-			mCurrentScene->ImGuiProc();
+			mSceneStack.top()->ImGuiProc();
 		}
 	}
 
@@ -75,8 +83,20 @@ namespace Eklavya
 	{
 		InputHandler::GetInstance()->OnKeyAction(pKey, pAction);
 
+
 		if (pKey == GLFW_KEY_ESCAPE && pAction == GLFW_PRESS)
+		{
+			if (mSceneStack.size() > 1)
+			{
+				mSceneStack.top()->Cleanup();
+				delete mSceneStack.top();
+				mSceneStack.pop();
+				mSceneStack.top()->OnResume();
+				return;
+			}
+
 			CloseWindow();
+		}
 	}
 
 	void Director::OnError(int pError, const char *pDesc) {}

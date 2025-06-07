@@ -6,6 +6,7 @@
 #include "AssetManager/AssetManager.h"
 #include "Random.h"
 #include "EkPhysics/Collider.h"
+#include "Director.hpp"
 
 using namespace Eklavya;
 using namespace Eklavya::Asset;
@@ -19,6 +20,9 @@ namespace Eklavya
 	{
 		PreloadTextures();
 		CreateStage();
+
+		mDirector.HideMouse();
+		CurrentCamera()->SetEnabled(true);
 	}
 
 	ShadowsDemo::~ShadowsDemo() {}
@@ -99,7 +103,7 @@ namespace Eklavya
 
 	void ShadowsDemo::ImGuiProc()
 	{
-		MainEntryScene::ImGuiProc();
+		EkScene::ImGuiProc();
 	}
 #endif
 }

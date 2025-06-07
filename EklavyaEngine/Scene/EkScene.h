@@ -119,6 +119,8 @@ namespace Eklavya
     int mCurrentCameraIdx = 0;
 
     void Cleanup();
+
+    void DeleteDeferredDeadActors();
   };
 } // namespace Eklavya
 

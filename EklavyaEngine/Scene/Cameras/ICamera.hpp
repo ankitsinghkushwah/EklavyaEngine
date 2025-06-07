@@ -69,12 +69,16 @@ namespace Eklavya
 		//inputs
 		void OnKeyAction(int key, int action) override;
 
+		void SetEnabled(bool enabled) { mEnabled = enabled; }
+
 	protected:
 		glm::mat4 mView;
 		glm::mat4 mProjection;
 		Frustum mFrustum;
 		glm::vec3 mForward;
 		glm::vec3 mPosition;
+
+		bool mEnabled = false;
 
 	private:
 		bool mDebug = false;

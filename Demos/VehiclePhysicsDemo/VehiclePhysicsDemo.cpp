@@ -200,7 +200,8 @@ namespace Eklavya
 	VehiclePhysicsDemo::VehiclePhysicsDemo(Director &pDirector) :
 		MainEntryScene(pDirector)
 	{
-		// Load assets
+		mDirector.HideMouse();
+		CurrentCamera()->SetEnabled(true);
 
 		PreloadTextures();
 
@@ -240,7 +241,7 @@ namespace Eklavya
 
 	void VehiclePhysicsDemo::ImGuiProc()
 	{
-		MainEntryScene::ImGuiProc();
+		EkScene::ImGuiProc();
 
 		if (ImGui::Begin("Arcade Vehicle with Suspension", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 		{
@@ -248,6 +249,7 @@ namespace Eklavya
 			ImGui::Text("LEFT/RIGHT key for Steering");
 			ImGui::Text("UP key for accelerating");
 			ImGui::Text("C to switch bw different Cameras");
+			ImGui::Text("PRESS ESCAPE TO GO BACK TO DEMO OPTIONS");
 			ImGui::End();
 		}
 	}

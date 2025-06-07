@@ -217,6 +217,9 @@ namespace Eklavya
 	SkeletalAnimationWithIK::SkeletalAnimationWithIK(Director &pDirector) :
 		MainEntryScene(pDirector)
 	{
+		mDirector.HideMouse();
+		CurrentCamera()->SetEnabled(true);
+
 		mCharacters.push_back("swat");
 		PreloadTextures();
 		LoadCharactersAndAnimations();
@@ -251,13 +254,15 @@ namespace Eklavya
 
 	void SkeletalAnimationWithIK::ImGuiProc()
 	{
-		MainEntryScene::ImGuiProc();
+		EkScene::ImGuiProc();
 
 		if (ImGui::Begin("Inverse Kinematics Demo", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::Text("Press H & J to move left leg target position UP & Down");
 			ImGui::Text("Press K & L to move left leg target forward and backward");
 			ImGui::Text("Press U & I to move the character UP & Down");
+
+			ImGui::Text("PRESS ESCAPE TO GO BACK TO DEMO OPTIONS");
 			ImGui::End();
 		}
 	}

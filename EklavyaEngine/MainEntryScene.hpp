@@ -44,6 +44,8 @@ namespace Eklavya
 		EkActor *AddSphere(glm::vec3 pos, float radius, float mass, Asset::MaterialInfo matInfo,
 		                   uint32_t groupFlag = Physics::OTHER_COLLIDABLES);
 
+		virtual void OnResume();
+
 		void ImGuiProc() override;
 
 

@@ -15,6 +15,7 @@
 #include <vector>
 #include <filesystem>
 #include "SkeletalAnimation/SkeletalAnimationDemo.hpp"
+#include <imgui/imgui.h>
 
 
 using namespace Eklavya;
@@ -63,91 +64,13 @@ int main(int argc, char *argv[])
 {
 	SetWorkingDirectoryToExecutablePath(argv);
 
+	ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
+	Director director = Director("Eklavya", resolution.width, resolution.height, false);
+
+	director.Start();
+
 	std::filesystem::path currentPath = std::filesystem::current_path();
 	std::cout << style::italic << "Current working directory: " << currentPath << std::endl;
-
-	std::vector<std::string> demos =
-	{
-		"Stack Of Boxes", "Vehicle Physics", "Skeletal Animation", "IK (inverse kinematics)",
-		"Shadows", "Frustum Culling"
-	};
-
-	cout << style::bold << rang::fg::cyan << "=================EKLAVYA ENGINE DEMOS ====================\n\n";
-	int idx = 0;
-	for (const std::string &demo: demos)
-	{
-		cout << style::bold << rang::fg::green << ++idx << ". " << demo;
-		cout << "\n";
-	}
-
-	cout << style::bold << rang::fg::cyan << "\n\n";
-
-	int user_selection = 0;
-	cout << "Enter number between 1 to " << demos.size() << " to launch demo\n";
-	cin >> user_selection;
-
-	cout << style::reset << fg::reset;
-
-
-	switch (user_selection)
-	{
-		case 1:
-		{
-			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-			Director director = Director("Eklavya", resolution.width, resolution.height, false);
-			StackOfBoxesDemo stackOfBoxes(director);
-			director.SetScene(stackOfBoxes);
-			director.Start();
-		}
-		break;
-		case 2:
-		{
-			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-			Director director = Director("Eklavya", resolution.width, resolution.height, false);
-			VehiclePhysicsDemo vehiclePhysicsDemo(director);
-			director.SetScene(vehiclePhysicsDemo);
-			director.Start();
-		}
-		break;
-		case 3:
-		{
-			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-			Director director = Director("Eklavya", resolution.width, resolution.height, false);
-			SkeletalAnimationDemo skeletalAnimationDemo(director);
-			director.SetScene(skeletalAnimationDemo);
-			director.Start();
-		}
-		break;
-		case 4:
-		{
-			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-			Director director = Director("Eklavya", resolution.width, resolution.height, false);
-			SkeletalAnimationWithIK skeletalAnimationWithIk(director);
-			director.SetScene(skeletalAnimationWithIk);
-			director.Start();
-		}
-		break;
-
-		case 5:
-		{
-			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-			Director director = Director("Eklavya", resolution.width, resolution.height, false);
-			ShadowsDemo shadowsDemo(director);
-			director.SetScene(shadowsDemo);
-			director.Start();
-		}
-		break;
-		case 6:
-		{
-			ResolutionInfo resolution = resolutions[Resolution::FULL_HD];
-			Director director = Director("Eklavya", resolution.width, resolution.height, false);
-			FrustumCullingDemo frustCullingDemo(director);
-			director.SetScene(frustCullingDemo);
-			director.Start();
-		}
-		break;
-	}
-
 
 	return 0;
 }

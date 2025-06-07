@@ -29,6 +29,12 @@ CarComponent::CarComponent(Eklavya::EkActor &owner) :
 	mAudio.Play(mEngineLoopSound);
 }
 
+CarComponent::~CarComponent()
+{
+	mAudio.GetSound().stop();
+}
+
+
 float remap(float value, float oldMin, float oldMax, float newMin, float newMax)
 {
 	float normalizedValue = (value - oldMin) / (oldMax - oldMin);

@@ -11,6 +11,7 @@
 #include <GLFWGame.h>
 #include <Scene/EkScene.h>
 #include <MainEntryScene.hpp>
+#include <stack>
 #include <string>
 
 namespace Eklavya
@@ -27,7 +28,7 @@ namespace Eklavya
 
 		void LoadAssets();
 
-		void SetScene(MainEntryScene &sceneImpl);
+		void PushScene(MainEntryScene *sceneImpl);
 
 		void SetPhysicsTickRate(float physicsTickRate)
 		{
@@ -62,7 +63,8 @@ namespace Eklavya
 		void OnJoystickStateChange(int, int) override;
 
 	private:
-		MainEntryScene *mCurrentScene = nullptr;
+		std::stack<MainEntryScene *> mSceneStack;
+
 		float mPhysicsTickRate = 1.0f / 60.0f;
 		float mTimeSinceStart = 0.0f;
 		float mTimeScale = 1.0f;

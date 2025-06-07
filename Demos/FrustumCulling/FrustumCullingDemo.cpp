@@ -6,6 +6,8 @@
 #include "Components/RenderComponent.hpp"
 #include "EkPhysics/Collider.h"
 #include "FrustumCullingDemo.h"
+
+#include "Director.hpp"
 #include "Random.h"
 #include "imgui/imgui.h"
 
@@ -21,6 +23,9 @@ namespace Eklavya
 	{
 		PreloadTextures();
 		CreateStage();
+
+		mDirector.HideMouse();
+		CurrentCamera()->SetEnabled(true);
 	}
 
 	FrustumCullingDemo::~FrustumCullingDemo() {}
@@ -140,11 +145,13 @@ namespace Eklavya
 
 	void FrustumCullingDemo::ImGuiProc()
 	{
-		MainEntryScene::ImGuiProc();
+		EkScene::ImGuiProc();
 
-		if (ImGui::Begin("Frustum Culling Demo", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		if (ImGui::Begin("Frustum Culling Demo ", nullptr,
+		                 ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::Text("Press G to freeze the frustum!");
+			ImGui::Text("PRESS ESCAPE TO GO BACK TO DEMO OPTIONS");
 			ImGui::End();
 		}
 	}

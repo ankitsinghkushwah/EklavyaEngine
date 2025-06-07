@@ -31,6 +31,8 @@ struct CarComponent : public Eklavya::EkComponent
 {
 	CarComponent(Eklavya::EkActor &owner);
 
+	~CarComponent();
+
 	void Tick(float dt) override;
 
 	void FixedTick(float dt) override;
