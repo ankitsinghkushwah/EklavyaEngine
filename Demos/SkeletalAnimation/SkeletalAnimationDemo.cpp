@@ -16,7 +16,7 @@
 #include "EkPhysics/EkBody.h"
 #include "EkPhysics/Collider.h"
 #include "Scene/SceneHelper.hpp"
-
+#include "imgui/imgui.h"
 
 #include "AssetManager/Animation.h"
 
@@ -144,8 +144,6 @@ namespace Eklavya
 	}
 
 
-#ifdef EKDEBUG
-
 	void SkeletalAnimationDemo::ImGuiProc()
 	{
 		EkScene::ImGuiProc();
@@ -159,5 +157,4 @@ namespace Eklavya
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 	}
-#endif
 } // namespace Eklavya

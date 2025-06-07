@@ -40,9 +40,8 @@ namespace Eklavya
 		void Tick(float deltaTime) override;
 
 		void ImGuiProc() override;
-#ifdef EKDEBUG
+
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
-#endif
 
 	private:
 		Physics::CastHitResult mLastCastHitResult;

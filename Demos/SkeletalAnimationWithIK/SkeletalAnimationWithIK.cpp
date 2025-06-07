@@ -250,8 +250,6 @@ namespace Eklavya
 	SkeletalAnimationWithIK::~SkeletalAnimationWithIK() {}
 
 
-#ifdef EKDEBUG
-
 	void SkeletalAnimationWithIK::ImGuiProc()
 	{
 		EkScene::ImGuiProc();
@@ -272,5 +270,4 @@ namespace Eklavya
 		MainEntryScene::DebugDraw(debugRenderer);
 		//mPlayerController->DebugDraw(debugRenderer);
 	}
-#endif
 } // namespace Eklavya

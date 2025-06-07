@@ -197,12 +197,9 @@ namespace Eklavya
 		}
 	}
 
-#ifdef EKDEBUG
+
 	void StackOfBoxesDemo::DebugDraw(Renderer::DebugRenderer &debugRenderer)
 	{
 		MainEntryScene::DebugDraw(debugRenderer);
 	}
-
-
-#endif
 } // namespace Eklavya

@@ -57,11 +57,10 @@ namespace Eklavya
 			return "characters/" + character + "/" + animation;
 		}
 
-#ifdef EKDEBUG
+
 		void ImGuiProc() override;
 
 		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
-#endif
 
 	private:
 		PlayerController *mPlayerController = nullptr;
