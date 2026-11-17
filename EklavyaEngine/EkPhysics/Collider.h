@@ -60,10 +60,12 @@ namespace Eklavya::Physics
     glm::vec3 GetAxis(int index) const { return glm::vec3(mColliderTR[index]); }
 
   protected:
-    int mGroupFlag;
-    glm::vec3 mOffset;
+    // GLM's default constructors leave vectors uninitialised, so every member needs an
+    // explicit initial value: MSVC debug heaps fill new memory with 0xCD, macOS gives zeros.
+    int mGroupFlag = 0;
+    glm::vec3 mOffset{0.0f};
     EColliderType mType;
-    glm::mat4 mColliderTR;
+    glm::mat4 mColliderTR{1.0f};
   };
 
   class SphereColliderComponent : public BaseColliderComponent
@@ -97,7 +99,7 @@ namespace Eklavya::Physics
     void SetHalfSize(glm::vec3 halfSize);
 
   private:
-    glm::vec3 mHalfSize;
+    glm::vec3 mHalfSize{0.0f};
   };
 } // namespace Eklavya::Physics
 #endif
