@@ -108,7 +108,7 @@ GLMesh *GLModel::ExtractMeshData(const aiMesh &mesh, const aiScene &scene)
 
 void GLModel::LoadMaterials(const aiScene *pScene)
 {
-	auto loadTexture = [&](aiTextureType texType, const aiMaterial *material, bool firstIndex = true) -> SHARED_TEXTURE
+	auto loadTexture = [&](aiTextureType texType, const aiMaterial *material) -> SHARED_TEXTURE
 	{
 		SHARED_TEXTURE tex = nullptr;
 		aiString aiPath;
@@ -130,14 +130,10 @@ void GLModel::LoadMaterials(const aiScene *pScene)
 		MaterialInfo matInfo;
 		matInfo.mBaseColor = glm::vec3(0.6f);
 		matInfo.mOpacity = 1.0f;
-		matInfo.mMetallic = 0.0f;
-		matInfo.mRoughness = 1.0f;
+		matInfo.mSpecularStrength = 0.1f;
+		matInfo.mShininess = 16.0f;
 		matInfo.mBaseMap = loadTexture(aiTextureType_DIFFUSE, material);
 		matInfo.mNormalMap = loadTexture(aiTextureType_NORMALS, material);
-		matInfo.mAOMap = loadTexture(aiTextureType_AMBIENT, material);
-		matInfo.mRoughMap = loadTexture(aiTextureType_METALNESS, material); // roughness
-		matInfo.mMetalMap = loadTexture(aiTextureType_DIFFUSE_ROUGHNESS, material,
-		                                false); // metallic
 		mMaterials.push_back(matInfo);
 	}
 }

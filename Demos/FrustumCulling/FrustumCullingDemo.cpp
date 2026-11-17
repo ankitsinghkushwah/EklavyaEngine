@@ -47,9 +47,6 @@ namespace Eklavya
 
 			AssetManager::GetInstance().LoadTexture(folder + "albedo", ext);
 			AssetManager::GetInstance().LoadTexture(folder + "normal", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "ao", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "roughness", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "metallic", ext);
 		}
 	}
 
@@ -60,9 +57,6 @@ namespace Eklavya
 		std::string folder = "pbr/" + file + "/";
 		info.mBaseMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "albedo");
 		info.mNormalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "normal");
-		info.mAOMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "ao");
-		info.mRoughMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "roughness");
-		info.mMetalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "metallic");
 
 		return info;
 	}
@@ -70,7 +64,8 @@ namespace Eklavya
 	void FrustumCullingDemo::CreateStage()
 	{
 		MaterialInfo info = LoadMaterialInfo("grid");
-		info.mRoughness = 1.0f;
+		info.mSpecularStrength = 0.1f;
+		info.mShininess = 16.0f;
 		info.mTiling = 40;
 		info.mBaseColor = glm::vec3(0.0f, 0.6f, 0.2f);
 
@@ -91,8 +86,8 @@ namespace Eklavya
 			glm::vec3 scale = glm::vec3(10.0f);
 			glm::vec3 rotation = glm::vec3(0.0f, angle, 0.0f);
 			MaterialInfo info = LoadMaterialInfo("crate");
-			info.mRoughness = 1.0f;
-			info.mMetallic = 0.0f;
+			info.mSpecularStrength = 0.1f;
+			info.mShininess = 16.0f;
 			info.mTiling = 1;
 			info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
 			UniqueActor actor = CreateBox(pos, scale, rotation, info);
@@ -113,8 +108,8 @@ namespace Eklavya
 			glm::vec3 scale = glm::vec3(10.0f);
 			glm::vec3 rotation = glm::vec3(0.0f, angle, 0.0f);
 			MaterialInfo info = LoadMaterialInfo("grass");
-			info.mRoughness = 1.0f;
-			info.mMetallic = 0.0f;
+			info.mSpecularStrength = 0.1f;
+			info.mShininess = 16.0f;
 			info.mTiling = 1;
 			info.mBaseColor = Random::GetInstance()->GetPointOnUnitSphere();
 			UniqueActor actor = CreateBox(pos, scale, rotation, info);

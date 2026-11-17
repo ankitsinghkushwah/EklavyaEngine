@@ -49,9 +49,6 @@ namespace Eklavya
 
 			AssetManager::GetInstance().LoadTexture(folder + "albedo", ext);
 			AssetManager::GetInstance().LoadTexture(folder + "normal", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "ao", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "roughness", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "metallic", ext);
 		}
 	}
 
@@ -62,11 +59,6 @@ namespace Eklavya
 		std::string folder = "pbr/" + file + "/";
 		info.mBaseMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "albedo");
 		info.mNormalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "normal");
-		info.mAOMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "ao");
-		info.mRoughMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "roughness");
-		info.mMetalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "metallic");
-
-		info.mCubemap = GetRenderer().GetMaterialForGroup<SkyboxMaterial>(Renderer::ERenderGroup::SKYBOX)->mCubemap;
 
 		return info;
 	}
@@ -74,7 +66,8 @@ namespace Eklavya
 	void SkeletalAnimationDemo::CreateStage()
 	{
 		MaterialInfo info = LoadMaterialInfo("grid");
-		info.mRoughness = 1.0f;
+		info.mSpecularStrength = 0.1f;
+		info.mShininess = 16.0f;
 		info.mTiling = 40;
 
 		float area_extent = 10000;
@@ -121,8 +114,8 @@ namespace Eklavya
 	{
 		MaterialInfo info;
 		info.mBaseColor = glm::vec3(0.7f, 1.0f, 0.4f);
-		info.mRoughness = 1.0f;
-		info.mMetallic = 1.0f;
+		info.mSpecularStrength = 0.3f;
+		info.mShininess = 16.0f;
 
 		float radius = 5.0f;
 		int rows = 4;

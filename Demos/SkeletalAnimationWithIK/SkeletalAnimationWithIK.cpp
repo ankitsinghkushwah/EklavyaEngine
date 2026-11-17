@@ -42,9 +42,6 @@ namespace Eklavya
 
 			AssetManager::GetInstance().LoadTexture(folder + "albedo", ext);
 			AssetManager::GetInstance().LoadTexture(folder + "normal", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "ao", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "roughness", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "metallic", ext);
 		}
 
 		std::vector<std::string> texturesList = {"grid", "crate", "grass", "floor"};
@@ -55,9 +52,6 @@ namespace Eklavya
 
 			AssetManager::GetInstance().LoadTexture(folder + "albedo", ext);
 			AssetManager::GetInstance().LoadTexture(folder + "normal", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "ao", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "roughness", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "metallic", ext);
 		}
 	}
 
@@ -68,9 +62,6 @@ namespace Eklavya
 		std::string folder = file + "/";
 		info.mBaseMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "albedo");
 		info.mNormalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "normal");
-		info.mAOMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "ao");
-		info.mRoughMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "roughness");
-		info.mMetalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "metallic");
 
 		return info;
 	}
@@ -168,7 +159,8 @@ namespace Eklavya
 	void SkeletalAnimationWithIK::CreateStage()
 	{
 		MaterialInfo info = LoadMaterialInfo("pbr/grid");
-		info.mRoughness = 1.0f;
+		info.mSpecularStrength = 0.1f;
+		info.mShininess = 16.0f;
 		info.mTiling = 40;
 
 		float areaAxtent = 10000;
@@ -191,8 +183,8 @@ namespace Eklavya
 
 		MaterialInfo info;
 		info.mBaseColor = glm::vec3(0.7f);
-		info.mRoughness = 0.5f;
-		info.mMetallic = 1.0f;
+		info.mSpecularStrength = 0.6f;
+		info.mShininess = 64.0f;
 
 		glm::vec3 scale(.5f);
 

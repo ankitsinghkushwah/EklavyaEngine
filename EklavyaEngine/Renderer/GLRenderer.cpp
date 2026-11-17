@@ -41,9 +41,9 @@ namespace Eklavya::Renderer
 		SHARED_SHADER skyShader = AssetManager::GetInstance().GetAsset<ShaderProgram>("skybox");
 		SHARED_SKY_MATERIAL skyboxMat = std::make_shared<SkyboxMaterial>(skyShader);
 		AddMaterialToState(Renderer::ERenderGroup::SKYBOX, skyboxMat);
-		SHARED_SHADER brdf = AssetManager::GetInstance().GetAsset<ShaderProgram>("standard_brdf");
-		SHARED_PBR_MATERIAL pbrMat = std::make_shared<PBRMaterial>(brdf);
-		AddMaterialToState(Renderer::ERenderGroup::ACTOR, pbrMat);
+		SHARED_SHADER litShader = AssetManager::GetInstance().GetAsset<ShaderProgram>("blinn_phong");
+		SHARED_LIT_MATERIAL litMat = std::make_shared<LitMaterial>(litShader);
+		AddMaterialToState(Renderer::ERenderGroup::ACTOR, litMat);
 		mMainOutputShader = AssetManager::GetInstance().GetAsset<ShaderProgram>("main_output");
 	}
 

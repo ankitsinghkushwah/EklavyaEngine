@@ -18,15 +18,13 @@ struct MaterialInfo {
   std::string mMeshName;
   uint32_t mTiling = 1;
   float mOpacity = 1.0f;
-  float mMetallic = 0.5;
-  float mRoughness = 0.5;
-  glm::vec3 mBaseColor;
+  // Used when there is no base map. Given in sRGB, like a colour picker value.
+  glm::vec3 mBaseColor = glm::vec3(0.8f);
+  // Blinn-Phong highlight: strength is 0..1, shininess is the Phong exponent.
+  float mSpecularStrength = 0.25f;
+  float mShininess = 32.0f;
   SHARED_TEXTURE mBaseMap = nullptr;
   SHARED_TEXTURE mNormalMap = nullptr;
-  SHARED_TEXTURE mAOMap = nullptr;
-  SHARED_TEXTURE mRoughMap = nullptr;
-  SHARED_TEXTURE mMetalMap = nullptr;
-  SHARED_CUBEMAP mCubemap = nullptr;
 };
 
 } // namespace Eklavya::Asset

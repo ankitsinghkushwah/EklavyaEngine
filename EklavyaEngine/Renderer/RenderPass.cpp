@@ -18,8 +18,11 @@
 
 using namespace Eklavya::Renderer;
 
+// The sun is a directional light. The shadow camera sits at lightPosition looking at the
+// origin, so the direction towards the sun is normalize(lightPosition).
 glm::vec3 lightPosition(50.0f, 50.0f, -50.0f);
-glm::vec3 lightColor(30.0f);
+glm::vec3 lightColor(1.0f, 0.94f, 0.85f);
+float     lightIntensity = 1.6f;
 
 // BASE==================
 
@@ -132,7 +135,7 @@ void MainPass::Run(GLRenderer& renderer, const EkScene& scene)
 {
 	glm::mat4 projection = scene.CurrentCamera()->GetProjection();
 	glm::mat4 view = scene.CurrentCamera()->GetView();
-	glm::vec3 viewSpacePos = view * glm::vec4(lightPosition, 1.0f);
+	glm::vec3 viewSpaceLightDir = glm::normalize(glm::mat3(view) * glm::normalize(lightPosition));
 
 	const ShadowMapPass* shadowPass = (ShadowMapPass*)renderer.mRenderPasses[0].get();
 	glm::mat4            lightMatrix = shadowPass->mLightPVMatrix;
@@ -151,8 +154,8 @@ void MainPass::Run(GLRenderer& renderer, const EkScene& scene)
 		shader->SetMat4("view", view);
 
 		shader->SetMat4("lightSpaceMatrix", lightMatrix);
-		shader->SetVec3("light.position", viewSpacePos);
-		shader->SetVec3("light.color", lightColor);
+		shader->SetVec3("light.direction", viewSpaceLightDir);
+		shader->SetVec3("light.color", lightColor * lightIntensity);
 		shader->SetInt("shadowPassOutput", 8);
 		glActiveTexture(GL_TEXTURE0 + 8);
 		glBindTexture(GL_TEXTURE_2D, shadowMap);

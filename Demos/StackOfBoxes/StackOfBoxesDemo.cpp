@@ -28,12 +28,12 @@ namespace Eklavya
 		const float kSphereMass = 60.0f;
 		const float kSphereSpeed = 300.0f;
 
-		MaterialInfo LoadPbrMaterial(const std::string &name)
+		MaterialInfo LoadTexturedMaterial(const std::string &name)
 		{
 			const std::string folder = "pbr/" + name + "/";
 			AssetManager &assets = AssetManager::GetInstance();
 
-			for (const char *map: {"albedo", "normal", "ao", "roughness", "metallic"})
+			for (const char *map: {"albedo", "normal"})
 			{
 				assets.LoadTexture(folder + map, "png");
 			}
@@ -41,9 +41,6 @@ namespace Eklavya
 			MaterialInfo info;
 			info.mBaseMap = assets.GetAsset<Texture2D>(folder + "albedo");
 			info.mNormalMap = assets.GetAsset<Texture2D>(folder + "normal");
-			info.mAOMap = assets.GetAsset<Texture2D>(folder + "ao");
-			info.mRoughMap = assets.GetAsset<Texture2D>(folder + "roughness");
-			info.mMetalMap = assets.GetAsset<Texture2D>(folder + "metallic");
 			return info;
 		}
 	} // namespace
@@ -68,11 +65,11 @@ namespace Eklavya
 
 	void StackOfBoxesDemo::LoadMaterials()
 	{
-		mFloorMaterial = LoadPbrMaterial("grid");
+		mFloorMaterial = LoadTexturedMaterial("grid");
 
-		mCrateMaterial = LoadPbrMaterial("crate");
-		mCrateMaterial.mRoughness = 1.0f;
-		mCrateMaterial.mMetallic = 0.0f;
+		mCrateMaterial = LoadTexturedMaterial("crate");
+		mCrateMaterial.mSpecularStrength = 0.1f;
+		mCrateMaterial.mShininess = 16.0f;
 		mCrateMaterial.mTiling = 1;
 	}
 
@@ -152,9 +149,9 @@ namespace Eklavya
 		const glm::vec3 position = CurrentCamera()->Position() + forward * 10.0f;
 
 		MaterialInfo info;
-		info.mRoughness = 0.0f;
-		info.mMetallic = 0.0f;
-		info.mBaseColor = glm::vec4(Random::GetInstance()->GetPointOnUnitSphere() * 0.1f + glm::vec3(0.1f), 1.0f);
+		info.mSpecularStrength = 0.5f;
+		info.mShininess = 96.0f;
+		info.mBaseColor = glm::abs(Random::GetInstance()->GetPointOnUnitSphere()) * 0.45f + glm::vec3(0.3f);
 
 		const float radius = Random::GetInstance()->Real(0.4f, 2.0f) * 15.0f;
 		EkActor *sphere = AddSphere(position, radius, kSphereMass, info, -1);

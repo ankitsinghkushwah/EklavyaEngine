@@ -26,15 +26,13 @@ protected:
   static MATERIAL_ID s_IdCounter;
 };
 using SHARED_MATERIAL = std::shared_ptr<IMaterial>;
-struct PBRMaterial : public IMaterial {
-  PBRMaterial(SHARED_SHADER shader);
+struct LitMaterial : public IMaterial {
+  LitMaterial(SHARED_SHADER shader);
   void Activate() override;
   void SetMaterialInfo(const Asset::MaterialInfo &info) override;
   void Deactivate() override;
-  // variables
-  SHARED_CUBEMAP m_Cubemap = nullptr;
 };
-using SHARED_PBR_MATERIAL = std::shared_ptr<PBRMaterial>;
+using SHARED_LIT_MATERIAL = std::shared_ptr<LitMaterial>;
 struct SkyboxMaterial : public IMaterial {
   SkyboxMaterial(SHARED_SHADER shader);
   void Activate() override;

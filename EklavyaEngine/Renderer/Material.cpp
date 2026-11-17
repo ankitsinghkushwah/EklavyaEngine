@@ -27,96 +27,49 @@ namespace Eklavya::Renderer
 	{
 	}
 
-	// PBRMaterial
+	// LitMaterial
 
-	PBRMaterial::PBRMaterial(SHARED_SHADER shader) : IMaterial(shader, ERenderGroup::ACTOR)
+	LitMaterial::LitMaterial(SHARED_SHADER shader) : IMaterial(shader, ERenderGroup::ACTOR)
 	{
 	}
 
-	void PBRMaterial::Activate()
+	void LitMaterial::Activate()
 	{
 		m_Shader->Use();
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 		glDisable(GL_CULL_FACE);
-		//   glFrontFace(GL_CCW);
 
 		m_Active = true;
 	}
 
-	void PBRMaterial::SetMaterialInfo(const Asset::MaterialInfo& info)
+	void LitMaterial::SetMaterialInfo(const Asset::MaterialInfo& info)
 	{
 		m_Shader->SetVec3("material.color", info.mBaseColor);
-		m_Shader->SetFloat("material.roughness", info.mRoughness);
-		m_Shader->SetFloat("material.metallic", info.mMetallic);
 		m_Shader->SetFloat("material.opacity", info.mOpacity);
+		m_Shader->SetFloat("material.specularStrength", info.mSpecularStrength);
+		m_Shader->SetFloat("material.shininess", info.mShininess);
 		m_Shader->SetInt("material.tiling", info.mTiling);
-
-		uint32_t texIndex = 0;
 
 		m_Shader->SetInt("material.bAlbedo", info.mBaseMap != nullptr);
 		m_Shader->SetInt("material.bNormal", info.mNormalMap != nullptr);
-		m_Shader->SetInt("material.bAO", info.mAOMap != nullptr);
-		m_Shader->SetInt("material.bRoughness", info.mRoughMap != nullptr);
-		m_Shader->SetInt("material.bMetallic", info.mMetalMap != nullptr);
-		m_Shader->SetInt("bCubemap", info.mCubemap != nullptr);
 
+		// Units 0 and 1 hold the material maps; unit 8 is the shadow map (see MainPass).
 		if (info.mBaseMap != nullptr)
 		{
-			m_Shader->SetInt("material.albedoMap", texIndex);
-			info.mBaseMap->BindToUnit(texIndex);
+			m_Shader->SetInt("material.albedoMap", 0);
+			info.mBaseMap->BindToUnit(0);
 		}
-
-		texIndex++;
 
 		if (info.mNormalMap != nullptr)
 		{
-			m_Shader->SetInt("material.normalMap", texIndex);
-			info.mNormalMap->BindToUnit(texIndex);
-		}
-
-		texIndex++;
-
-		if (info.mRoughMap != nullptr)
-		{
-			m_Shader->SetInt("material.roughnessMap", texIndex);
-			info.mRoughMap->BindToUnit(texIndex);
-		}
-		else
-		{
-			m_Shader->SetFloat("material.roughness", info.mRoughness);
-		}
-
-		texIndex++;
-		if (info.mMetalMap != nullptr)
-		{
-			m_Shader->SetInt("material.metallicMap", texIndex);
-			info.mMetalMap->BindToUnit(texIndex);
-		}
-		else
-		{
-			m_Shader->SetFloat("material.metallic", info.mMetallic);
-		}
-
-		texIndex++;
-
-		if (info.mAOMap != nullptr)
-		{
-			m_Shader->SetInt("material.aoMap", texIndex);
-			info.mAOMap->BindToUnit(texIndex);
-		}
-
-		texIndex++;
-
-		if (info.mCubemap != nullptr)
-		{
-			m_Shader->SetInt("cubemap", texIndex);
-			info.mCubemap->BindToUnit(texIndex);
+			m_Shader->SetInt("material.normalMap", 1);
+			info.mNormalMap->BindToUnit(1);
 		}
 	}
 
-	void PBRMaterial::Deactivate()
+	void LitMaterial::Deactivate()
 	{
 		m_Active = false;
 	}

@@ -44,9 +44,6 @@ namespace Eklavya
 
 			AssetManager::GetInstance().LoadTexture(folder + "albedo", ext);
 			AssetManager::GetInstance().LoadTexture(folder + "normal", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "ao", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "roughness", ext);
-			AssetManager::GetInstance().LoadTexture(folder + "metallic", ext);
 		}
 	}
 
@@ -57,9 +54,6 @@ namespace Eklavya
 		std::string folder = "pbr/" + file + "/";
 		info.mBaseMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "albedo");
 		info.mNormalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "normal");
-		info.mAOMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "ao");
-		info.mRoughMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "roughness");
-		info.mMetalMap = AssetManager::GetInstance().GetAsset<Texture2D>(folder + "metallic");
 
 		return info;
 	}
@@ -69,7 +63,6 @@ namespace Eklavya
 	{
 		MaterialInfo info = LoadMaterialInfo("grid");
 		info.mBaseColor = glm::vec4(0.6, 0.6f, 0.6f, 0.6f);
-		info.mRoughness = .5f;
 		info.mTiling = 10;
 		info.mBaseColor = glm::vec3(0.0f, 0.6f, 0.2f);
 

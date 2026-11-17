@@ -41,7 +41,7 @@ namespace Eklavya
 
 	void Director::LoadAssets()
 	{
-		AssetManager::GetInstance().LoadShader("standard_brdf");
+		AssetManager::GetInstance().LoadShader("blinn_phong");
 		AssetManager::GetInstance().LoadShader("skybox");
 		AssetManager::GetInstance().LoadShader("main_output");
 		AssetManager::GetInstance().LoadShader("shadow_map");
