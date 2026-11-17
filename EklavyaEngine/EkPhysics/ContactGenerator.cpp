@@ -12,27 +12,6 @@
 
 namespace Eklavya::Physics::ContactGenerator
 {
-	void AddOrUpdateConstraint(std::vector<ContactConstraint> &constraints, EkBody &bodyA, EkBody &bodyB,
-	                           glm::vec3 point, glm::vec3 collisionNormal, float penetration)
-	{
-		auto iter = std::find_if(constraints.begin(), constraints.end(),
-		                         [&bodyA, &bodyB](const ContactConstraint &constraint)
-		                         {
-			                         return constraint.BodiesMatch(bodyA, bodyB);
-		                         });
-
-		if (iter == constraints.end())
-		{
-			ContactConstraint &constraint = constraints.emplace_back(bodyA, bodyB);
-			constraint.AddCollisionPoint(point, collisionNormal, penetration);
-		}
-		else
-		{
-			iter->AddCollisionPoint(point, collisionNormal, penetration);
-		}
-	}
-
-
 	bool GetNearestContactToSphere(const std::vector<EkBody *> &bodies, glm::vec3 sphereCenter, float sphereRadius,
 	                               glm::vec3 &nearestContact)
 	{
@@ -57,13 +36,17 @@ namespace Eklavya::Physics::ContactGenerator
 					continue;
 				}
 
-				CollisionPointInfo info;
-				bool IsColliding = CollisionSystem::SphereAndBox(box->GetOBB(), sphere, info);
-				if (IsColliding && glm::length2(info.location - sphereCenter) < glm::length2(
-					    nearestContact - sphereCenter))
+				ContactManifold manifold;
+				if (CollisionSystem::BoxVsSphere(box->GetOBB(), sphere, manifold) == false)
+				{
+					continue;
+				}
+
+				const glm::vec3 contactPosition = manifold.points[0].position;
+				if (glm::length2(contactPosition - sphereCenter) < glm::length2(nearestContact - sphereCenter))
 				{
 					found = true;
-					nearestContact = info.location;
+					nearestContact = contactPosition;
 				}
 			}
 		}
@@ -88,76 +71,48 @@ namespace Eklavya::Physics::ContactGenerator
 				const BaseColliderComponent *secondCollider = secondBody->GetOwner().GetComponent<
 					BaseColliderComponent>(CoreComponentIds::COLLIDER_COMPONENT_ID);
 
-				std::vector<glm::vec3> collisionPointsForPair;
-				float maxPen = 0.0f;
-				glm::vec3 collisionNormal;
+				const EColliderType firstType = firstCollider->GetType();
+				const EColliderType secondType = secondCollider->GetType();
 
-				if (firstCollider->GetType() == EColliderType::BOX && secondCollider->GetType() == EColliderType::BOX)
+				// Each CollisionSystem *Vs* function gives a normal from its first shape to its
+				// second, so the body passed as the first shape becomes body A of the constraint.
+				ContactManifold manifold;
+				EkBody *bodyA = firstBody;
+				EkBody *bodyB = secondBody;
+				bool isColliding = false;
+
+				if (firstType == EColliderType::BOX && secondType == EColliderType::BOX)
 				{
-					const BoxColliderComponent *box1 = static_cast<const BoxColliderComponent *>(firstCollider);
-					const BoxColliderComponent *box2 = static_cast<const BoxColliderComponent *>(secondCollider);
-
-					bool IsColliding = CollisionSystem::BoxAndBox(box1->GetOBB(), box2->GetOBB(),
-					                                              collisionPointsForPair, maxPen, collisionNormal);
-
-					if (IsColliding)
-					{
-						for (glm::vec3 collisionPoint: collisionPointsForPair)
-						{
-							AddOrUpdateConstraint(constraints, *firstBody, *secondBody, collisionPoint, collisionNormal,
-							                      maxPen);
-						}
-					}
+					isColliding = CollisionSystem::BoxVsBox(
+						static_cast<const BoxColliderComponent *>(firstCollider)->GetOBB(),
+						static_cast<const BoxColliderComponent *>(secondCollider)->GetOBB(), manifold);
 				}
-				else if (firstCollider->GetType() == EColliderType::SPHERE && secondCollider->GetType() ==
-				         EColliderType::SPHERE)
+				else if (firstType == EColliderType::SPHERE && secondType == EColliderType::SPHERE)
 				{
-					const SphereColliderComponent *sphere1 = static_cast<const SphereColliderComponent *>(
-						firstCollider);
-					const SphereColliderComponent *sphere2 = static_cast<const SphereColliderComponent *>(
-						secondCollider);
-
-					CollisionPointInfo info;
-
-					bool IsColliding = CollisionSystem::SphereAndSphere(sphere1->GetSphere(), sphere2->GetSphere(),
-					                                                    info);
-
-					if (IsColliding)
-						AddOrUpdateConstraint(constraints, *firstBody, *secondBody, info.location, info.normal,
-						                      info.peneteration);
+					isColliding = CollisionSystem::SphereVsSphere(
+						static_cast<const SphereColliderComponent *>(firstCollider)->GetSphere(),
+						static_cast<const SphereColliderComponent *>(secondCollider)->GetSphere(), manifold);
+				}
+				else if (firstType == EColliderType::BOX && secondType == EColliderType::SPHERE)
+				{
+					isColliding = CollisionSystem::BoxVsSphere(
+						static_cast<const BoxColliderComponent *>(firstCollider)->GetOBB(),
+						static_cast<const SphereColliderComponent *>(secondCollider)->GetSphere(), manifold);
+				}
+				else if (firstType == EColliderType::SPHERE && secondType == EColliderType::BOX)
+				{
+					isColliding = CollisionSystem::BoxVsSphere(
+						static_cast<const BoxColliderComponent *>(secondCollider)->GetOBB(),
+						static_cast<const SphereColliderComponent *>(firstCollider)->GetSphere(), manifold);
+					bodyA = secondBody; // the box
+					bodyB = firstBody; // the sphere
 				}
 
-				else if (firstCollider->GetType() == EColliderType::BOX && secondCollider->GetType() ==
-				         EColliderType::SPHERE)
+				if (isColliding && manifold.points.empty() == false)
 				{
-					const SphereColliderComponent *sphere = static_cast<const SphereColliderComponent *>(
-						secondCollider);
-					const BoxColliderComponent *box = static_cast<const BoxColliderComponent *>(firstCollider);
-
-					CollisionPointInfo info;
-
-					bool IsColliding = CollisionSystem::SphereAndBox(box->GetOBB(), sphere->GetSphere(), info);
-
-					if (IsColliding)
-						AddOrUpdateConstraint(constraints, *secondBody, *firstBody, info.location, info.normal,
-						                      info.peneteration);
+					constraints.emplace_back(*bodyA, *bodyB, manifold);
 				}
-
-				else if (firstCollider->GetType() == EColliderType::SPHERE && secondCollider->GetType() ==
-				         EColliderType::BOX)
-				{
-					const SphereColliderComponent *sphere = static_cast<const SphereColliderComponent *>(firstCollider);
-					const BoxColliderComponent *box = static_cast<const BoxColliderComponent *>(secondCollider);
-
-					CollisionPointInfo info;
-
-					bool IsColliding = CollisionSystem::SphereAndBox(box->GetOBB(), sphere->GetSphere(), info);
-
-					if (IsColliding)
-						AddOrUpdateConstraint(constraints, *firstBody, *secondBody, info.location, info.normal,
-						                      info.peneteration);
-				}
-			};
+			}
 		}
 
 		return constraints;

@@ -24,6 +24,7 @@
 #include "SkeletalAnimationWithIK/SkeletalAnimationWithIK.hpp"
 #include "StackOfBoxes/StackOfBoxesDemo.hpp"
 #include "VehiclePhysicsDemo/VehiclePhysicsDemo.hpp"
+#include "CollisionSandbox/CollisionSandboxDemo.h" // COLLISION SANDBOX (temporary tool)
 
 using namespace Eklavya::Asset;
 using namespace Eklavya::Renderer;
@@ -142,7 +143,8 @@ namespace Eklavya
 
 		static std::vector<const char *> demos = {
 			"Stack Of Boxes", "Vehicle Physics", "Skeletal Animation",
-			"IK (inverse kinematics)", "Shadows", "Frustum Culling"
+			"IK (inverse kinematics)", "Shadows", "Frustum Culling",
+			"Collision Sandbox" // COLLISION SANDBOX (temporary tool)
 		};
 
 		static bool isLoading = false; // Track loading state
@@ -231,6 +233,7 @@ namespace Eklavya
 				case 5:
 					mDirector.PushScene(new FrustumCullingDemo{mDirector});
 					break;
+				case 6: mDirector.PushScene(new CollisionSandboxDemo{mDirector}); break; // COLLISION SANDBOX (temporary tool)
 			}
 
 			isLoading = false;

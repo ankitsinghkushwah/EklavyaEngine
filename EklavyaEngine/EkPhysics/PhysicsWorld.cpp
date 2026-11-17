@@ -144,10 +144,11 @@ namespace Eklavya::Physics
 			mDebugRenderer = &debugRenderer;
 		for (auto &constraint: mCachedContactsForDebug)
 		{
-			for (auto &contact: constraint.GetCollisionPoints())
+			const ContactManifold &manifold = constraint.GetManifold();
+			for (const ContactPoint &contact: manifold.points)
 			{
-				glm::vec3 endPoint = contact.location - contact.normal * 10.0f;
-				debugRenderer.DrawLine(contact.location, endPoint, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), .2f, true);
+				glm::vec3 endPoint = contact.position - manifold.normal * 10.0f;
+				debugRenderer.DrawLine(contact.position, endPoint, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), .2f, true);
 				debugRenderer.DrawBox(endPoint, glm::vec3(0.0f), glm::vec3(0.5f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 			}
 		}

@@ -1,5 +1,5 @@
 //
-//  IDemoScene.h
+//  StackOfBoxesDemo.hpp
 //  EklavyaEngine
 //
 //  Created by Ankit Singh Kushwah on 19/09/22.
@@ -8,12 +8,11 @@
 #define INC_STACK_OF_BOXES_DEMO
 
 #include <MainEntryScene.hpp>
-#include <UserInputListener.h>
-#include <Renderer/Material.h>
 #include <AssetManager/MaterialInfo.h>
-#include <SFML/Audio.hpp>
-#include "Scene/SceneHelper.hpp"
+#include <Scene/EkActor.h>
 #include "EkAudio.hpp"
+#include <string>
+#include <vector>
 
 namespace Eklavya
 {
@@ -25,13 +24,29 @@ namespace Eklavya
 		~StackOfBoxesDemo() override;
 
 	private:
-		void PreloadTextures();
+		enum class EStackShape { Grid, Pyramid };
 
-		Asset::MaterialInfo LoadMaterialInfo(const std::string &file, std::string ext = "png");
+		void LoadMaterials();
 
-		void CreateStackOfBoxes();
+		void CreateFloor();
 
-		void CreateStage();
+		void SetFlyMode(bool fly);
+
+		void BuildStack();
+
+		void BuildGrid();
+
+		void BuildPyramid();
+
+		void SpawnBox(const glm::vec3 &position);
+
+		void ShootSphere();
+
+		void ClearSpawned();
+
+		void ResetScene();
+
+		void TiltFloor(float deltaTime);
 
 		void OnMouseAction(int key, int action) override;
 
@@ -41,13 +56,25 @@ namespace Eklavya
 
 		void ImGuiProc() override;
 
-		void DebugDraw(Renderer::DebugRenderer &debugRenderer) override;
-
 	private:
-		Physics::CastHitResult mLastCastHitResult;
 		Eklavya::Audio mAudio;
-		std::string mEngineLoopSound;
+		std::string mPopSound;
 		Physics::EkBody *mFloor = nullptr;
+		Asset::MaterialInfo mFloorMaterial;
+		Asset::MaterialInfo mCrateMaterial;
+		std::vector<EkActorID> mSpawned;
+		bool mFlyMode = false;
+
+		EStackShape mShape = EStackShape::Grid;
+		int mColumns = 6;
+		int mRows = 5;
+		int mDepth = 1;
+		int mPyramidBase = 6;
+		int mPyramidDepth = 1;
+		float mBoxSize = 20.0f;
+		float mBoxMass = 30.0f;
+		float mGap = 0.0f;
+		float mDropHeight = 5.0f;
 	};
 } // namespace Eklavya
 
